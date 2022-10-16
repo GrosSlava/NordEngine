@@ -1,0 +1,66 @@
+
+BasedOnStyle: Microsoft
+AccessModifierOffset: -4
+IndentWidth: 4
+UseTab: Always
+TabWidth: 4
+ColumnLimit: 220
+MaxEmptyLinesToKeep: 7
+#------------------------------------------------------#
+SortIncludes: false
+ReflowComments: false
+EmptyLineAfterAccessModifier: Always
+KeepEmptyLinesAtTheStartOfBlocks: false
+CompactNamespaces: false
+FixNamespaceComments: true
+#------------------------------------------------------#
+BreakBeforeBraces: Allman
+BreakBeforeTernaryOperators: false
+BreakConstructorInitializers: AfterColon
+BreakInheritanceList: AfterColon
+BreakStringLiterals: false
+IndentCaseLabels: false
+AlwaysBreakTemplateDeclarations: Yes
+#------------------------------------------------------#
+AlignAfterOpenBracket: DontAlign
+AlignEscapedNewlines: Left
+AlignTrailingComments: true
+AlignOperands: true
+PointerAlignment: Left
+ReferenceAlignment: Left
+#QualifierAlignment: Leave
+#------------------------------------------------------#
+AllowShortBlocksOnASingleLine: Never
+AllowShortFunctionsOnASingleLine: InlineOnly
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowAllArgumentsOnNextLine: true
+AllowAllConstructorInitializersOnNextLine: true
+AllowAllParametersOfDeclarationOnNextLine: true
+#------------------------------------------------------#
+SpaceBeforeParens: Never
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCpp11BracedList: true
+SpaceBeforeInheritanceColon: true
+SpaceBeforeRangeBasedForLoopColon: true
+SpacesBeforeTrailingComments: 1
+SpaceBeforeSquareBrackets: false
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceAfterTemplateKeyword: false
+SpacesInAngles: false
+SpacesInCStyleCastParentheses: false
+SpaceInEmptyBlock: true
+SpacesInConditionalStatement: true
+SpaceAfterTemplateKeyword: false
+#------------------------------------------------------#
+StatementMacros : [
+					"StaticCheck", "StaticCheckTrue", "StaticCheckEqual", 
+					"StaticCheckNotEqual", "StaticCheckFloatEqual", "StaticCheckFloatNotEqual",
+					"StaticCheckSameSize", "StaticCheckAlign", "StaticCheckSize",
+					"Assert", "AssertTrue", "AssertEqual", "AssertNotEqual", "AssertFloatEqual", "AssertFloatNotEqual",
+					"checkCode", "verify", "check",	"verifyf", "checkf",
+					"checkNoEntry",	"checkNoReentry", "checkNoRecursion", "unimplemented",
+					"ensure", "ensureMsgf", "ensureAlways","ensureAlwaysMsgf",
+				  ]
+	

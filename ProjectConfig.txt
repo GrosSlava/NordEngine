@@ -1,0 +1,3 @@
+PathToEngine = .
+ProjectName = SimpleEngine
+ShowConsole = true
