@@ -1,8 +1,6 @@
 @echo off
 
 
-
-
 rem Set absolute path to engine
 set EngineRoot=%~dp0
 
@@ -12,8 +10,7 @@ set Modules=
 
 
 
-
-
+rem ....................................................................................... rem
 rem ....................................................................................... rem
 rem ....................................................................................... rem
 
@@ -24,7 +21,6 @@ if errorlevel 1 goto Error_NoVisualStudioEnvironment
 python "%EngineRoot%\Tools\BuildEngine\ProjectBuildToolWindows.py" %~dp0 %EngineRoot% %MSBUILD_PATH% %Modules%
 pause
 goto Exit
-
 
 
 

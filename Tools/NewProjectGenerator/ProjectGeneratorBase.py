@@ -268,17 +268,17 @@ def GenerateBaseProjectStructure(ProjectPath: str, ProjectConfig: FProjectConfig
 	LFilePath = os.path.join(ProjectPath, ".gitignore")
 	if not os.path.exists(LFilePath):
 		with open(LFilePath, 'w') as f:
-			f.write(ProjectDefaultFiles.GetDefaultGitignoreFileText())
+			f.write(ProjectDefaultFiles.GetDefault_Gitignore_FileText())
 
 	LFilePath = os.path.join(ProjectPath, ".gitattributes")
 	if not os.path.exists(LFilePath):
 		with open(LFilePath, 'w') as f:
-			f.write(ProjectDefaultFiles.GetDefaultGitattributesFileText())
+			f.write(ProjectDefaultFiles.GetDefault_Gitattributes_FileText())
 
 	LFilePath = os.path.join(ProjectPath, ".clang-format")
 	if not os.path.exists(LFilePath):
 		with open(LFilePath, 'w') as f:
-			f.write(ProjectDefaultFiles.GetDefaultClangFormatFileText())
+			f.write(ProjectDefaultFiles.GetDefault_ClangFormat_FileText())
 			
 	LFilePath = os.path.join(ProjectPath, "LICENSE.md")
 	if not os.path.exists(LFilePath):

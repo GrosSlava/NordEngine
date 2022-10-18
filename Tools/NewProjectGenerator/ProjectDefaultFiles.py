@@ -2,9 +2,9 @@
 
 
 
-def GetDefaultGitignoreFileText():
+def GetDefault_Gitignore_FileText():
 	return \
-	"""
+	r"""
 //..................Intermediate folders...................//
 
 **Build
@@ -44,9 +44,9 @@ def GetDefaultGitignoreFileText():
 	"""
 #------------------------------------------------------#
 
-def GetDefaultGitattributesFileText():
+def GetDefault_Gitattributes_FileText():
 	return \
-	"""
+	r"""
 # Auto detect text files and perform LF normalization
 * text=auto
 
@@ -87,9 +87,9 @@ def GetDefaultGitattributesFileText():
 	"""
 #------------------------------------------------------#
 
-def GetDefaultClangFormatFileText():
+def GetDefault_ClangFormat_FileText():
 	return \
-	"""
+	r"""
 BasedOnStyle: Microsoft
 AccessModifierOffset: -4
 IndentWidth: 4
@@ -155,4 +155,97 @@ StatementMacros : [
 					"ensure", "ensureMsgf", "ensureAlways","ensureAlwaysMsgf",
 				  ]
 	"""
+#------------------------------------------------------#
+
+
+
+
+def GetDefault_ProjectConfig_FileText(PathToEngine: str, ProjectName: str):
+	return \
+	r"""
+PathToEngine = {PathToEngine}
+ProjectName = {ProjectName}
+ShowConsole = false
+	""".format(PathToEngine = PathToEngine, ProjectName = ProjectName)
+#------------------------------------------------------#
+
+def GetDefault_GenerateWindowsProject_BatFileText(PathToEngine: str):
+	return \
+	r"""
+@echo off
+
+
+rem Set absolute path to engine
+set EngineRoot={PathToEngine}
+
+
+
+rem ....................................................................................... rem
+rem ....................................................................................... rem
+rem ....................................................................................... rem
+
+
+python "%EngineRoot%\Tools\NewProjectGenerator\WindowsProjectGenerator.py" %~dp0
+pause
+	""".format(PathToEngine = PathToEngine)
+#------------------------------------------------------#
+
+def GetDefault_ClearIntermediate_BatFileText(PathToEngine: str):
+	return \
+	r"""
+@echo off
+
+
+rem Set absolute path to engine
+set EngineRoot={PathToEngine}
+
+
+
+rem ....................................................................................... rem
+rem ....................................................................................... rem
+rem ....................................................................................... rem
+
+
+python "%EngineRoot%\Tools\ClearIntermediateFiles\ClearIntermediate.py" %~dp0
+pause
+	""".format(PathToEngine = PathToEngine)
+#------------------------------------------------------#
+
+def GetDefault_BuildProjectWindows_BatFileText(PathToEngine: str):
+	return \
+	r"""
+@echo off
+
+
+rem Set absolute path to engine
+set EngineRoot={PathToEngine}
+
+rem Set modules names in order to build. For plugins use Plugins\<ModuleName>.
+rem Example: set Modules=Game;Plugins\Module1;Plugins\Module2;Game2
+set Modules=
+
+
+
+rem ....................................................................................... rem
+rem ....................................................................................... rem
+rem ....................................................................................... rem
+
+
+call "%EngineRoot%\Tools\BuildEngine\GetMSBuildPath.bat"
+if errorlevel 1 goto Error_NoVisualStudioEnvironment
+
+python "%EngineRoot%\Tools\BuildEngine\ProjectBuildToolWindows.py" %~dp0 %EngineRoot% %MSBUILD_PATH% %Modules%
+pause
+goto Exit
+
+
+
+:Error_NoVisualStudioEnvironment
+echo ERROR: Missing Visual Studio 2015 or newer.
+pause
+goto Exit
+
+:Exit
+exit /B 1
+	""".format(PathToEngine = PathToEngine)
 #------------------------------------------------------#
