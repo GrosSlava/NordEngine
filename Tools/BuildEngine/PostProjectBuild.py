@@ -17,7 +17,19 @@ import glob
 	@param Platform - name of platform to compile. e,g ["Windows", "Linux"...]
 '''
 def PostProjectBuild(SolutionDir: str, EngineDir: str, Platform: str):
+	if not BuildHelpers.CheckAbsPath(SolutionDir):
+		print("[PostProjectBuild] --- Invalid solution path.")
+		return
+	if not BuildHelpers.CheckAbsPath(EngineDir):
+		print("[PostProjectBuild] --- Invalid engine path.")
+		return
+	if not Platform in BuildHelpers.SUPPORTED_BUILD_PLATFORMS:
+		print("[PostProjectBuild] --- Invalid platform name.")
+		return
+
+
 	pass
+#------------------------------------------------------#
 
 
 

@@ -17,6 +17,17 @@ import glob
 	@param Platform - name of platform to compile. e,g ["Windows", "Linux"...]
 '''
 def PreProjectBuild(SolutionDir: str, EngineDir: str, Platform: str):
+	if not BuildHelpers.CheckAbsPath(SolutionDir):
+		print("[PreProjectBuild] --- Invalid solution path.")
+		return
+	if not BuildHelpers.CheckAbsPath(EngineDir):
+		print("[PreProjectBuild] --- Invalid engine path.")
+		return
+	if not Platform in BuildHelpers.SUPPORTED_BUILD_PLATFORMS:
+		print("[PreProjectBuild] --- Invalid platform name.")
+		return
+
+
 	if os.path.exists(os.path.join(SolutionDir, "Build")):
 		shutil.rmtree(os.path.join(SolutionDir, "Build"))
 
@@ -29,7 +40,7 @@ def PreProjectBuild(SolutionDir: str, EngineDir: str, Platform: str):
 			BuildHelpers.CopyAllFilesWithExtinsionFromDirReplacing(os.path.join(EngineDir, "Build"), os.path.join(SolutionDir, "Build"), ".dll")
 		elif Platform == "Linux":
 			BuildHelpers.CopyAllFilesWithExtinsionFromDirReplacing(os.path.join(EngineDir, "Build"), os.path.join(SolutionDir, "Build"), ".so")
-	
+
 	if os.path.exists(os.path.join(SolutionDir, "Content")):
 		shutil.copytree(os.path.join(SolutionDir, "Content"), os.path.join(SolutionDir, "Build", "Content"))
 	else:
@@ -41,6 +52,7 @@ def PreProjectBuild(SolutionDir: str, EngineDir: str, Platform: str):
 		
 		BuildHelpers.CopyAllFilesFromDirReplacing(os.path.join(LFileName, "bin", Platform), os.path.join(SolutionDir, "Build"))
 		BuildHelpers.CopyAllFilesFromDirReplacing(os.path.join(LFileName, "lib", Platform), os.path.join(SolutionDir, "Build", "lib"))
+#------------------------------------------------------#
 
 
 

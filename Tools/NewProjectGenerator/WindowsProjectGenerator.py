@@ -16,13 +16,13 @@ def GetSolutionFileText(Submodules: list):
 
 	LProjectsSection = ""
 	LProjectsConfigurationSection = ""
-	
+
 	for LSubmodule in Submodules:
 		LProjectsSection += """Project("{{{ProjectUUID}}}") = "{ModuleName}", "{Path}\{ModuleName}.vcxproj", "{{{GameModuleUUID}}}" EndProject\n""".format \
 		( \
 			ProjectUUID = LProjectUUID, ModuleName = LSubmodule.Name, Path = LSubmodule.ModulePath, GameModuleUUID = LSubmodule.GameModuleUUID \
 		)
-		
+
 		LProjectsConfigurationSection += "\t\t{{{GameModuleUUID}}}.Debug|x86-64.ActiveCfg = Debug|x64\n".format(GameModuleUUID = LSubmodule.GameModuleUUID)
 		LProjectsConfigurationSection += "\t\t{{{GameModuleUUID}}}.Debug|x86-64.Build.0 = Debug|x64\n".format(GameModuleUUID = LSubmodule.GameModuleUUID)
 		LProjectsConfigurationSection += "\t\t{{{GameModuleUUID}}}.Release|x86-64.ActiveCfg = Release|x64\n".format(GameModuleUUID = LSubmodule.GameModuleUUID)
@@ -50,6 +50,7 @@ Global
 	EndGlobalSection
 EndGlobal
 	""".format(ProjectsSection = LProjectsSection, ProjectsConfigurationSection = LProjectsConfigurationSection, SolutionGuid = str(uuid.uuid4()).upper())
+#------------------------------------------------------#
 
 
 def GetVCXFileText(ProjectConfig: ProjectGeneratorBase.FProjectConfig, ModuleSolution : ProjectGeneratorBase.FSubmoduleInfo, EngineIncludePaths: str, LibsDir: str, UsingLibs: str):
@@ -67,15 +68,15 @@ def GetVCXFileText(ProjectConfig: ProjectGeneratorBase.FProjectConfig, ModuleSol
 	if ModuleSolution.IsEngineModule:
 		LPreprocessorDebugDefinitions += "ENGINE;"
 		LPreprocessorReleaseDefinitions += "ENGINE;"
-		
-		
+	
+
 	LConfigurationType = ""
 	if ModuleSolution.IsEngineModule or ModuleSolution.IsPlugin:
 		LConfigurationType = "DynamicLibrary"
 	else:
 		LConfigurationType = "Application"
-		
-		
+
+
 	LPostBuildEvent = ""
 	if ProjectConfig.IsEngine:
 		LPostBuildEvent = "\t\tpython \"$(SolutionDir){ScriptPath}\" $(SolutionDir)".format(ScriptPath = os.path.join("Tools", "BuildEngine", "PostModuleBuild.py")) 
@@ -216,6 +217,7 @@ def GetVCXFileText(ProjectConfig: ProjectGeneratorBase.FProjectConfig, ModuleSol
 				PrivateFilesSection = LPrivateFilesSection, \
 				PostBuildEvent = LPostBuildEvent
 				)
+#------------------------------------------------------#
 
 
 def GetUserFileText():
@@ -227,8 +229,10 @@ def GetUserFileText():
 	</PropertyGroup>
 </Project>	
 	"""
+#------------------------------------------------------#
 
 #...........................................................................................................................#
+
 
 
 
@@ -266,4 +270,3 @@ if __name__ == "__main__":
 			f.write(GetVCXFileText(LProjectConfig, LSubmodule, EngineIncludePaths, LibsDir, UsingLibs))
 		with open(os.path.join(LSubmodule.ModulePath, "{Name}.vcxproj.user".format(Name = LSubmodule.Name)), 'w') as f:
 			f.write(GetUserFileText())
-	

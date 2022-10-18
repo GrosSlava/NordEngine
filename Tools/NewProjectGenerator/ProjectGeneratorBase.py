@@ -57,6 +57,7 @@ def GetUsingLibs(IsEngineModule: bool):
 		return ENGINE_USING_LIBS[1:]
 	else:
 		return ENGINE_USING_LIBS
+#------------------------------------------------------#
 
 '''
 	Reserved folders names.
@@ -115,6 +116,7 @@ class FProjectConfig:
 			return os.path.join(self.ProjectPath, self.PathToEngine)
 		else:
 			return self.PathToEngine
+	#------------------------------------------------------#
 
 
 '''
@@ -123,6 +125,11 @@ class FProjectConfig:
 	@return FProjectConfig.
 '''
 def ScanProjectConfig(ProjectPath: str):
+	if not ProjectGeneratorHelpers.CheckAbsPath(ProjectPath):
+		print("[ScanProjectConfig] --- Invalid project path.")
+		return
+
+	
 	LProjectConfig = FProjectConfig(ProjectPath)
 	
 	if not os.path.exists(os.path.join(ProjectPath, "ProjectConfig.txt")):
@@ -146,17 +153,19 @@ def ScanProjectConfig(ProjectPath: str):
 				LProjectConfig.ProjectName = S[1].strip()
 			elif S[0].strip() == "ShowConsole":
 				LProjectConfig.ShowConsole = ProjectGeneratorHelpers.StrToBool(S[1].strip())
-				
+
 	if LProjectConfig.PathToEngine.strip() == "":
 		print("PathToEngine not set!")
 		sys.exit(0)				
 	if LProjectConfig.ProjectName.strip() == "":
 		print("ProjectName not set!")
 		sys.exit(0)	
-		
+
 	return LProjectConfig
+#------------------------------------------------------#
 	
 #...........................................................................................................................#
+
 
 
 #.....................................................Submodules............................................................#
@@ -181,6 +190,11 @@ class FSubmoduleInfo:
 	@return FSubmoduleInfo.
 '''
 def FillSubmodule(ModulePath: str):
+	if not ProjectGeneratorHelpers.CheckAbsPath(ModulePath):
+		print("[FillSubmodule] --- Invalid module path.")
+		return
+
+
 	LModuleName = pathlib.Path(ModulePath).parts[-1]
 	LModule = FSubmoduleInfo(Name = LModuleName, ModulePath = ModulePath, GameModuleUUID = str(uuid.uuid4()))
 	
@@ -193,6 +207,7 @@ def FillSubmodule(ModulePath: str):
 			LModule.PrivateFilesPath.append(LFileName)
 
 	return LModule
+#------------------------------------------------------#
 
 '''
 	Find all modules in project and return it's array.
@@ -200,6 +215,11 @@ def FillSubmodule(ModulePath: str):
 	@return list of FSubmoduleInfo.
 '''
 def FindAllProjectSubmodules(ProjectPath: str):
+	if not ProjectGeneratorHelpers.CheckAbsPath(ProjectPath):
+		print("[FindAllProjectSubmodules] --- Invalid project path.")
+		return
+
+	
 	LSubmodules = []
 	for LFileName in glob.iglob(os.path.join(ProjectPath, "Source", "**"), recursive = False):
 		if (not os.path.isdir(LFileName)) or (pathlib.Path(LFileName).parts[-1] in RESERVED_PROJECT_FOLDER_NAME):
@@ -215,6 +235,7 @@ def FindAllProjectSubmodules(ProjectPath: str):
 		LSubmodules.append(LModule)
 
 	return LSubmodules
+#------------------------------------------------------#
 
 #...........................................................................................................................#
 
@@ -226,6 +247,11 @@ def FindAllProjectSubmodules(ProjectPath: str):
 	@param ProjectPath - absolute path to project root.
 '''
 def GenerateBaseProjectStructure(ProjectPath: str, ProjectConfig: FProjectConfig):
+	if not ProjectGeneratorHelpers.CheckAbsPath(ProjectPath):
+		print("[GenerateBaseProjectStructure] --- Invalid project path.")
+		return
+	
+
 	ProjectGeneratorHelpers.CreateDirIfNotExist(os.path.join(ProjectPath, "Source"))
 	ProjectGeneratorHelpers.CreateDirIfNotExist(os.path.join(ProjectPath, "Content"))	
 	ProjectGeneratorHelpers.CreateDirIfNotExist(os.path.join(ProjectPath, "Docs"))
@@ -263,3 +289,4 @@ def GenerateBaseProjectStructure(ProjectPath: str, ProjectConfig: FProjectConfig
 	if not os.path.exists(LFilePath):
 		with open(LFilePath, 'w') as f:
 			f.write('//TODO')
+#------------------------------------------------------#

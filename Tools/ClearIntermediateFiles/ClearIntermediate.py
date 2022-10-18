@@ -41,6 +41,11 @@ ProgressBarSize = 60
 	@param SolutionDir - absolute path to project root.
 '''
 def ClearIntermediate(SolutionDir: str):
+	if (not os.path.isabs(SolutionDir)) or (not os.path.exists(SolutionDir)):
+		print("[ClearIntermediate] --- Invalid solution path.")
+		return
+
+
 	LCount = len(list(os.walk(SolutionDir)))
 	LIndex = 0
 	LastProgressBarPoint = 0
@@ -63,6 +68,7 @@ def ClearIntermediate(SolutionDir: str):
 			LastProgressBarPoint = LProgressBarPoint
 			print(LProgressFill, end = '')
 	print("]")
+#------------------------------------------------------#
 
 
 

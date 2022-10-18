@@ -1,4 +1,5 @@
 
+import BuildHelpers
 import PreProjectBuild
 import PostModuleBuild
 import PostProjectBuild
@@ -19,6 +20,17 @@ import subprocess
 	@Modules - list of modules names. For plugins it is Plugins\ModuleName.
 '''
 def BuildProjectWindows(SolutionDir: str, EngineDir: str, MSVCPath: str, Modules: list):
+	if not BuildHelpers.CheckAbsPath(SolutionDir):
+		print("[BuildProjectWindows] --- Invalid solution path.")
+		return
+	if not BuildHelpers.CheckAbsPath(EngineDir):
+		print("[BuildProjectWindows] --- Invalid engine path.")
+		return
+	if not BuildHelpers.CheckAbsPath(MSVCPath):
+		print("[BuildProjectWindows] --- Invalid MSVC path.")
+		return
+
+
 	PreProjectBuild.PreProjectBuild(SolutionDir, EngineDir, "Windows")
 	
 	for LModule in Modules:
@@ -32,9 +44,10 @@ def BuildProjectWindows(SolutionDir: str, EngineDir: str, MSVCPath: str, Modules
 			SolutionDir = SolutionDir \
 		)
 		subprocess.run(LCommand)
-	
+
 	PostModuleBuild.PostModuleBuild(SolutionDir)
 	PostProjectBuild.PostProjectBuild(SolutionDir, EngineDir, "Windows")
+#------------------------------------------------------#
 
 
 

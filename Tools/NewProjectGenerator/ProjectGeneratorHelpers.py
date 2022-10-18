@@ -14,6 +14,16 @@ import pathlib
 '''
 def StrToBool(S: str):
 	return S == "1" or S == "Yes" or S == "YES" or S == "On" or S == "true" or S == "True" or S == "TRUE"
+#------------------------------------------------------#
+
+
+'''
+	Create a new directory only if it does not exist.
+'''
+def CreateDirIfNotExist(Dir: str):
+	if not os.path.exists(Dir):
+		os.mkdir(Dir)
+#------------------------------------------------------#
 
 
 '''
@@ -22,11 +32,11 @@ def StrToBool(S: str):
 def GetRelativePath(ReativePath: str):
 	SourceDir = os.path.dirname(os.path.abspath(__file__))
 	return os.path.join(SourceDir, ReativePath)
-
+#------------------------------------------------------#
 
 '''
-	Construct new dir only if it's not exist.
+	Check that Path is absolute and exists.
 '''
-def CreateDirIfNotExist(Dir: str):
-	if not os.path.exists(Dir):
-		os.mkdir(Dir)
+def CheckAbsPath(Path: str):
+	return os.path.isabs(Path) and os.path.exists(Path)
+#------------------------------------------------------#

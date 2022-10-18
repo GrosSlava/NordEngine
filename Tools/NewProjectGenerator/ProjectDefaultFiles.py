@@ -42,6 +42,7 @@ def GetDefaultGitignoreFileText():
 
 //.........................................................//
 	"""
+#------------------------------------------------------#
 
 def GetDefaultGitattributesFileText():
 	return \
@@ -84,7 +85,8 @@ def GetDefaultGitattributesFileText():
 *.cubemap filter=lfs diff=lfs merge=lfs -text
 *.xcf filter=lfs diff=lfs merge=lfs -text
 	"""
-	
+#------------------------------------------------------#
+
 def GetDefaultClangFormatFileText():
 	return \
 	"""
@@ -153,3 +155,4 @@ StatementMacros : [
 					"ensure", "ensureMsgf", "ensureAlways","ensureAlwaysMsgf",
 				  ]
 	"""
+#------------------------------------------------------#
