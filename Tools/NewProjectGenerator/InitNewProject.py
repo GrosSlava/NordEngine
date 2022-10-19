@@ -1,12 +1,17 @@
 
-import ProjectGeneratorHelpers
-import ProjectDefaultFiles
-
 import os
 import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+
+
+import Common.ToolsFunctionLibrary
+import Common.Logger
+import ProjectDefaultFiles
+
 import shutil
 import glob
 import pathlib
+
 
 
 
@@ -17,14 +22,14 @@ import pathlib
 	@param EnginePath - absolute path to engne root.
 '''
 def InitNewProject(ProjectPath: str, EnginePath: str, ProjectName: str):
-	if not ProjectGeneratorHelpers.CheckAbsPath(ProjectPath):
-		print("[InitNewProject] --- Invalid project path.")
+	if not Common.ToolsFunctionLibrary.CheckAbsPath(ProjectPath):
+		Common.Logger.Log("InitNewProject", "Invalid project path.")
 		return
-	if not ProjectGeneratorHelpers.CheckAbsPath(EnginePath):
-		print("[InitNewProject] --- Invalid engine path.")
+	if not Common.ToolsFunctionLibrary.CheckAbsPath(EnginePath):
+		Common.Logger.Log("InitNewProject", "Invalid engine path.")
 		return
 	if ProjectPath == EnginePath:
-		print("[InitNewProject] --- Can't reinit engine.")
+		Common.Logger.Log("InitNewProject", "Can't reinit engine.")
 		return
 
 

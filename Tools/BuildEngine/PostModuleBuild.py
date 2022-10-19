@@ -1,10 +1,15 @@
 
-import BuildHelpers
-
 import os
 import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+
+
+import Common.ToolsFunctionLibrary
+import Common.Logger
+
 import shutil
 import pathlib
+
 
 
 
@@ -14,18 +19,20 @@ import pathlib
 	@param SolutionDir - absolute path to project root.
 '''
 def PostModuleBuild(SolutionDir: str):
-	if not BuildHelpers.CheckAbsPath(SolutionDir):
-		print("[PostModuleBuild] --- Invalid solution path.")
+	if not Common.ToolsFunctionLibrary.CheckAbsPath(SolutionDir):
+		Common.Logger.Log("PostModuleBuild", "Invalid solution path.")
 		return
 
 
-	BuildHelpers.CreateDirIfNotExist(os.path.join(SolutionDir, "Build"))
-	BuildHelpers.CreateDirIfNotExist(os.path.join(SolutionDir, "Build", "lib"))
+	LBuildDir = os.path.join(SolutionDir, "Build")
+	
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(LBuildDir)
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(LBuildDir, "lib"))
 
-	BuildHelpers.MoveAllFilesWithExtinsionFromDirReplacing(os.path.join(SolutionDir, "Build"), os.path.join(SolutionDir, "Build", "lib"), ".lib")
-	BuildHelpers.MoveAllFilesWithExtinsionFromDirReplacing(os.path.join(SolutionDir, "Build"), os.path.join(SolutionDir, "Build", "lib"), ".exp")
-	BuildHelpers.MoveAllFilesWithExtinsionFromDirReplacing(os.path.join(SolutionDir, "Build"), os.path.join(SolutionDir, "Build", "lib"), ".pdb")
-	BuildHelpers.MoveAllFilesWithExtinsionFromDirReplacing(os.path.join(SolutionDir, "Build"), os.path.join(SolutionDir, "Build", "lib"), ".a")
+	Common.ToolsFunctionLibrary.MoveAllFilesWithExtinsionFromDirReplacing(LBuildDir, os.path.join(LBuildDir, "lib"), ".lib")
+	Common.ToolsFunctionLibrary.MoveAllFilesWithExtinsionFromDirReplacing(LBuildDir, os.path.join(LBuildDir, "lib"), ".exp")
+	Common.ToolsFunctionLibrary.MoveAllFilesWithExtinsionFromDirReplacing(LBuildDir, os.path.join(LBuildDir, "lib"), ".pdb")
+	Common.ToolsFunctionLibrary.MoveAllFilesWithExtinsionFromDirReplacing(LBuildDir, os.path.join(LBuildDir, "lib"), ".a")
 #------------------------------------------------------#
 
 

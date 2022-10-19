@@ -1,13 +1,18 @@
 
-import BuildHelpers
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+
+
+import Common.ToolsFunctionLibrary
+import Common.Logger
 import PreProjectBuild
 import PostModuleBuild
 import PostProjectBuild
 
-import os
-import sys
 import glob
 import subprocess
+
 
 
 
@@ -20,14 +25,14 @@ import subprocess
 	@Modules - list of modules names. For plugins it is Plugins\ModuleName.
 '''
 def BuildProjectWindows(SolutionDir: str, EngineDir: str, MSVCPath: str, Modules: list):
-	if not BuildHelpers.CheckAbsPath(SolutionDir):
-		print("[BuildProjectWindows] --- Invalid solution path.")
+	if not Common.ToolsFunctionLibrary.CheckAbsPath(SolutionDir):
+		Common.Logger.Log("BuildProjectWindows", "Invalid solution path.")
 		return
-	if not BuildHelpers.CheckAbsPath(EngineDir):
-		print("[BuildProjectWindows] --- Invalid engine path.")
+	if not Common.ToolsFunctionLibrary.CheckAbsPath(EngineDir):
+		Common.Logger.Log("BuildProjectWindows", "Invalid engine path.")
 		return
-	if not BuildHelpers.CheckAbsPath(MSVCPath):
-		print("[BuildProjectWindows] --- Invalid MSVC path.")
+	if not Common.ToolsFunctionLibrary.CheckAbsPath(MSVCPath):
+		Common.Logger.Log("BuildProjectWindows", "Invalid MSVC path.")
 		return
 
 

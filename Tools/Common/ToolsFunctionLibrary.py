@@ -1,18 +1,10 @@
 
 import os
 import shutil
+import glob
 import pathlib
 
 
-
-
-'''
-	Names of available for build platforms.
-'''
-SUPPORTED_BUILD_PLATFORMS = [ \
-	"Windows", \
-	"Linux" \
-]
 
 
 
@@ -99,9 +91,30 @@ def CreateDirIfNotExist(Dir: str):
 #------------------------------------------------------#
 
 
+
+
+'''
+	@return absolute path for given relative to script path.
+'''
+def GetRelativePath(ReativePath: str):
+	SourceDir = os.path.dirname(os.path.abspath(__file__))
+	return os.path.join(SourceDir, ReativePath)
+#------------------------------------------------------#
+
 '''
 	Check that Path is absolute and exists.
 '''
 def CheckAbsPath(Path: str):
 	return os.path.isabs(Path) and os.path.exists(Path)
+#------------------------------------------------------#
+
+
+
+
+'''
+	Comvert str to bool.
+	@return Bool by str.
+'''
+def StrToBool(S: str):
+	return S == "1" or S == "Yes" or S == "YES" or S == "On" or S == "true" or S == "True" or S == "TRUE"
 #------------------------------------------------------#

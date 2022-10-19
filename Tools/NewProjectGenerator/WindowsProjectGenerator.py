@@ -1,10 +1,16 @@
 
-import ProjectGeneratorBase
-
 import os
 import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+
+
+import Common.ToolsFunctionLibrary
+import Common.Logger
+import ProjectGeneratorBase
+
 import uuid
 import pathlib
+
 
 
 
@@ -29,7 +35,7 @@ def GetSolutionFileText(Submodules: list):
 		LProjectsConfigurationSection += "\t\t{{{GameModuleUUID}}}.Release|x86-64.Build.0 = Release|x64\n".format(GameModuleUUID = LSubmodule.GameModuleUUID)
 
 	return \
-	"""Microsoft Visual Studio Solution File, Format Version 12.00
+	r"""Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -84,7 +90,7 @@ def GetVCXFileText(ProjectConfig: ProjectGeneratorBase.FProjectConfig, ModuleSol
 		LPostBuildEvent = "\t\tpython \"{ScriptPath}\" $(SolutionDir)".format(ScriptPath = os.path.join(ProjectConfig.GetAbsolutePathToEngine(), "Tools", "BuildEngine", "PostModuleBuild.py")) 
 
 	return \
-	"""<?xml version="1.0" encoding="utf-8"?>
+	r"""<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup Label="ProjectConfigurations">
 		<ProjectConfiguration Include="Debug|x64">
@@ -222,7 +228,7 @@ def GetVCXFileText(ProjectConfig: ProjectGeneratorBase.FProjectConfig, ModuleSol
 
 def GetUserFileText():
 	return \
-	"""<?xml version="1.0" encoding="utf-8"?>
+	r"""<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
 		<ShowAllFiles>true</ShowAllFiles>
@@ -236,37 +242,53 @@ def GetUserFileText():
 
 
 
+'''
+	Generate project structure for windows.
+	@param SolutionDir - absolute path to project root.
+	@param ProjectConfig - loaded project config.
+'''
+def GenerateWindowsProject(SolutionDir: str, ProjectConfig: ProjectGeneratorBase.FProjectConfig):
+	if not Common.ToolsFunctionLibrary.CheckAbsPath(SolutionDir):
+		Common.Logger.Log("GenerateWindowsProject", "Invalid solution path.")
+		return
 
-if __name__ == "__main__":
-	SolutionDir = sys.argv[1]
-	
-	LProjectConfig = ProjectGeneratorBase.ScanProjectConfig(SolutionDir)
-	ProjectGeneratorBase.GenerateBaseProjectStructure(SolutionDir, LProjectConfig)
-	
-	
+
 	EngineIncludePaths = ""
-	if LProjectConfig.IsEngine:
+	if ProjectConfig.IsEngine:
 		EngineIncludePaths = ";".join(list(map(lambda x : "$(SolutionDir)" + x, ProjectGeneratorBase.ENGINE_INCLUDE_PATHS))) + ";"
 	else:
-		EngineIncludePaths = ";".join(list(map(lambda x : os.path.join(LProjectConfig.GetAbsolutePathToEngine(), x), ProjectGeneratorBase.ENGINE_INCLUDE_PATHS))) + ";"
-	
+		EngineIncludePaths = ";".join(list(map(lambda x : os.path.join(ProjectConfig.GetAbsolutePathToEngine(), x), ProjectGeneratorBase.ENGINE_INCLUDE_PATHS))) + ";"
+
 	LibsDir = ""
-	if LProjectConfig.IsEngine:
+	if ProjectConfig.IsEngine:
 		LibsDir = "$(SolutionDir)Source\ThirdParty\SFML\lib\Windows;"
 		LibsDir += "$(SolutionDir)Build\lib;"
 	else:
-		LibsDir = os.path.join(LProjectConfig.GetAbsolutePathToEngine(), "Build", "lib;")
-	
-	
+		LibsDir = os.path.join(ProjectConfig.GetAbsolutePathToEngine(), "Build", "lib;")
+
+
 	LSubmodules = ProjectGeneratorBase.FindAllProjectSubmodules(SolutionDir)
-	
-	with open(os.path.join(SolutionDir, "{Name}.sln".format(Name = LProjectConfig.ProjectName)), 'w') as f:
+
+	with open(os.path.join(SolutionDir, "{Name}.sln".format(Name = ProjectConfig.ProjectName)), 'w') as f:
 		f.write(GetSolutionFileText(LSubmodules))
 	
 	for LSubmodule in LSubmodules:
 		UsingLibs = ";".join(list(map(lambda x : x + ".lib", ProjectGeneratorBase.GetUsingLibs(LSubmodule.IsEngineModule)))) + ";"
-		
+
 		with open(os.path.join(LSubmodule.ModulePath, "{Name}.vcxproj".format(Name = LSubmodule.Name)), 'w') as f:
-			f.write(GetVCXFileText(LProjectConfig, LSubmodule, EngineIncludePaths, LibsDir, UsingLibs))
+			f.write(GetVCXFileText(ProjectConfig, LSubmodule, EngineIncludePaths, LibsDir, UsingLibs))
 		with open(os.path.join(LSubmodule.ModulePath, "{Name}.vcxproj.user".format(Name = LSubmodule.Name)), 'w') as f:
 			f.write(GetUserFileText())
+#------------------------------------------------------#
+
+
+
+
+
+if __name__ == "__main__":
+	SolutionDir = sys.argv[1]
+
+	LProjectConfig = ProjectGeneratorBase.ScanProjectConfig(SolutionDir)
+
+	ProjectGeneratorBase.GenerateBaseProjectStructure(SolutionDir, LProjectConfig)
+	GenerateWindowsProject(SolutionDir, LProjectConfig)

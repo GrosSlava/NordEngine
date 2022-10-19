@@ -2,6 +2,7 @@
 
 
 
+
 def GetDefault_Gitignore_FileText():
 	return \
 	r"""
@@ -47,7 +48,7 @@ def GetDefault_Gitignore_FileText():
 def GetDefault_Gitattributes_FileText():
 	return \
 	r"""
-# Auto detect text files and perform LF normalization
+#Auto detect text files and perform LF normalization
 * text=auto
 
 #Image

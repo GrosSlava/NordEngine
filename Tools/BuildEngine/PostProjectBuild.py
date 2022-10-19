@@ -1,11 +1,17 @@
 
-import BuildHelpers
-
 import os
 import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+
+
+import Common.ToolsFunctionLibrary
+import Common.Logger
+import Common.BuildInfo
+
 import shutil
 import pathlib
 import glob
+
 
 
 
@@ -17,14 +23,14 @@ import glob
 	@param Platform - name of platform to compile. e,g ["Windows", "Linux"...]
 '''
 def PostProjectBuild(SolutionDir: str, EngineDir: str, Platform: str):
-	if not BuildHelpers.CheckAbsPath(SolutionDir):
-		print("[PostProjectBuild] --- Invalid solution path.")
+	if not Common.ToolsFunctionLibrary.CheckAbsPath(SolutionDir):
+		Common.Logger.Log("PostProjectBuild", "Invalid solution path.")
 		return
-	if not BuildHelpers.CheckAbsPath(EngineDir):
-		print("[PostProjectBuild] --- Invalid engine path.")
+	if not Common.ToolsFunctionLibrary.CheckAbsPath(EngineDir):
+		Common.Logger.Log("PostProjectBuild", "Invalid engine path.")
 		return
-	if not Platform in BuildHelpers.SUPPORTED_BUILD_PLATFORMS:
-		print("[PostProjectBuild] --- Invalid platform name.")
+	if not Common.BuildInfo.CheckPlatform(Platform):
+		Common.Logger.Log("PostProjectBuild", "Invalid platform name.")
 		return
 
 

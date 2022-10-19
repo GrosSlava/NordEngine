@@ -1,13 +1,18 @@
 
-import ProjectGeneratorHelpers
-import ProjectDefaultFiles
-
 import os
 import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+
+
+import Common.ToolsFunctionLibrary
+import Common.Logger
+import ProjectDefaultFiles
+
 import shutil
 import glob
 import pathlib
 import uuid
+
 
 
 
@@ -110,7 +115,7 @@ class FProjectConfig:
 		self.IsEngine = False				# mark that we are building engine project
 		self.ProjectName = ""				# name of project without '"'	
 		self.ShowConsole = False			# project will have platform console
-	
+
 	def GetAbsolutePathToEngine(self):
 		if self.IsEnginePathRelative:
 			return os.path.join(self.ProjectPath, self.PathToEngine)
@@ -125,17 +130,17 @@ class FProjectConfig:
 	@return FProjectConfig.
 '''
 def ScanProjectConfig(ProjectPath: str):
-	if not ProjectGeneratorHelpers.CheckAbsPath(ProjectPath):
-		print("[ScanProjectConfig] --- Invalid project path.")
+	if not Common.ToolsFunctionLibrary.CheckAbsPath(ProjectPath):
+		Common.Logger.Log("ScanProjectConfig", "Invalid project path.")
 		return
 
-	
+
 	LProjectConfig = FProjectConfig(ProjectPath)
-	
+
 	if not os.path.exists(os.path.join(ProjectPath, "ProjectConfig.txt")):
 		print("Can't find 'ProjectConfig.txt' file!")
 		sys.exit(0)
-	
+
 	with open(os.path.join(ProjectPath, "ProjectConfig.txt"), "r", encoding = 'utf-8') as ProjectConfigFile:
 		for LLine in ProjectConfigFile:
 			S = LLine.split("=")
@@ -152,7 +157,7 @@ def ScanProjectConfig(ProjectPath: str):
 			elif S[0].strip() == "ProjectName":
 				LProjectConfig.ProjectName = S[1].strip()
 			elif S[0].strip() == "ShowConsole":
-				LProjectConfig.ShowConsole = ProjectGeneratorHelpers.StrToBool(S[1].strip())
+				LProjectConfig.ShowConsole = Common.ToolsFunctionLibrary.StrToBool(S[1].strip())
 
 	if LProjectConfig.PathToEngine.strip() == "":
 		print("PathToEngine not set!")
@@ -190,14 +195,14 @@ class FSubmoduleInfo:
 	@return FSubmoduleInfo.
 '''
 def FillSubmodule(ModulePath: str):
-	if not ProjectGeneratorHelpers.CheckAbsPath(ModulePath):
-		print("[FillSubmodule] --- Invalid module path.")
+	if not Common.ToolsFunctionLibrary.CheckAbsPath(ModulePath):
+		Common.Logger.Log("FillSubmodule", "Invalid module path.")
 		return
 
 
 	LModuleName = pathlib.Path(ModulePath).parts[-1]
 	LModule = FSubmoduleInfo(Name = LModuleName, ModulePath = ModulePath, GameModuleUUID = str(uuid.uuid4()))
-	
+
 	for LFileName in glob.iglob(os.path.join(ModulePath, "**"), recursive = True):
 		if not os.path.isfile(LFileName):
 			continue
@@ -215,11 +220,11 @@ def FillSubmodule(ModulePath: str):
 	@return list of FSubmoduleInfo.
 '''
 def FindAllProjectSubmodules(ProjectPath: str):
-	if not ProjectGeneratorHelpers.CheckAbsPath(ProjectPath):
-		print("[FindAllProjectSubmodules] --- Invalid project path.")
+	if not Common.ToolsFunctionLibrary.CheckAbsPath(ProjectPath):
+		Common.Logger.Log("FindAllProjectSubmodules", "Invalid project path.")
 		return
 
-	
+
 	LSubmodules = []
 	for LFileName in glob.iglob(os.path.join(ProjectPath, "Source", "**"), recursive = False):
 		if (not os.path.isdir(LFileName)) or (pathlib.Path(LFileName).parts[-1] in RESERVED_PROJECT_FOLDER_NAME):
@@ -247,24 +252,24 @@ def FindAllProjectSubmodules(ProjectPath: str):
 	@param ProjectPath - absolute path to project root.
 '''
 def GenerateBaseProjectStructure(ProjectPath: str, ProjectConfig: FProjectConfig):
-	if not ProjectGeneratorHelpers.CheckAbsPath(ProjectPath):
-		print("[GenerateBaseProjectStructure] --- Invalid project path.")
+	if not Common.ToolsFunctionLibrary.CheckAbsPath(ProjectPath):
+		Common.Logger.Log("GenerateBaseProjectStructure", "Invalid project path.")
 		return
-	
 
-	ProjectGeneratorHelpers.CreateDirIfNotExist(os.path.join(ProjectPath, "Source"))
-	ProjectGeneratorHelpers.CreateDirIfNotExist(os.path.join(ProjectPath, "Content"))	
-	ProjectGeneratorHelpers.CreateDirIfNotExist(os.path.join(ProjectPath, "Docs"))
-	ProjectGeneratorHelpers.CreateDirIfNotExist(os.path.join(ProjectPath, "Tools"))
-	
+
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Source"))
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Content"))	
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Docs"))
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Tools"))
+
 	if not ProjectConfig.IsEngine:
-		ProjectGeneratorHelpers.CreateDirIfNotExist(os.path.join(ProjectPath, "Source", ProjectConfig.ProjectName))
-		ProjectGeneratorHelpers.CreateDirIfNotExist(os.path.join(ProjectPath, "Source", ProjectConfig.ProjectName, "Public"))
-		ProjectGeneratorHelpers.CreateDirIfNotExist(os.path.join(ProjectPath, "Source", ProjectConfig.ProjectName, "Private"))
-	ProjectGeneratorHelpers.CreateDirIfNotExist(os.path.join(ProjectPath, "Source", "Plugins"))
-	ProjectGeneratorHelpers.CreateDirIfNotExist(os.path.join(ProjectPath, "Source", "ThirdParty"))
-	
-	
+		Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Source", ProjectConfig.ProjectName))
+		Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Source", ProjectConfig.ProjectName, "Public"))
+		Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Source", ProjectConfig.ProjectName, "Private"))
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Source", "Plugins"))
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Source", "ThirdParty"))
+
+
 	LFilePath = os.path.join(ProjectPath, ".gitignore")
 	if not os.path.exists(LFilePath):
 		with open(LFilePath, 'w') as f:
@@ -279,7 +284,7 @@ def GenerateBaseProjectStructure(ProjectPath: str, ProjectConfig: FProjectConfig
 	if not os.path.exists(LFilePath):
 		with open(LFilePath, 'w') as f:
 			f.write(ProjectDefaultFiles.GetDefault_ClangFormat_FileText())
-			
+
 	LFilePath = os.path.join(ProjectPath, "LICENSE.md")
 	if not os.path.exists(LFilePath):
 		with open(LFilePath, 'w') as f:

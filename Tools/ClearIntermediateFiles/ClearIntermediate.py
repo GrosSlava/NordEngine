@@ -1,8 +1,15 @@
 
 import os
 import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+
+
+import Common.ToolsFunctionLibrary
+import Common.Logger
+
 import shutil
 import pathlib
+
 
 
 
@@ -41,8 +48,8 @@ ProgressBarSize = 60
 	@param SolutionDir - absolute path to project root.
 '''
 def ClearIntermediate(SolutionDir: str):
-	if (not os.path.isabs(SolutionDir)) or (not os.path.exists(SolutionDir)):
-		print("[ClearIntermediate] --- Invalid solution path.")
+	if not Common.ToolsFunctionLibrary.CheckAbsPath(SolutionDir):
+		Common.Logger.Log("ClearIntermediate", "Invalid solution path.")
 		return
 
 
