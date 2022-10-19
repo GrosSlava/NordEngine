@@ -4,8 +4,10 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 
 
+import ToolsConfig
 import Common.ToolsFunctionLibrary
 import Common.Logger
+import Common.ProjectConfig
 import ProjectGeneratorBase
 
 import uuid
@@ -59,7 +61,7 @@ EndGlobal
 #------------------------------------------------------#
 
 
-def GetVCXFileText(ProjectConfig: ProjectGeneratorBase.FProjectConfig, ModuleSolution : ProjectGeneratorBase.FSubmoduleInfo, EngineIncludePaths: str, LibsDir: str, UsingLibs: str):
+def GetVCXFileText(ProjectConfig: Common.ProjectConfig.FProjectConfig, ModuleSolution : ProjectGeneratorBase.FSubmoduleInfo, EngineIncludePaths: str, LibsDir: str, UsingLibs: str):
 	LPublicFilesSection = ""
 	for LPublicFilePath in ModuleSolution.PublicFilesPath:
 		LPublicFilesSection += '\t\t<ClInclude Include="{FilePath}" />\n'.format(FilePath = os.path.relpath(LPublicFilePath, ModuleSolution.ModulePath))
@@ -244,20 +246,14 @@ def GetUserFileText():
 
 '''
 	Generate project structure for windows.
-	@param SolutionDir - absolute path to project root.
 	@param ProjectConfig - loaded project config.
 '''
-def GenerateWindowsProject(SolutionDir: str, ProjectConfig: ProjectGeneratorBase.FProjectConfig):
-	if not Common.ToolsFunctionLibrary.CheckAbsPath(SolutionDir):
-		Common.Logger.Log("GenerateWindowsProject", "Invalid solution path.")
-		return
-
-
+def GenerateWindowsProject(ProjectConfig: Common.ProjectConfig.FProjectConfig):
 	EngineIncludePaths = ""
 	if ProjectConfig.IsEngine:
-		EngineIncludePaths = ";".join(list(map(lambda x : "$(SolutionDir)" + x, ProjectGeneratorBase.ENGINE_INCLUDE_PATHS))) + ";"
+		EngineIncludePaths = ";".join(list(map(lambda x : "$(SolutionDir)" + x, ToolsConfig.ENGINE_INCLUDE_PATHS))) + ";"
 	else:
-		EngineIncludePaths = ";".join(list(map(lambda x : os.path.join(ProjectConfig.GetAbsolutePathToEngine(), x), ProjectGeneratorBase.ENGINE_INCLUDE_PATHS))) + ";"
+		EngineIncludePaths = ";".join(list(map(lambda x : os.path.join(ProjectConfig.GetAbsolutePathToEngine(), x), ToolsConfig.ENGINE_INCLUDE_PATHS))) + ";"
 
 	LibsDir = ""
 	if ProjectConfig.IsEngine:
@@ -267,9 +263,9 @@ def GenerateWindowsProject(SolutionDir: str, ProjectConfig: ProjectGeneratorBase
 		LibsDir = os.path.join(ProjectConfig.GetAbsolutePathToEngine(), "Build", "lib;")
 
 
-	LSubmodules = ProjectGeneratorBase.FindAllProjectSubmodules(SolutionDir)
+	LSubmodules = ProjectGeneratorBase.FindAllProjectSubmodules(ProjectConfig.ProjectPath)
 
-	with open(os.path.join(SolutionDir, "{Name}.sln".format(Name = ProjectConfig.ProjectName)), 'w') as f:
+	with open(os.path.join(ProjectConfig.ProjectPath, "{Name}.sln".format(Name = ProjectConfig.ProjectName)), 'w') as f:
 		f.write(GetSolutionFileText(LSubmodules))
 	
 	for LSubmodule in LSubmodules:
@@ -288,7 +284,7 @@ def GenerateWindowsProject(SolutionDir: str, ProjectConfig: ProjectGeneratorBase
 if __name__ == "__main__":
 	SolutionDir = sys.argv[1]
 
-	LProjectConfig = ProjectGeneratorBase.ScanProjectConfig(SolutionDir)
+	LProjectConfig = Common.ProjectConfig.ScanProjectConfig(SolutionDir)
 
-	ProjectGeneratorBase.GenerateBaseProjectStructure(SolutionDir, LProjectConfig)
-	GenerateWindowsProject(SolutionDir, LProjectConfig)
+	ProjectGeneratorBase.GenerateBaseProjectStructure(LProjectConfig)
+	GenerateWindowsProject(LProjectConfig)

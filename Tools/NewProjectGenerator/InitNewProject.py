@@ -4,6 +4,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 
 
+import ToolsConfig
 import Common.ToolsFunctionLibrary
 import Common.Logger
 import ProjectDefaultFiles
@@ -62,5 +63,5 @@ if __name__ == "__main__":
 	SolutionDir = sys.argv[1]
 	EngineDir = sys.argv[2]
 	ProjectName = sys.argv[3]
-	
+
 	InitNewProject(SolutionDir, EngineDir, ProjectName)

@@ -4,6 +4,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 
 
+import ToolsConfig
 import Common.ToolsFunctionLibrary
 import Common.Logger
 
@@ -13,30 +14,6 @@ import pathlib
 
 
 
-
-'''
-	Folders to remove from project.
-'''
-INTERMEDIATE_FOLDERS = [ \
-"Intermediate", \
-".vs", \
-".vscode", \
-"__pycache__" \
-]
-
-'''
-	File extensions to remove from project.
-'''
-INTERMEDIATE_EXTENSIONS = [ \
-".user", \
-".generated", \
-".gen", \
-".obj", \
-".o", \
-".sln", \
-".vcxproj", \
-".code-workspace" \
-]
 
 ProgressBarSize = 60
 
@@ -60,11 +37,11 @@ def ClearIntermediate(SolutionDir: str):
 	print("[", end = '')
 	for SubDirs, Dirs, Files in os.walk(SolutionDir):
 		for LDir in Dirs:
-			if pathlib.Path(LDir).parts[-1] in INTERMEDIATE_FOLDERS:
+			if pathlib.Path(LDir).parts[-1] in ToolsConfig.INTERMEDIATE_FOLDERS:
 				shutil.rmtree(os.path.join(SubDirs, LDir))
 
 		for LFile in Files:
-			if pathlib.Path(LFile).suffix in INTERMEDIATE_EXTENSIONS:
+			if pathlib.Path(LFile).suffix in ToolsConfig.INTERMEDIATE_EXTENSIONS:
 				os.remove(os.path.join(SubDirs, LFile))
 
 		LIndex += 1

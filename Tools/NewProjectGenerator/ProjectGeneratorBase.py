@@ -4,8 +4,10 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 
 
+import ToolsConfig
 import Common.ToolsFunctionLibrary
 import Common.Logger
+import Common.ProjectConfig
 import ProjectDefaultFiles
 
 import shutil
@@ -18,158 +20,14 @@ import uuid
 
 
 '''
-	Paths for c++ easy includs.
-	Relative to engine root dir.
-'''
-ENGINE_INCLUDE_PATHS = [ \
-os.path.join("Source", "ThirdParty", "SFML", "include"), \
-os.path.join("Source", "Engine", "Core", "Containers", "Public"), \
-os.path.join("Source", "Engine", "Core", "Delegate", "Public"), \
-os.path.join("Source", "Engine", "Core", "Files", "Public"), \
-os.path.join("Source", "Engine", "Core", "GenericPlatform", "Public"), \
-os.path.join("Source", "Engine", "Core", "Macros"), \
-os.path.join("Source", "Engine", "Core", "Math", "Public"), \
-os.path.join("Source", "Engine", "Core", "Memory", "Public"), \
-os.path.join("Source", "Engine", "Core", "Misc"), \
-os.path.join("Source", "Engine", "Core", "Path", "Public"), \
-os.path.join("Source", "Engine", "Core", "Templates"), \
-os.path.join("Source", "Engine", "Core", "Time", "Public"), \
-os.path.join("Source", "Engine", "Engine", "CoreGame", "Public"), \
-os.path.join("Source", "Engine", "Engine", "Platforms", "Public"), \
-os.path.join("Source", "Engine", "Engine", "SubEngines", "Public"), \
-os.path.join("Source", "Engine", "Engine", "UObject", "Public") \
-]
-
-'''
-	Libs used by engine.
-	Append with platform specific suffix like '.lib' or '.a', '.so' etc...
-'''
-ENGINE_USING_LIBS = [ \
-"Engine", \
-"openal32", \
-"sfml-graphics", \
-"sfml-window", \
-"sfml-system", \
-"sfml-audio", \
-"sfml-network" \
-]
-
-'''
 	Helper function to get list of used libs.
 '''
 def GetUsingLibs(IsEngineModule: bool):
 	if IsEngineModule:
-		return ENGINE_USING_LIBS[1:]
+		return ToolsConfig.ENGINE_USING_LIBS[1:]
 	else:
-		return ENGINE_USING_LIBS
+		return ToolsConfig.ENGINE_USING_LIBS
 #------------------------------------------------------#
-
-'''
-	Reserved folders names.
-'''
-RESERVED_PROJECT_FOLDER_NAME = [ \
-"Intermediate", \
-"Build", \
-"build", \
-"Source", \
-"source", \
-"Src", \
-"src", \
-"SRC", \
-"Content", \
-"content", \
-"Docs", \
-"docs", \
-"doc", \
-"Tools", \
-"tools", \
-"Private", \
-"private", \
-"Public", \
-"public", \
-"Plugins", \
-"plugins", \
-"ThirdParty" \
-]
-
-
-#..................Reserved modules names.................#
-
-ENGINE_MODULE_NAME = "Engine"
-
-#.........................................................#
-
-
-
-
-#.......................................................Project config......................................................#
-
-'''
-	Base information about project.
-'''
-class FProjectConfig:
-	def __init__(self, ProjectPath: str):
-		self.ProjectPath = ProjectPath		# absolute path to project root
-		self.PathToEngine = ""				# absolute or relative path to engine root folder.
-		self.IsEnginePathRelative = False	# indicate that PathToEngine set as relative path
-		self.IsEngine = False				# mark that we are building engine project
-		self.ProjectName = ""				# name of project without '"'	
-		self.ShowConsole = False			# project will have platform console
-
-	def GetAbsolutePathToEngine(self):
-		if self.IsEnginePathRelative:
-			return os.path.join(self.ProjectPath, self.PathToEngine)
-		else:
-			return self.PathToEngine
-	#------------------------------------------------------#
-
-
-'''
-	Read project generation config form "ProjectConfig.txt" file.
-	@param ProjectPath - absolute path to project root.
-	@return FProjectConfig.
-'''
-def ScanProjectConfig(ProjectPath: str):
-	if not Common.ToolsFunctionLibrary.CheckAbsPath(ProjectPath):
-		Common.Logger.Log("ScanProjectConfig", "Invalid project path.")
-		return
-
-
-	LProjectConfig = FProjectConfig(ProjectPath)
-
-	if not os.path.exists(os.path.join(ProjectPath, "ProjectConfig.txt")):
-		print("Can't find 'ProjectConfig.txt' file!")
-		sys.exit(0)
-
-	with open(os.path.join(ProjectPath, "ProjectConfig.txt"), "r", encoding = 'utf-8') as ProjectConfigFile:
-		for LLine in ProjectConfigFile:
-			S = LLine.split("=")
-			if len(S) != 2:
-				continue
-
-			if S[0].strip() == "PathToEngine":
-				LProjectConfig.PathToEngine = S[1].strip()
-				if LProjectConfig.PathToEngine == ".":
-					LProjectConfig.IsEngine = True
-					LProjectConfig.IsEnginePathRelative = True
-				elif LProjectConfig.PathToEngine[0] == ".":
-					LProjectConfig.IsEnginePathRelative = True
-			elif S[0].strip() == "ProjectName":
-				LProjectConfig.ProjectName = S[1].strip()
-			elif S[0].strip() == "ShowConsole":
-				LProjectConfig.ShowConsole = Common.ToolsFunctionLibrary.StrToBool(S[1].strip())
-
-	if LProjectConfig.PathToEngine.strip() == "":
-		print("PathToEngine not set!")
-		sys.exit(0)				
-	if LProjectConfig.ProjectName.strip() == "":
-		print("ProjectName not set!")
-		sys.exit(0)	
-
-	return LProjectConfig
-#------------------------------------------------------#
-	
-#...........................................................................................................................#
 
 
 
@@ -185,7 +43,7 @@ class FSubmoduleInfo:
 		self.GameModuleUUID = GameModuleUUID.upper()	# submodule UUID
 		self.PublicFilesPath = []						# array of module header file absolute paths
 		self.PrivateFilesPath = []						# array of module source file absolute paths
-		self.IsEngineModule = self.Name == ENGINE_MODULE_NAME
+		self.IsEngineModule = self.Name == ToolsConfig.ENGINE_MODULE_NAME
 		self.IsPlugin = False							# indicate that this module is Plugin
 
 
@@ -227,13 +85,13 @@ def FindAllProjectSubmodules(ProjectPath: str):
 
 	LSubmodules = []
 	for LFileName in glob.iglob(os.path.join(ProjectPath, "Source", "**"), recursive = False):
-		if (not os.path.isdir(LFileName)) or (pathlib.Path(LFileName).parts[-1] in RESERVED_PROJECT_FOLDER_NAME):
+		if (not os.path.isdir(LFileName)) or (pathlib.Path(LFileName).parts[-1] in ToolsConfig.RESERVED_PROJECT_FOLDER_NAME):
 			continue
 		LModule = FillSubmodule(LFileName)
 		LSubmodules.append(LModule)
 
 	for LFileName in glob.iglob(os.path.join(ProjectPath, "Source", "Plugins", "**"), recursive = False):
-		if (not os.path.isdir(LFileName)) or (pathlib.Path(LFileName).parts[-1] in RESERVED_PROJECT_FOLDER_NAME):
+		if (not os.path.isdir(LFileName)) or (pathlib.Path(LFileName).parts[-1] in ToolsConfig.RESERVED_PROJECT_FOLDER_NAME):
 			continue
 		LModule = FillSubmodule(LFileName)
 		LModule.IsPlugin = True
@@ -249,48 +107,42 @@ def FindAllProjectSubmodules(ProjectPath: str):
 
 '''
 	Generate project structure.
-	@param ProjectPath - absolute path to project root.
 '''
-def GenerateBaseProjectStructure(ProjectPath: str, ProjectConfig: FProjectConfig):
-	if not Common.ToolsFunctionLibrary.CheckAbsPath(ProjectPath):
-		Common.Logger.Log("GenerateBaseProjectStructure", "Invalid project path.")
-		return
-
-
-	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Source"))
-	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Content"))	
-	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Docs"))
-	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Tools"))
+def GenerateBaseProjectStructure(ProjectConfig: Common.ProjectConfig.FProjectConfig):
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectConfig.ProjectPath, "Source"))
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectConfig.ProjectPath, "Content"))	
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectConfig.ProjectPath, "Docs"))
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectConfig.ProjectPath, "Tools"))
 
 	if not ProjectConfig.IsEngine:
-		Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Source", ProjectConfig.ProjectName))
-		Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Source", ProjectConfig.ProjectName, "Public"))
-		Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Source", ProjectConfig.ProjectName, "Private"))
-	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Source", "Plugins"))
-	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectPath, "Source", "ThirdParty"))
+		Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectConfig.ProjectPath, "Source", ProjectConfig.ProjectName))
+		Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectConfig.ProjectPath, "Source", ProjectConfig.ProjectName, "Public"))
+		Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectConfig.ProjectPath, "Source", ProjectConfig.ProjectName, "Private"))
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectConfig.ProjectPath, "Source", "Plugins"))
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(ProjectConfig.ProjectPath, "Source", "ThirdParty"))
 
 
-	LFilePath = os.path.join(ProjectPath, ".gitignore")
+	LFilePath = os.path.join(ProjectConfig.ProjectPath, ".gitignore")
 	if not os.path.exists(LFilePath):
 		with open(LFilePath, 'w') as f:
 			f.write(ProjectDefaultFiles.GetDefault_Gitignore_FileText())
 
-	LFilePath = os.path.join(ProjectPath, ".gitattributes")
+	LFilePath = os.path.join(ProjectConfig.ProjectPath, ".gitattributes")
 	if not os.path.exists(LFilePath):
 		with open(LFilePath, 'w') as f:
 			f.write(ProjectDefaultFiles.GetDefault_Gitattributes_FileText())
 
-	LFilePath = os.path.join(ProjectPath, ".clang-format")
+	LFilePath = os.path.join(ProjectConfig.ProjectPath, ".clang-format")
 	if not os.path.exists(LFilePath):
 		with open(LFilePath, 'w') as f:
 			f.write(ProjectDefaultFiles.GetDefault_ClangFormat_FileText())
 
-	LFilePath = os.path.join(ProjectPath, "LICENSE.md")
+	LFilePath = os.path.join(ProjectConfig.ProjectPath, "LICENSE.md")
 	if not os.path.exists(LFilePath):
 		with open(LFilePath, 'w') as f:
 			f.write('//TODO')
 
-	LFilePath = os.path.join(ProjectPath, "README.md")
+	LFilePath = os.path.join(ProjectConfig.ProjectPath, "README.md")
 	if not os.path.exists(LFilePath):
 		with open(LFilePath, 'w') as f:
 			f.write('//TODO')

@@ -4,6 +4,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 
 
+import ToolsConfig
 import Common.ToolsFunctionLibrary
 import Common.Logger
 import Common.BuildInfo
