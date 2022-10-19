@@ -36,21 +36,21 @@ INTERMEDIATE_EXTENSIONS = [ \
 '''
 ENGINE_INCLUDE_PATHS = [ \
 os.path.join("Source", "ThirdParty", "SFML", "include"), \
-os.path.join("Source", "Engine", "Core", "Containers", "Public"), \
-os.path.join("Source", "Engine", "Core", "Delegate", "Public"), \
-os.path.join("Source", "Engine", "Core", "Files", "Public"), \
-os.path.join("Source", "Engine", "Core", "GenericPlatform", "Public"), \
-os.path.join("Source", "Engine", "Core", "Macros"), \
-os.path.join("Source", "Engine", "Core", "Math", "Public"), \
-os.path.join("Source", "Engine", "Core", "Memory", "Public"), \
-os.path.join("Source", "Engine", "Core", "Misc"), \
-os.path.join("Source", "Engine", "Core", "Path", "Public"), \
-os.path.join("Source", "Engine", "Core", "Templates"), \
-os.path.join("Source", "Engine", "Core", "Time", "Public"), \
-os.path.join("Source", "Engine", "Engine", "CoreGame", "Public"), \
-os.path.join("Source", "Engine", "Engine", "Platforms", "Public"), \
-os.path.join("Source", "Engine", "Engine", "SubEngines", "Public"), \
-os.path.join("Source", "Engine", "Engine", "UObject", "Public") \
+os.path.join("Source", "SimpleEngine", "Core", "Containers", "Public"), \
+os.path.join("Source", "SimpleEngine", "Core", "Delegate", "Public"), \
+os.path.join("Source", "SimpleEngine", "Core", "Files", "Public"), \
+os.path.join("Source", "SimpleEngine", "Core", "GenericPlatform", "Public"), \
+os.path.join("Source", "SimpleEngine", "Core", "Macros"), \
+os.path.join("Source", "SimpleEngine", "Core", "Math", "Public"), \
+os.path.join("Source", "SimpleEngine", "Core", "Memory", "Public"), \
+os.path.join("Source", "SimpleEngine", "Core", "Misc"), \
+os.path.join("Source", "SimpleEngine", "Core", "Path", "Public"), \
+os.path.join("Source", "SimpleEngine", "Core", "Templates"), \
+os.path.join("Source", "SimpleEngine", "Core", "Time", "Public"), \
+os.path.join("Source", "SimpleEngine", "Engine", "CoreGame", "Public"), \
+os.path.join("Source", "SimpleEngine", "Engine", "Platforms", "Public"), \
+os.path.join("Source", "SimpleEngine", "Engine", "SubEngines", "Public"), \
+os.path.join("Source", "SimpleEngine", "Engine", "UObject", "Public") \
 ]
 
 '''
@@ -58,7 +58,7 @@ os.path.join("Source", "Engine", "Engine", "UObject", "Public") \
 	Append with platform specific suffix like '.lib' or '.a', '.so' etc...
 '''
 ENGINE_USING_LIBS = [ \
-"Engine", \
+"SimpleEngine", \
 "openal32", \
 "sfml-graphics", \
 "sfml-window", \
@@ -98,6 +98,6 @@ RESERVED_PROJECT_FOLDER_NAME = [ \
 
 #..................Reserved modules names.................#
 
-ENGINE_MODULE_NAME = "Engine"
+ENGINE_MODULE_NAME = "SimpleEngine"
 
 #.........................................................#

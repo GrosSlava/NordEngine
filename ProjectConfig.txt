@@ -1,3 +1,4 @@
 PathToEngine = .
 ProjectName = SimpleEngine
 ShowConsole = true
+Modules = SimpleEngine

@@ -5,6 +5,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 
 
 import ToolsConfig
+import Common.ProjectConfig
 import Common.ToolsFunctionLibrary
 import Common.Logger
 
@@ -17,23 +18,19 @@ import pathlib
 
 '''
 	Method to call after each module build.
-	@param SolutionDir - absolute path to project root.
+	@param ProjectConfig - scanned project config.
 '''
-def PostModuleBuild(SolutionDir: str):
-	if not Common.ToolsFunctionLibrary.CheckAbsPath(SolutionDir):
-		Common.Logger.Log("PostModuleBuild", "Invalid solution path.")
-		return
-
-
-	LBuildDir = os.path.join(SolutionDir, "Build")
+def PostModuleBuild(ProjectConfig: Common.ProjectConfig.FProjectConfig):
+	LBuildDir = os.path.join(ProjectConfig.ProjectPath, "Build")
+	LBuildLibDir = os.path.join(LBuildDir, "lib")
 	
 	Common.ToolsFunctionLibrary.CreateDirIfNotExist(LBuildDir)
-	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(LBuildDir, "lib"))
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(LBuildLibDir)
 
-	Common.ToolsFunctionLibrary.MoveAllFilesWithExtinsionFromDirReplacing(LBuildDir, os.path.join(LBuildDir, "lib"), ".lib")
-	Common.ToolsFunctionLibrary.MoveAllFilesWithExtinsionFromDirReplacing(LBuildDir, os.path.join(LBuildDir, "lib"), ".exp")
-	Common.ToolsFunctionLibrary.MoveAllFilesWithExtinsionFromDirReplacing(LBuildDir, os.path.join(LBuildDir, "lib"), ".pdb")
-	Common.ToolsFunctionLibrary.MoveAllFilesWithExtinsionFromDirReplacing(LBuildDir, os.path.join(LBuildDir, "lib"), ".a")
+	Common.ToolsFunctionLibrary.MoveAllFilesWithExtinsionFromDirReplacing(LBuildDir, LBuildLibDir, ".lib")
+	Common.ToolsFunctionLibrary.MoveAllFilesWithExtinsionFromDirReplacing(LBuildDir, LBuildLibDir, ".exp")
+	Common.ToolsFunctionLibrary.MoveAllFilesWithExtinsionFromDirReplacing(LBuildDir, LBuildLibDir, ".pdb")
+	Common.ToolsFunctionLibrary.MoveAllFilesWithExtinsionFromDirReplacing(LBuildDir, LBuildLibDir, ".a")
 #------------------------------------------------------#
 
 
@@ -43,4 +40,6 @@ def PostModuleBuild(SolutionDir: str):
 if __name__ == "__main__":
 	SolutionDir = sys.argv[1]
 	
-	PostModuleBuild(SolutionDir)
+	LProjectConfig = Common.ProjectConfig.ScanProjectConfig(SolutionDir)
+	
+	PostModuleBuild(LProjectConfig)

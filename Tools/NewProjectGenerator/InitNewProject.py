@@ -29,9 +29,6 @@ def InitNewProject(ProjectPath: str, EnginePath: str, ProjectName: str):
 	if not Common.ToolsFunctionLibrary.CheckAbsPath(EnginePath):
 		Common.Logger.Log("InitNewProject", "Invalid engine path.")
 		return
-	if ProjectPath == EnginePath:
-		Common.Logger.Log("InitNewProject", "Can't reinit engine.")
-		return
 
 
 	LFilePath = os.path.join(ProjectPath, "ProjectConfig.txt")

@@ -5,6 +5,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 
 
 import ToolsConfig
+import Common.ProjectConfig
 import Common.ToolsFunctionLibrary
 import Common.Logger
 import PreProjectBuild
@@ -20,39 +21,31 @@ import subprocess
 
 '''
 	Function for easy building project for Windows.
-	@param SolutionDir - absolute path to project root.
-	@param EngineDir - absolute path to engine root.
+	@param ProjectConfig - scanned project config.
 	@param MSVCPath - absolute path to MSVC.
-	@Modules - list of modules names. For plugins it is Plugins\ModuleName.
 '''
-def BuildProjectWindows(SolutionDir: str, EngineDir: str, MSVCPath: str, Modules: list):
-	if not Common.ToolsFunctionLibrary.CheckAbsPath(SolutionDir):
-		Common.Logger.Log("BuildProjectWindows", "Invalid solution path.")
-		return
-	if not Common.ToolsFunctionLibrary.CheckAbsPath(EngineDir):
-		Common.Logger.Log("BuildProjectWindows", "Invalid engine path.")
-		return
+def BuildProjectWindows(ProjectConfig: Common.ProjectConfig.FProjectConfig, MSVCPath: str):
 	if not Common.ToolsFunctionLibrary.CheckAbsPath(MSVCPath):
 		Common.Logger.Log("BuildProjectWindows", "Invalid MSVC path.")
 		return
 
 
-	PreProjectBuild.PreProjectBuild(SolutionDir, EngineDir, "Windows")
-	
-	for LModule in Modules:
+	PreProjectBuild.PreProjectBuild(ProjectConfig, "Windows")
+
+	for LModule in ProjectConfig.ModulesNames:
 		if LModule.strip() == "":
 			continue
 
 		LCommand = "{MSVC} /verbosity:minimal /nologo {ModuleVCX} /property:SolutionDir={SolutionDir} /property:Configuration=Release /property:Platform=x64".format \
 		(\
 			MSVC = MSVCPath, \
-			ModuleVCX = os.path.join(SolutionDir, "Source", LModule), \
-			SolutionDir = SolutionDir \
+			ModuleVCX = os.path.join(ProjectConfig.ProjectPath, "Source", LModule), \
+			SolutionDir = ProjectConfig.ProjectPath \
 		)
 		subprocess.run(LCommand)
 
-	PostModuleBuild.PostModuleBuild(SolutionDir)
-	PostProjectBuild.PostProjectBuild(SolutionDir, EngineDir, "Windows")
+	PostModuleBuild.PostModuleBuild(ProjectConfig)
+	PostProjectBuild.PostProjectBuild(ProjectConfig, "Windows")
 #------------------------------------------------------#
 
 
@@ -61,8 +54,8 @@ def BuildProjectWindows(SolutionDir: str, EngineDir: str, MSVCPath: str, Modules
 
 if __name__ == "__main__":
 	SolutionDir = sys.argv[1]
-	EngineDir = sys.argv[2]
-	MSVCPath = sys.argv[3]
-	Modules = list(sys.argv[4].split(';'))
+	MSVCPath = sys.argv[2]
+
+	LProjectConfig = Common.ProjectConfig.ScanProjectConfig(SolutionDir)
 	
-	BuildProjectWindows(SolutionDir, EngineDir, MSVCPath, Modules)
+	BuildProjectWindows(LProjectConfig, MSVCPath)

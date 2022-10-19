@@ -15,6 +15,20 @@ def GetDefault_Gitignore_FileText():
 
 //.........................................................//
 
+//..................Intermediate files.....................//
+
+*.user
+*.generated*
+*.gen
+*.obj
+*.o
+
+/BuildProjectWindows.bat
+/ClearIntermediate.bat
+/GenerateWindowsProject.bat
+
+//.........................................................//
+
 //...................Visual Studio......................//
 
 *.vscode
@@ -32,16 +46,6 @@ def GetDefault_Gitignore_FileText():
 *.xcworkspace
 
 //......................................................//
-
-//..................Intermediate files.....................//
-
-*.user
-*.generated*
-*.gen
-*.obj
-*.o
-
-//.........................................................//
 	"""
 #------------------------------------------------------#
 
@@ -167,6 +171,7 @@ def GetDefault_ProjectConfig_FileText(PathToEngine: str, ProjectName: str):
 PathToEngine = {PathToEngine}
 ProjectName = {ProjectName}
 ShowConsole = false
+Modules = {ProjectName}
 	""".format(PathToEngine = PathToEngine, ProjectName = ProjectName)
 #------------------------------------------------------#
 
@@ -221,10 +226,6 @@ def GetDefault_BuildProjectWindows_BatFileText(PathToEngine: str):
 rem Set absolute path to engine
 set EngineRoot={PathToEngine}
 
-rem Set modules names in order to build. For plugins use Plugins\<ModuleName>.
-rem Example: set Modules=Game;Plugins\Module1;Plugins\Module2;Game2
-set Modules=
-
 
 
 rem ....................................................................................... rem
@@ -235,7 +236,7 @@ rem ............................................................................
 call "%EngineRoot%\Tools\BuildEngine\GetMSBuildPath.bat"
 if errorlevel 1 goto Error_NoVisualStudioEnvironment
 
-python "%EngineRoot%\Tools\BuildEngine\ProjectBuildToolWindows.py" %~dp0 %EngineRoot% %MSBUILD_PATH% %Modules%
+python "%EngineRoot%\Tools\BuildEngine\ProjectBuildToolWindows.py" %~dp0 %MSBUILD_PATH%
 pause
 goto Exit
 

@@ -5,6 +5,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 
 
 import ToolsConfig
+import Common.ProjectConfig
 import Common.ToolsFunctionLibrary
 import Common.Logger
 import Common.BuildInfo
@@ -19,46 +20,50 @@ import glob
 
 '''
 	Method to call before project rebuild.
-	@param SolutionDir - absolute path to project root.
-	@param EngineDir - absolute path to engine root.
+	@param ProjectConfig - scanned project config.
 	@param Platform - name of platform to compile. e,g ["Windows", "Linux"...]
 '''
-def PreProjectBuild(SolutionDir: str, EngineDir: str, Platform: str):
-	if not Common.ToolsFunctionLibrary.CheckAbsPath(SolutionDir):
-		Common.Logger.Log("PreProjectBuild", "Invalid solution path.")
-		return
-	if not Common.ToolsFunctionLibrary.CheckAbsPath(EngineDir):
-		Common.Logger.Log("PreProjectBuild", "Invalid engine path.")
-		return
+def PreProjectBuild(ProjectConfig: Common.ProjectConfig.FProjectConfig, Platform: str):
 	if not Common.BuildInfo.CheckPlatform(Platform):
 		Common.Logger.Log("PreProjectBuild", "Invalid platform name.")
 		return
 
 
-	if os.path.exists(os.path.join(SolutionDir, "Build")):
-		shutil.rmtree(os.path.join(SolutionDir, "Build"))
+	LEngineBuildDir = os.path.join(ProjectConfig.GetAbsolutePathToEngine(), "Build")
 
-	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(SolutionDir, "Intermediate"))
-	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(SolutionDir, "Build"))
-	Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(SolutionDir, "Build", "lib"))
+	LProjectBuildDir = os.path.join(ProjectConfig.ProjectPath, "Build")
+	LProjectBuildContentDir = os.path.join(LProjectBuildDir, "Content")
+	LProjectBuildLibDir = os.path.join(LProjectBuildDir, "lib")
 	
-	if SolutionDir != EngineDir:
+	LProjectIntermediateDir = os.path.join(ProjectConfig.ProjectPath, "Intermediate")
+	LProjectContentDir = os.path.join(ProjectConfig.ProjectPath, "Content")
+	LProjectSourceDir = os.path.join(ProjectConfig.ProjectPath, "Source")
+
+
+	if os.path.exists(LProjectBuildDir):
+		shutil.rmtree(LProjectBuildDir)
+
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(LProjectIntermediateDir)
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(LProjectBuildDir)
+	Common.ToolsFunctionLibrary.CreateDirIfNotExist(LProjectBuildLibDir)
+	
+	if not ProjectConfig.IsEngine:
 		if Platform == "Windows":
-			Common.ToolsFunctionLibrary.CopyAllFilesWithExtinsionFromDirReplacing(os.path.join(EngineDir, "Build"), os.path.join(SolutionDir, "Build"), ".dll")
+			Common.ToolsFunctionLibrary.CopyAllFilesWithExtinsionFromDirReplacing(LEngineBuildDir, LProjectBuildDir, ".dll")
 		elif Platform == "Linux":
-			Common.ToolsFunctionLibrary.CopyAllFilesWithExtinsionFromDirReplacing(os.path.join(EngineDir, "Build"), os.path.join(SolutionDir, "Build"), ".so")
+			Common.ToolsFunctionLibrary.CopyAllFilesWithExtinsionFromDirReplacing(LEngineBuildDir, LProjectBuildDir, ".so")
 
-	if os.path.exists(os.path.join(SolutionDir, "Content")):
-		shutil.copytree(os.path.join(SolutionDir, "Content"), os.path.join(SolutionDir, "Build", "Content"))
+	if os.path.exists(LProjectContentDir):
+		shutil.copytree(LProjectContentDir, LProjectBuildContentDir)
 	else:
-		Common.ToolsFunctionLibrary.CreateDirIfNotExist(os.path.join(SolutionDir, "Build", "Content"))
+		Common.ToolsFunctionLibrary.CreateDirIfNotExist(LProjectBuildContentDir)
 
-	for LFileName in glob.iglob(os.path.join(SolutionDir, "Source", "ThirdParty", "**"), recursive = False):
+	for LFileName in glob.iglob(os.path.join(LProjectSourceDir, "ThirdParty", "**"), recursive = False):
 		if not os.path.isdir(LFileName):
 			continue
-		
-		Common.ToolsFunctionLibrary.CopyAllFilesFromDirReplacing(os.path.join(LFileName, "bin", Platform), os.path.join(SolutionDir, "Build"))
-		Common.ToolsFunctionLibrary.CopyAllFilesFromDirReplacing(os.path.join(LFileName, "lib", Platform), os.path.join(SolutionDir, "Build", "lib"))
+
+		Common.ToolsFunctionLibrary.CopyAllFilesFromDirReplacing(os.path.join(LFileName, "bin", Platform), LProjectBuildDir)
+		Common.ToolsFunctionLibrary.CopyAllFilesFromDirReplacing(os.path.join(LFileName, "lib", Platform), LProjectBuildLibDir)
 #------------------------------------------------------#
 
 
@@ -67,7 +72,8 @@ def PreProjectBuild(SolutionDir: str, EngineDir: str, Platform: str):
 
 if __name__ == "__main__":
 	SolutionDir = sys.argv[1]
-	EngineDir = sys.argv[2]
-	Platform = sys.argv[3]
+	Platform = sys.argv[2]
 	
-	PreProjectBuild(SolutionDir, EngineDir, Platform)
+	LProjectConfig = Common.ProjectConfig.ScanProjectConfig(SolutionDir)
+	
+	PreProjectBuild(LProjectConfig, Platform)

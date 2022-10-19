@@ -22,6 +22,7 @@ class FProjectConfig:
 		self.IsEngine = False				# mark that we are building engine project
 		self.ProjectName = ""				# name of project	
 		self.ShowConsole = False			# project will have platform console
+		self.ModulesNames = []				# array of used modules. For plugins it is "Plugins\{ModuleName}"
 
 	def GetAbsolutePathToEngine(self):
 		if self.IsEnginePathRelative:
@@ -66,6 +67,8 @@ def ScanProjectConfig(ProjectPath: str):
 				LProjectConfig.ProjectName = S[1].strip()
 			elif S[0].strip() == "ShowConsole":
 				LProjectConfig.ShowConsole = Common.ToolsFunctionLibrary.StrToBool(S[1].strip())
+			elif S[0].strip() == "Modules":
+				LProjectConfig.ModulesNames.extend(S[1].strip().split(';'))
 
 	if LProjectConfig.PathToEngine.strip() == "":
 		print("PathToEngine not set!")
