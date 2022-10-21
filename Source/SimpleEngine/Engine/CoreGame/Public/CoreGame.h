@@ -56,7 +56,7 @@ public:
 	/*
         Notify all engine systems about tick.
         Call it only from platform main function.
-    */
+	*/
 	void Tick();
 
 
@@ -93,12 +93,12 @@ protected:
 	virtual void OnSuspending() override;
 	virtual void OnResuming() override;
 	virtual void OnWindowMoved() override;
-	virtual void OnWindowTitleChanged(const std::string& Text) override;
-	virtual void OnWindowSizeChanged(uint16 Width, uint16 Height) override;
-	virtual void OnWindowFullScreenChanged(bool Enable) override;
-	virtual void OnWindowIconChanged(const std::string& IconPath) override;
-	virtual void OnWindowCursorChanged(const std::string& CursorPath) override;
-	virtual void OnWindowShowMouseCursorChanged(bool Show) override;
+	virtual void OnWindowSizeChanged() override;
+	virtual void OnWindowTitleChanged() override;
+	virtual void OnWindowIconChanged() override;
+	virtual void OnWindowCursorChanged() override;
+	virtual void OnWindowMouseCursorVisibilityChanged() override;
+	virtual void OnWindowMouseCursorGrabbingChanged() override;
 
 	//...............................................................//
 

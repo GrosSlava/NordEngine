@@ -20,10 +20,7 @@ class ENGINE_API GBaseWindow
 public:
 
 	GBaseWindow() = delete;
-	GBaseWindow(uint16 InWidth, uint16 InHeight, int InWindowStyle) : 
-		CurrentWindowWidth(InWidth), CurrentWindowHeight(InHeight), Style(InWindowStyle)
-	{ 
-	}
+	GBaseWindow(uint16 InWidth, uint16 InHeight, int InWindowStyle) : Style(InWindowStyle) { }
 
 	virtual ~GBaseWindow() { }
 
@@ -31,26 +28,33 @@ public:
 
 public:
 
-	FORCEINLINE uint16 GetCurrentWindowWidth() const noexcept { return CurrentWindowWidth; }
-	FORCEINLINE uint16 GetCurrentWindowHeight() const noexcept { return CurrentWindowHeight; }
 	FORCEINLINE int GetWindowStyle() const noexcept { return Style; }
+	FORCEINLINE std::string GetWindowTitle() const noexcept { return CurrentTitle; }
 
-//Window base interface
 public:
 
 	virtual void Construct();
+	virtual FWindowHandle::WindowHandle GetWindowHandle() const;
 
-	virtual FWindowHandle::WindowHandle GetWindowHandle() const { return FWindowHandle::EmptyWindowHandle; }
+	virtual void GetWindowSize(uint16& Width, uint16& Height) const;
 	virtual void GetFullScreenSize(uint16& Width, uint16& Height) const;
-
-	virtual void SetWindowTitle(const std::string& Text);
 	virtual void SetWindowSize(uint16 Width, uint16 Height);
 	virtual void SetWindowFullScreen(bool Enable);
+	virtual void SetWindowPosition(uint16 X, uint16 Y);
+	virtual void GetWindowPosition(uint16& X, uint16& Y) const;
+
+	virtual void SetWindowTitle(const std::string& Text);
 	virtual void SetWindowIcon(const std::string& IconPath);
 	virtual void SetWindowCursor(const std::string& CursorPath);
-	virtual void SetShowMouseCursor(bool Show);
 
-//Messages from API(window)
+	virtual void SetMouseCursorVisible(bool Visible);
+	virtual bool IsMouseCursorVisible() const;
+	virtual void SetMouseCursorGrabbed(bool Grab);
+	virtual bool IsMouseCursorGrabbed() const;
+
+	virtual void RequestFocus();
+	virtual bool HasFocus() const;
+
 protected:
 
 	virtual void OnCreated();
@@ -63,12 +67,12 @@ protected:
 	virtual void OnWindowSuspending();
 	virtual void OnWindowResuming();
 
-	virtual void OnWindowTitleChanged(const std::string& Text);
-	virtual void OnWindowSizeChanged(uint16 Width, uint16 Height);
-	virtual void OnWindowFullScreenChanged(bool Enable);
-	virtual void OnWindowIconChanged(const std::string& IconPath);
-	virtual void OnWindowCursorChanged(const std::string& CursorPath);
-	virtual void OnWindowShowMouseCursorChanged(bool Show);
+	virtual void OnWindowSizeChanged();
+	virtual void OnWindowTitleChanged();
+	virtual void OnWindowIconChanged();
+	virtual void OnWindowCursorChanged();
+	virtual void OnWindowMouseCursorVisibilityChanged();
+	virtual void OnWindowMouseCursorGrabbingChanged();
 
 	//...........................Inputs..........................//
 
@@ -106,6 +110,4 @@ protected:
 	int Style = EWindowStyle::Default;
 
 	std::string CurrentTitle = "";
-	uint16 CurrentWindowWidth = 0;
-	uint16 CurrentWindowHeight = 0;
 };

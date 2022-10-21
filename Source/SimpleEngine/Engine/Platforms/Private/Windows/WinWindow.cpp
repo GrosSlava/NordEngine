@@ -1,4 +1,8 @@
 
+#include "GenericPlatform.h"
+#if PLATFORM_WINDOWS
+
+
 #include "Windows/WinWindow.h"
 
 #include "windowsx.h"
@@ -17,6 +21,31 @@ GBaseWindow* FWinWindowBuilder::ConstructWindow(uint16 Width, uint16 Height, int
 
 
 #define WINDOW_CLASS_NAME TEXT("WinWindowClass")
+
+
+WinWindow::~WinWindow()
+{
+	if( hWindowSmallIcon != nullptr )
+	{
+		DestroyIcon(hWindowSmallIcon);
+		hWindowSmallIcon = nullptr;
+	}
+	if( hWindowBigIcon != nullptr )
+	{
+		DestroyIcon(hWindowBigIcon);
+		hWindowBigIcon = nullptr;
+	}
+	if( hCursor != nullptr )
+	{
+		DestroyIcon(hCursor);
+		hCursor = nullptr;
+	}
+
+	UnregisterClass(WINDOW_CLASS_NAME, GetModuleHandle(nullptr));
+}
+
+
+
 
 
 void WinWindow::Construct()
@@ -38,7 +67,7 @@ void WinWindow::Construct()
 
 	if( !RegisterClassEx(&LWindowClass) )
 	{
-		ErrorMessageBox(TEXT("Fatal Error"), TEXT("Call to RegisterClassEx failed!"));
+		ErrorMessageBox(TEXT("Fatal error"), TEXT("Call to RegisterClassEx failed!"));
 		return;
 	}
 	//.................................................................//
@@ -65,7 +94,7 @@ void WinWindow::Construct()
 		WINDOW_CLASS_NAME, 
 		TEXT(""), LWinwowStyle,
 		CW_USEDEFAULT, CW_USEDEFAULT, 
-		CurrentWindowWidth, CurrentWindowHeight, 
+		600, 600, 
 		nullptr,
 		nullptr, 
 		GetModuleHandle(nullptr), 
@@ -85,12 +114,21 @@ void WinWindow::Construct()
 	//.................................................................//
 }
 
-
-
-
 FWindowHandle::WindowHandle WinWindow::GetWindowHandle() const
 {
 	return m_hWnd;
+}
+
+
+
+
+void WinWindow::GetWindowSize(uint16& Width, uint16& Height) const
+{
+	RECT LRect;
+	GetClientRect(m_hWnd, &LRect);
+
+	Width = static_cast<uint16>(LRect.right - LRect.left);
+	Height = static_cast<uint16>(LRect.bottom - LRect.top);
 }
 
 void WinWindow::GetFullScreenSize(uint16& Width, uint16& Height) const
@@ -99,16 +137,16 @@ void WinWindow::GetFullScreenSize(uint16& Width, uint16& Height) const
 	Height = GetSystemMetrics(SM_CYSCREEN);
 }
 
-
-
-void WinWindow::SetWindowTitle(const std::string& Text)
-{
-	SetWindowTextA(m_hWnd, Text.c_str());
-}
-
 void WinWindow::SetWindowSize(uint16 Width, uint16 Height)
 {
-	SetWindowPos(m_hWnd, HWND_TOP, 0, 0, Width, Height, SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED);
+	// SetWindowPos wants the total size of the window (including title bar and borders), so we have to compute it
+	RECT LRect = {0, 0, Width, Height};
+	AdjustWindowRect(&LRect, static_cast<DWORD>(GetWindowLongPtr(m_hWnd, GWL_STYLE)), false);
+
+	CachedWindowWidth = LRect.right - LRect.left;
+	CachedWindowHeight = LRect.bottom - LRect.top;
+
+	SetWindowPos(m_hWnd, HWND_TOP, 0, 0, CachedWindowWidth, CachedWindowHeight, SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED);
 }
 
 void WinWindow::SetWindowFullScreen(bool Enable)
@@ -119,18 +157,43 @@ void WinWindow::SetWindowFullScreen(bool Enable)
 		SetWindowLongPtr(m_hWnd, GWL_EXSTYLE, 0);
 
 		ShowWindow(m_hWnd, SW_SHOWNORMAL);
-
-		SetWindowPos(m_hWnd, HWND_TOP, 0, 0, CurrentWindowWidth, CurrentWindowHeight, SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED);
+		SetWindowPos(m_hWnd, HWND_TOP, 0, 0, CachedWindowWidth, CachedWindowHeight, SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED);
 	}
 	else
 	{
+		GetWindowSize(CachedWindowWidth, CachedWindowHeight); // cache current size to restore
+
 		SetWindowLongPtr(m_hWnd, GWL_STYLE, WS_POPUP);
 		SetWindowLongPtr(m_hWnd, GWL_EXSTYLE, WS_EX_TOPMOST);
 
 		SetWindowPos(m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
-
 		ShowWindow(m_hWnd, SW_SHOWMAXIMIZED);
 	}
+}
+
+void WinWindow::SetWindowPosition(uint16 X, uint16 Y)
+{
+	SetWindowPos(m_hWnd, HWND_TOP, X, Y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+
+	if( IsCursorGrabbed ) SetMouseCursorGrabbed(true);
+}
+
+void WinWindow::GetWindowPosition(uint16& X, uint16& Y) const
+{
+	RECT LRect;
+	GetWindowRect(m_hWnd, &LRect);
+
+	X = LRect.left;
+	Y = LRect.top;
+}
+
+
+
+void WinWindow::SetWindowTitle(const std::string& Text)
+{
+	SetWindowTextA(m_hWnd, Text.c_str());
+
+	OnWindowTitleChanged();
 }
 
 void WinWindow::SetWindowIcon(const std::string& IconPath)
@@ -163,6 +226,8 @@ void WinWindow::SetWindowIcon(const std::string& IconPath)
 
 	SendMessageW(m_hWnd, WM_SETICON, ICON_SMALL, reinterpret_cast<LPARAM>(hWindowSmallIcon));
 	SendMessageW(m_hWnd, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(hWindowBigIcon));
+
+	OnWindowIconChanged();
 }
 
 void WinWindow::SetWindowCursor(const std::string& CursorPath)
@@ -176,19 +241,97 @@ void WinWindow::SetWindowCursor(const std::string& CursorPath)
 	}
 
 	hCursor = static_cast<HCURSOR>(LoadImageA(GetModuleHandle(nullptr), CursorPath.c_str(), IMAGE_CURSOR, 0, 0, LR_LOADFROMFILE));
-
 	if( !hCursor )
 	{
 		ErrorMessageBox(TEXT("Fatal Error"), TEXT("Can't load cursor!"));
 		return;
 	}
 
-	SendMessageW(m_hWnd, WM_SETCURSOR, NULL, NULL);
+
+	SetCursor(hCursor);
+	OnWindowCursorChanged();
 }
 
-void WinWindow::SetShowMouseCursor(bool Show)
+
+
+void WinWindow::SetMouseCursorVisible(bool Visible)
 {
-	ShowCursor(Show);
+	if( IsCursorVisible == Visible ) return;
+
+
+	IsCursorVisible = Visible;
+	ShowCursor(IsCursorVisible);
+
+	OnWindowMouseCursorVisibilityChanged();
+}
+
+bool WinWindow::IsMouseCursorVisible() const
+{
+	return IsCursorVisible;
+}
+
+void WinWindow::SetMouseCursorGrabbed(bool Grab)
+{
+	if( IsCursorGrabbed == Grab ) return;
+
+
+	IsCursorGrabbed = Grab;
+	GrabCursore(IsCursorGrabbed);
+
+	OnWindowMouseCursorGrabbingChanged();
+}
+
+void WinWindow::GrabCursore(bool Grab)
+{
+	if( Grab )
+	{
+		RECT LRect;
+		GetClientRect(m_hWnd, &LRect);
+		MapWindowPoints(m_hWnd, nullptr, reinterpret_cast<LPPOINT>(&LRect), 2);
+		ClipCursor(&LRect);
+	}
+	else
+	{
+		ClipCursor(nullptr);
+	}
+}
+
+bool WinWindow::IsMouseCursorGrabbed() const
+{
+	return IsCursorGrabbed;
+}
+
+
+
+void WinWindow::RequestFocus()
+{
+	// Allow focus stealing only within the same process; compare PIDs of current and foreground window
+	DWORD ThisPid, ForegroundPid;
+	GetWindowThreadProcessId(m_hWnd, &ThisPid);
+	GetWindowThreadProcessId(GetForegroundWindow(), &ForegroundPid);
+
+	if( ThisPid == ForegroundPid )
+	{
+		// The window requesting focus belongs to the same process as the current window: steal focus
+		SetForegroundWindow(m_hWnd);
+	}
+	else
+	{
+		// Different process: don't steal focus, but create a taskbar notification ("flash")
+		FLASHWINFO info;
+		info.cbSize = sizeof(info);
+		info.hwnd = m_hWnd;
+		info.dwFlags = FLASHW_TRAY;
+		info.dwTimeout = 0;
+		info.uCount = 3;
+
+		FlashWindowEx(&info);
+	}
+}
+
+bool WinWindow::HasFocus() const
+{
+	return m_hWnd == GetForegroundWindow();
 }
 
 
@@ -202,6 +345,7 @@ LRESULT WinWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 	static bool s_minimized = false;
 
 	static WinWindow* LWindow = nullptr;
+
 
 
 	switch( message )
@@ -249,6 +393,11 @@ LRESULT WinWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 		break;
 	}
 
+	case WM_CLOSE:
+	{
+		break;
+	}
+
 	case WM_DESTROY:
 	{
 		if( LWindow != nullptr )
@@ -266,21 +415,49 @@ LRESULT WinWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 	{
 		if( LOWORD(lParam) == HTCLIENT )
 		{
-			if( LWindow != nullptr && LWindow->hCursor != nullptr )
+			if( LWindow != nullptr )
 			{
 				SetCursor(LWindow->hCursor);
+				LWindow->OnWindowCursorChanged();
 				break;
 			}
 		}
 
-		return DefWindowProc(hWnd, message, wParam, lParam);
+		break;
+	}
+
+	case WM_SETFOCUS:
+	{
+		if( LWindow != nullptr )
+		{
+			// restore/update cursor grabbing
+			LWindow->GrabCursore(LWindow->IsCursorGrabbed);
+		}
+
+		break;
+	}
+
+	case WM_KILLFOCUS:
+	{
+		if( LWindow != nullptr )
+		{
+			LWindow->GrabCursore(false);
+		}
+
+		break;
 	}
 
 
 
 	case WM_MOVE:
 	{
-		if( LWindow != nullptr ) LWindow->OnWindowMoved();
+		if( LWindow != nullptr )
+		{
+			// restore/update cursor grabbing
+			LWindow->GrabCursore(LWindow->IsCursorGrabbed);
+			LWindow->OnWindowMoved();
+		}
+
 		break;
 	}
 
@@ -303,13 +480,22 @@ LRESULT WinWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 			s_minimized = false;
 			if( s_in_suspend )
 			{
-				if( LWindow != nullptr ) LWindow->OnWindowResuming();
+				if( LWindow != nullptr )
+				{
+					LWindow->GrabCursore(LWindow->IsCursorGrabbed);
+					LWindow->OnWindowResuming();
+				}
+
 				s_in_suspend = false;
 			}
 		}
 		else if( !s_in_sizemove )
 		{
-			if( LWindow != nullptr ) LWindow->OnWindowSizeChanged(LOWORD(lParam), HIWORD(lParam));
+			if( LWindow != nullptr )
+			{
+				LWindow->GrabCursore(LWindow->IsCursorGrabbed);
+				LWindow->OnWindowSizeChanged();
+			}
 		}
 
 		break;
@@ -318,6 +504,12 @@ LRESULT WinWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 	case WM_ENTERSIZEMOVE:
 	{
 		s_in_sizemove = true;
+
+		if( LWindow != nullptr )
+		{
+			LWindow->GrabCursore(false);
+		}
+
 		break;
 	}
 
@@ -327,10 +519,12 @@ LRESULT WinWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 
 		if( LWindow != nullptr )
 		{
-			RECT rc;
-			GetClientRect(hWnd, &rc);
+			RECT LRect;
+			GetClientRect(hWnd, &LRect);
 
-			LWindow->OnWindowSizeChanged(rc.right - rc.left, rc.bottom - rc.top);
+			// restore/update cursor grabbing
+			LWindow->GrabCursore(LWindow->IsCursorGrabbed);
+			LWindow->OnWindowSizeChanged();
 		}
 
 		break;
@@ -344,6 +538,7 @@ LRESULT WinWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 			info->ptMinTrackSize.x = 320;
 			info->ptMinTrackSize.y = 200;
 		}
+
 		break;
 	}
 
@@ -407,10 +602,39 @@ LRESULT WinWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 
 	case WM_MOUSEMOVE:
 	{
+		const int16 LX = GET_X_LPARAM(lParam);
+		const int16 LY = GET_Y_LPARAM(lParam);
+
 		if( LWindow != nullptr )
 		{
-			LWindow->OnMouseMoved(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-			TrackMouseEvent(&(LWindow->m_TrackMouseEvent));
+			LWindow->OnMouseMoved(LX, LY);
+
+
+			RECT LArea;
+			GetClientRect(LWindow->m_hWnd, &LArea);
+
+			if( (LX < LArea.left) || (LX > LArea.right) || (LY < LArea.top) || (LY > LArea.bottom) )
+			{
+				if( LWindow->IsMouseInside )
+				{
+					LWindow->IsMouseInside = false;
+
+					// No longer care for the mouse leaving the window
+					LWindow->SetTracking(false);
+					LWindow->OnMouseLeavedFromScreen();
+				}
+			}
+			else
+			{
+				if( !LWindow->IsMouseInside )
+				{
+					LWindow->IsMouseInside = true;
+
+					// Look for the mouse leaving the window
+					LWindow->SetTracking(true);
+					LWindow->OnMouseEnterToScreen();
+				}
+			}
 		}
 
 		break;
@@ -418,14 +642,21 @@ LRESULT WinWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 
 	case WM_MOUSELEAVE:
 	{
-		if( LWindow != nullptr ) LWindow->OnMouseLeavedFromScreen();
+		if( LWindow != nullptr )
+		{
+			LWindow->IsMouseInside = false;
+			LWindow->OnMouseLeavedFromScreen();
+		}
 
 		break;
 	}
 
 	case WM_MOUSEHOVER:
 	{
-		if( LWindow != nullptr ) LWindow->OnMouseEnterToScreen();
+		if( LWindow != nullptr )
+		{
+			LWindow->OnMouseEnterToScreen();
+		}
 
 		break;
 	}
@@ -502,15 +733,28 @@ LRESULT WinWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 	}
 
 
-	return 0;
+	return DefWindowProc(hWnd, message, wParam, lParam);
 }
+
+
+
+
 
 void WinWindow::OnWinWindowCreated(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	m_hWnd = hWnd;
 
-	m_TrackMouseEvent.cbSize = sizeof(TRACKMOUSEEVENT);
-	m_TrackMouseEvent.dwFlags = TME_HOVER | TME_LEAVE;
-	m_TrackMouseEvent.dwHoverTime = 1; //How long the mouse has to be in the window to trigger a hover event.
-	m_TrackMouseEvent.hwndTrack = hWnd;
+	SetTracking(true);
 }
+
+void WinWindow::SetTracking(bool Track)
+{
+	TRACKMOUSEEVENT LMouseEvent;
+	LMouseEvent.cbSize = sizeof(TRACKMOUSEEVENT);
+	LMouseEvent.dwFlags = Track ? TME_LEAVE : TME_CANCEL;
+	LMouseEvent.dwHoverTime = HOVER_DEFAULT; //How long the mouse has to be in the window to trigger a hover event.
+	LMouseEvent.hwndTrack = m_hWnd;
+	TrackMouseEvent(&LMouseEvent);
+}
+
+#endif // PLATFORM_WINDOWS

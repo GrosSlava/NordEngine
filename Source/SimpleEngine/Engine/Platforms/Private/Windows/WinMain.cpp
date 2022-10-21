@@ -1,4 +1,8 @@
 
+#include "GenericPlatform.h"
+#if PLATFORM_WINDOWS
+
+
 #include "Windows/WinMain.h"
 
 #include "CoreGame.h"
@@ -11,16 +15,20 @@
 
 
 
-int WINAPI wWinMain_Internal(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
+int WINAPI wWinMain_Internal()
 {
+	//.................Register platform specific objects.................//
+	
 	GCoreObjectsFactory::Get()->RegisterDeviceResourcesAdapterClass("USFMLAdapter2D", new FSFMLAdapter2DBuilder());
 	GCoreObjectsFactory::Get()->RegisterWindowClass("WinWindow", new FWinWindowBuilder());
+
+	//....................................................................//
 
 
 	GCoreGame::Get()->Start();
 
 	MSG msg = {};
-	while( WM_QUIT != msg.message )
+	while( msg.message != WM_QUIT )
 	{
 		if( PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) )
 		{
@@ -34,10 +42,7 @@ int WINAPI wWinMain_Internal(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWST
 	}
 
 
-	return (int)msg.wParam;
+	return static_cast<int>(msg.wParam);
 }
 
-int WINAPI wWinMain_Internal()
-{
-	return wWinMain_Internal(nullptr, nullptr, nullptr, 0);
-}
+#endif // PLATFORM_WINDOWS

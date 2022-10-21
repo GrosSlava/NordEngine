@@ -10,5 +10,8 @@
 
 
 
-int ENGINE_API WINAPI wWinMain_Internal(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow);
-int ENGINE_API WINAPI wWinMain_Internal();
+/*
+	Entry point for engine.
+	Use it in your main after custom initialization.
+*/
+extern int ENGINE_API WINAPI wWinMain_Internal();

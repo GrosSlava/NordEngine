@@ -174,34 +174,34 @@ void GGraphicsEngine::OnWindowMoved()
 	if( DeviceResourcesAdapter != nullptr ) DeviceResourcesAdapter->OnWindowMoved();
 }
 
-void GGraphicsEngine::OnWindowTitleChanged(const std::string& Text)
+void GGraphicsEngine::OnWindowSizeChanged()
 {
-	if( DeviceResourcesAdapter != nullptr ) DeviceResourcesAdapter->OnWindowTitleChanged(Text);
+	if( DeviceResourcesAdapter != nullptr ) DeviceResourcesAdapter->OnWindowSizeChanged();
 }
 
-void GGraphicsEngine::OnWindowSizeChanged(uint16 Width, uint16 Height)
+void GGraphicsEngine::OnWindowTitleChanged()
 {
-	if( DeviceResourcesAdapter != nullptr ) DeviceResourcesAdapter->OnWindowSizeChanged(Width, Height);
+	if( DeviceResourcesAdapter != nullptr ) DeviceResourcesAdapter->OnWindowTitleChanged();
 }
 
-void GGraphicsEngine::OnWindowFullScreenChanged(bool Enable)
+void GGraphicsEngine::OnWindowIconChanged()
 {
-	if( DeviceResourcesAdapter != nullptr ) DeviceResourcesAdapter->OnWindowFullScreenChanged(Enable);
+	if( DeviceResourcesAdapter != nullptr ) DeviceResourcesAdapter->OnWindowIconChanged();
 }
 
-void GGraphicsEngine::OnWindowIconChanged(const std::string& IconPath)
+void GGraphicsEngine::OnWindowCursorChanged()
 {
-	if( DeviceResourcesAdapter != nullptr ) DeviceResourcesAdapter->OnWindowIconChanged(IconPath);
+	if( DeviceResourcesAdapter != nullptr ) DeviceResourcesAdapter->OnWindowCursorChanged();
 }
 
-void GGraphicsEngine::OnWindowCursorChanged(const std::string& CursorPath)
+void GGraphicsEngine::OnWindowMouseCursorVisibilityChanged()
 {
-	if( DeviceResourcesAdapter != nullptr ) DeviceResourcesAdapter->OnWindowCursorChanged(CursorPath);
+	if( DeviceResourcesAdapter != nullptr ) DeviceResourcesAdapter->OnWindowMouseCursorVisibilityChanged();
 }
 
-void GGraphicsEngine::OnWindowShowMouseCursorChanged(bool Show)
+void GGraphicsEngine::OnWindowMouseCursorGrabbingChanged()
 {
-	if( DeviceResourcesAdapter != nullptr ) DeviceResourcesAdapter->OnWindowShowMouseCursorChanged(Show);
+	if( DeviceResourcesAdapter != nullptr ) DeviceResourcesAdapter->OnWindowMouseCursorGrabbingChanged();
 }
 
 //...........................................................................................................................//

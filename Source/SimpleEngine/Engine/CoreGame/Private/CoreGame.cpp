@@ -346,46 +346,46 @@ void GCoreGame::OnWindowMoved()
 	if( GraphicsEngine != nullptr ) GraphicsEngine->OnWindowMoved();
 }
 
-void GCoreGame::OnWindowTitleChanged(const std::string& Text)
+void GCoreGame::OnWindowSizeChanged()
 {
 	if( GameState != ECoreGameState::InProgress ) return;
 
-	if( GraphicsEngine != nullptr ) GraphicsEngine->OnWindowTitleChanged(Text);
+	if( GraphicsEngine != nullptr ) GraphicsEngine->OnWindowSizeChanged();
 }
 
-void GCoreGame::OnWindowSizeChanged(uint16 Width, uint16 Height)
+void GCoreGame::OnWindowTitleChanged()
 {
 	if( GameState != ECoreGameState::InProgress ) return;
 
-	if( GraphicsEngine != nullptr ) GraphicsEngine->OnWindowSizeChanged(Width, Height);
+	if( GraphicsEngine != nullptr ) GraphicsEngine->OnWindowTitleChanged();
 }
 
-void GCoreGame::OnWindowFullScreenChanged(bool Enable)
+void GCoreGame::OnWindowIconChanged()
 {
 	if( GameState != ECoreGameState::InProgress ) return;
 
-	if( GraphicsEngine != nullptr ) GraphicsEngine->OnWindowFullScreenChanged(Enable);
+	if( GraphicsEngine != nullptr ) GraphicsEngine->OnWindowIconChanged();
 }
 
-void GCoreGame::OnWindowIconChanged(const std::string& IconPath)
+void GCoreGame::OnWindowCursorChanged()
 {
 	if( GameState != ECoreGameState::InProgress ) return;
 
-	if( GraphicsEngine != nullptr ) GraphicsEngine->OnWindowIconChanged(IconPath);
+	if( GraphicsEngine != nullptr ) GraphicsEngine->OnWindowCursorChanged();
 }
 
-void GCoreGame::OnWindowCursorChanged(const std::string& CursorPath)
+void GCoreGame::OnWindowMouseCursorVisibilityChanged()
 {
 	if( GameState != ECoreGameState::InProgress ) return;
 
-	if( GraphicsEngine != nullptr ) GraphicsEngine->OnWindowCursorChanged(CursorPath);
+	if( GraphicsEngine != nullptr ) GraphicsEngine->OnWindowMouseCursorVisibilityChanged();
 }
 
-void GCoreGame::OnWindowShowMouseCursorChanged(bool Show)
+void GCoreGame::OnWindowMouseCursorGrabbingChanged()
 {
 	if( GameState != ECoreGameState::InProgress ) return;
 
-	if( GraphicsEngine != nullptr ) GraphicsEngine->OnWindowShowMouseCursorChanged(Show);
+	if( GraphicsEngine != nullptr ) GraphicsEngine->OnWindowMouseCursorGrabbingChanged();
 }
 
 //...........................................................................................................................//

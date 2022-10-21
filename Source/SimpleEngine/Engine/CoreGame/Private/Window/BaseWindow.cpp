@@ -8,7 +8,6 @@
 
 
 
-
 void GBaseWindow::Construct()
 {
 	//TODO on child
@@ -16,15 +15,57 @@ void GBaseWindow::Construct()
 	OnCreated();
 }
 
+FWindowHandle::WindowHandle GBaseWindow::GetWindowHandle() const
+{
+	//TODO on child
+
+	return FWindowHandle::EmptyWindowHandle;
+}
 
 
 
+void GBaseWindow::GetWindowSize(uint16& Width, uint16& Height) const
+{
+	Width = 0;
+	Height = 0;
+
+	//TODO on child
+}
 
 void GBaseWindow::GetFullScreenSize(uint16& Width, uint16& Height) const
 {
 	Width = 0;
 	Height = 0;
 	
+	//TODO on child
+}
+
+void GBaseWindow::SetWindowSize(uint16 Width, uint16 Height)
+{
+	//TODO on child
+
+	OnWindowSizeChanged();
+}
+
+void GBaseWindow::SetWindowFullScreen(bool Enable)
+{
+	//TODO on child
+
+	OnWindowSizeChanged();
+}
+
+void GBaseWindow::SetWindowPosition(uint16 X, uint16 Y)
+{
+	//TODO on child
+
+	OnWindowMoved();
+}
+
+void GBaseWindow::GetWindowPosition(uint16& X, uint16& Y) const
+{
+	X = 0;
+	Y = 0;
+
 	//TODO on child
 }
 
@@ -36,46 +77,64 @@ void GBaseWindow::SetWindowTitle(const std::string& Text)
 
 	//TODO on child
 
-	OnWindowTitleChanged(Text);
-}
-
-void GBaseWindow::SetWindowSize(uint16 Width, uint16 Height)
-{
-	CurrentWindowWidth = Width;
-	CurrentWindowHeight = Height;
-
-	//TODO on child
-
-	OnWindowSizeChanged(Width, Height);
-}
-
-void GBaseWindow::SetWindowFullScreen(bool Enable)
-{
-	//TODO on child
-
-	OnWindowFullScreenChanged(Enable);
+	OnWindowTitleChanged();
 }
 
 void GBaseWindow::SetWindowIcon(const std::string& IconPath)
 {
 	//TODO on child
 
-	OnWindowIconChanged(IconPath);
+	OnWindowIconChanged();
 }
 
 void GBaseWindow::SetWindowCursor(const std::string& CursorPath)
 {
 	//TODO on child
 
-	OnWindowCursorChanged(CursorPath);
+	OnWindowCursorChanged();
 }
 
-void GBaseWindow::SetShowMouseCursor(bool Show)
+
+
+void GBaseWindow::SetMouseCursorVisible(bool Visible)
 {
 	//TODO on child
 
-	OnWindowShowMouseCursorChanged(Show);
+	OnWindowMouseCursorVisibilityChanged();
 }
+
+bool GBaseWindow::IsMouseCursorVisible() const
+{
+	return false;
+}
+
+void GBaseWindow::SetMouseCursorGrabbed(bool Grab)
+{
+	//TODO on child
+
+	OnWindowMouseCursorGrabbingChanged();
+}
+
+bool GBaseWindow::IsMouseCursorGrabbed() const
+{
+	return false;
+}
+
+
+
+void GBaseWindow::RequestFocus()
+{
+	//TODO on child
+}
+
+bool GBaseWindow::HasFocus() const
+{
+	//TODO on child
+
+	return false;
+}
+
+
 
 
 
@@ -125,35 +184,34 @@ void GBaseWindow::OnWindowResuming()
 
 
 
-void GBaseWindow::OnWindowTitleChanged(const std::string& Text)
+void GBaseWindow::OnWindowSizeChanged()
 {
-	GCoreGame::Get()->OnWindowTitleChanged(Text);
+	GCoreGame::Get()->OnWindowSizeChanged();
 }
 
-void GBaseWindow::OnWindowSizeChanged(uint16 Width, uint16 Height)
+void GBaseWindow::OnWindowTitleChanged()
 {
-	//window size already changed. Not call SetWindowSize.
-	GCoreGame::Get()->OnWindowSizeChanged(Width, Height);
+	GCoreGame::Get()->OnWindowTitleChanged();
 }
 
-void GBaseWindow::OnWindowFullScreenChanged(bool Enable)
+void GBaseWindow::OnWindowIconChanged()
 {
-	GCoreGame::Get()->OnWindowFullScreenChanged(Enable);
+	GCoreGame::Get()->OnWindowIconChanged();
 }
 
-void GBaseWindow::OnWindowIconChanged(const std::string& IconPath)
+void GBaseWindow::OnWindowCursorChanged()
 {
-	GCoreGame::Get()->OnWindowIconChanged(IconPath);
+	GCoreGame::Get()->OnWindowCursorChanged();
 }
 
-void GBaseWindow::OnWindowCursorChanged(const std::string& CursorPath)
+void GBaseWindow::OnWindowMouseCursorVisibilityChanged()
 {
-	GCoreGame::Get()->OnWindowCursorChanged(CursorPath);
+	GCoreGame::Get()->OnWindowMouseCursorVisibilityChanged();
 }
 
-void GBaseWindow::OnWindowShowMouseCursorChanged(bool Show)
+void GBaseWindow::OnWindowMouseCursorGrabbingChanged()
 {
-	GCoreGame::Get()->OnWindowShowMouseCursorChanged(Show);
+	GCoreGame::Get()->OnWindowMouseCursorGrabbingChanged();
 }
 
 

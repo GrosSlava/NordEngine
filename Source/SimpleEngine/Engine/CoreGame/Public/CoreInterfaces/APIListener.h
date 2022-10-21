@@ -33,28 +33,28 @@ public:
         Game window is being moved. 
     */
 	virtual void OnWindowMoved() = 0;
-	/*
-		Game window title changed.
-	*/
-	virtual void OnWindowTitleChanged(const std::string& Text) = 0;
 	/* 
         Game window is being resized.
     */
-	virtual void OnWindowSizeChanged(uint16 Width, uint16 Height) = 0;
+	virtual void OnWindowSizeChanged() = 0;
 	/*
-		Window fullscreen was toggled.
+		Game window title changed.
 	*/
-	virtual void OnWindowFullScreenChanged(bool Enable) = 0;
+	virtual void OnWindowTitleChanged() = 0;
 	/*
 		Game window icon was changed.
 	*/
-	virtual void OnWindowIconChanged(const std::string& IconPath) = 0;
+	virtual void OnWindowIconChanged() = 0;
 	/*
 		Game window cursor icon was changed. 
 	*/
-	virtual void OnWindowCursorChanged(const std::string& CursorPath) = 0;
+	virtual void OnWindowCursorChanged() = 0;
 	/*
 		Game cursor showing was changed.
 	*/
-	virtual void OnWindowShowMouseCursorChanged(bool Show) = 0;
+	virtual void OnWindowMouseCursorVisibilityChanged() = 0;
+	/*
+		Game cursor grabbing was changed.
+	*/
+	virtual void OnWindowMouseCursorGrabbingChanged() = 0;
 };

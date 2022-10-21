@@ -48,12 +48,12 @@ public:
 	virtual void OnSuspending() = 0;
 	virtual void OnResuming() = 0;
 	virtual void OnWindowMoved() = 0;
-	virtual void OnWindowTitleChanged(const std::string& Text) = 0;
-	virtual void OnWindowSizeChanged(uint16 Width, uint16 Height) = 0;
-	virtual void OnWindowFullScreenChanged(bool Enable) = 0;
-	virtual void OnWindowIconChanged(const std::string& IconPath) = 0;
-	virtual void OnWindowCursorChanged(const std::string& CursorPath) = 0;
-	virtual void OnWindowShowMouseCursorChanged(bool Show) = 0;
+	virtual void OnWindowSizeChanged() = 0;
+	virtual void OnWindowTitleChanged() = 0;
+	virtual void OnWindowIconChanged() = 0;
+	virtual void OnWindowCursorChanged() = 0;
+	virtual void OnWindowMouseCursorVisibilityChanged() = 0;
+	virtual void OnWindowMouseCursorGrabbingChanged() = 0;
 };
 
 /*

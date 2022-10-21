@@ -163,34 +163,38 @@ void USFMLAdapter2D::OnWindowMoved()
 {
 }
 
-void USFMLAdapter2D::OnWindowTitleChanged(const std::string& Text)
+void USFMLAdapter2D::OnWindowSizeChanged()
 {
-}
-
-void USFMLAdapter2D::OnWindowSizeChanged(uint16 Width, uint16 Height)
-{
-	if( !SFMLWindow.isOpen() ) return;
+	if( !SFMLWindow.isOpen() || !GCoreGame::Get()->GetWindow() ) return;
 
 	sf::View LView = SFMLWindow.getDefaultView();
 
-	LView.setSize(sf::Vector2f(Width, Height));
-	LView.setCenter(sf::Vector2f(Width / 2, Height / 2));
+	uint16 LWidth;
+	uint16 LHeight;
+	GCoreGame::Get()->GetWindow()->GetWindowSize(LWidth, LHeight);
+
+	LView.setSize(sf::Vector2f(LWidth, LHeight));
+	LView.setCenter(sf::Vector2f(LWidth / 2, LHeight / 2));
 
 	SFMLWindow.setView(LView);
 }
 
-void USFMLAdapter2D::OnWindowFullScreenChanged(bool Enable)
+void USFMLAdapter2D::OnWindowTitleChanged()
 {
 }
 
-void USFMLAdapter2D::OnWindowIconChanged(const std::string& IconPath)
+void USFMLAdapter2D::OnWindowIconChanged()
 {
 }
 
-void USFMLAdapter2D::OnWindowCursorChanged(const std::string& CursorPath)
+void USFMLAdapter2D::OnWindowCursorChanged()
 {
 }
 
-void USFMLAdapter2D::OnWindowShowMouseCursorChanged(bool Show)
+void USFMLAdapter2D::OnWindowMouseCursorVisibilityChanged()
+{
+}
+
+void USFMLAdapter2D::OnWindowMouseCursorGrabbingChanged()
 {
 }
