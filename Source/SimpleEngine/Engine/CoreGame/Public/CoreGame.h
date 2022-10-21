@@ -64,6 +64,14 @@ public:
 	FORCEINLINE const FPerformanceBlock& GetCodePerformance() const noexcept { return CodeBlockPerformance; }
 	FORCEINLINE const FPerformanceBlock& GetGraphicsEnginePerformance() const noexcept { return GraphicsEnginePerformance; }
 
+	FORCEINLINE double GetFrameWorkTime() const noexcept { return CodeBlockPerformance.GetWorkTime() + GraphicsEnginePerformance.GetWorkTime(); }
+	FORCEINLINE double GetCurrentFPS() const { return 1000.0 / GetFrameWorkTime(); }
+
+	FORCEINLINE uint16 GetFPSLock() const noexcept { return FPSLock; }
+	void SetFPSLock(uint16 FPS);
+	FORCEINLINE bool GetVSyncEnabled() const noexcept { return VSyncEnabled; }
+	void SetVSyncEnabled(bool Enable);
+
 
 	FORCEINLINE GWorld* GetWorld() const noexcept { return MainWorld; }
 	FORCEINLINE GBaseWindow* GetWindow() const noexcept { return MainWindow; }
@@ -137,6 +145,9 @@ private:
 	FPerformanceBlock GraphicsEnginePerformance;
 
 	//...............................................................//
+
+	uint16 FPSLock = 0;
+	bool VSyncEnabled = false;
 };
 
 

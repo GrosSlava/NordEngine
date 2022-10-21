@@ -21,7 +21,6 @@
 
 
 
-
 GCoreGame::GCoreGame()
 {
 }
@@ -66,6 +65,7 @@ void GCoreGame::ConstructCoreObjects()
 	GraphicsEngine = LGameSettings->ConstructGraphicsEngine();
 
 	//.......................................................//
+
 
 	if( GameInstance != nullptr )
 	{
@@ -202,10 +202,12 @@ void GCoreGame::OnGameEnd()
 void GCoreGame::Tick()
 {
 	if( GameState != ECoreGameState::InProgress ) return;
+	
 
-
+	// clang-format off
 	CodeBlockPerformance.CacheCodePerformance([this]() { TickTimer.Tick(this, &GCoreGame::Update); });
-
+	// clang-format on
+	
 	//............Engines tick work................//
 
 	// clang-format off
@@ -226,7 +228,6 @@ void GCoreGame::Update()
 
 
 	UpdateInputs();
-
 	UpdateSubsystems();
 
 
@@ -260,6 +261,46 @@ void GCoreGame::UpdateSubsystems()
 	if( CameraManager != nullptr )
 	{
 		CameraManager->Tick(DeltaTime);
+	}
+}
+
+
+
+
+void GCoreGame::SetFPSLock(uint16 FPS)
+{
+	if( FPSLock == FPS ) return;
+
+
+	FPSLock = FPS;
+
+	if( FPSLock == 0 )
+	{
+		TickTimer.SetFixedTimeStep(false);
+	}
+	else
+	{
+		TickTimer.SetFixedTimeStep(true);
+		TickTimer.SetTargetElapsedSeconds(1.0 / FPSLock);
+	}
+	
+	if( GraphicsEngine != nullptr )
+	{
+		GraphicsEngine->SetFrameRateLimit(VSyncEnabled ? 0 : FPSLock);
+	}
+}
+
+void GCoreGame::SetVSyncEnabled(bool Enable)
+{
+	if( VSyncEnabled == Enable ) return;
+
+
+	VSyncEnabled = Enable;
+
+	if( GraphicsEngine != nullptr )
+	{
+		GraphicsEngine->SetVSyncEnabled(VSyncEnabled);
+		GraphicsEngine->SetFrameRateLimit(VSyncEnabled ? 0 : FPSLock);
 	}
 }
 

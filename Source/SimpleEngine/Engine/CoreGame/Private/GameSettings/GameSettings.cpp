@@ -8,7 +8,6 @@
 #include "Path.h"
 
 #include "Window/BaseWindow.h"
-#include "GraphicsEngine/GraphicsEngine.h"
 
 #include "INI/INI.h"
 
@@ -96,11 +95,9 @@ void GGameSettings::ApplyGameSettings(GBaseWindow* Window)
 		Window->SetWindowFullScreen(MainWindowFullscreen);
 	}
 
-	if( GCoreGame::Get()->GetGraphicsEngine() != nullptr )
-	{
-		GCoreGame::Get()->GetGraphicsEngine()->SetVSyncEnabled(VSyncEnabled);
-		GCoreGame::Get()->GetGraphicsEngine()->SetFrameRateLimit(VSyncEnabled ? 0 : FrameRateLimit);
-	}
+	GCoreGame::Get()->SetFPSLock(FrameRateLimit);
+	GCoreGame::Get()->SetVSyncEnabled(VSyncEnabled);
+	
 
 	if( GameUserSettings != nullptr )
 	{
