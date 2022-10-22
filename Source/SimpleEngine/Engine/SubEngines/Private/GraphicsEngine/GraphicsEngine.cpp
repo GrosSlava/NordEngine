@@ -49,7 +49,6 @@ void GGraphicsEngine::ApplySettingsToAdapter()
 	if( DeviceResourcesAdapter == nullptr ) return;
 
 	DeviceResourcesAdapter->SetVSyncEnabled(VSyncEnabled);
-	DeviceResourcesAdapter->SetFrameRateLimit(FrameRateLimit);
 }
 
 
@@ -73,14 +72,6 @@ void GGraphicsEngine::SetVSyncEnabled(bool Enable)
 
 	VSyncEnabled = Enable;
 	if( DeviceResourcesAdapter != nullptr ) DeviceResourcesAdapter->SetVSyncEnabled(Enable);
-}
-
-void GGraphicsEngine::SetFrameRateLimit(uint16 Limit)
-{
-	if( FrameRateLimit == Limit ) return;
-
-	FrameRateLimit = Limit;
-	if( DeviceResourcesAdapter != nullptr ) DeviceResourcesAdapter->SetFrameRateLimit(Limit);
 }
 
 

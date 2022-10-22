@@ -8,7 +8,7 @@
 #endif
 
 #include "Window/BaseWindow.h"
-#include "CoreObjectsFactory.h"
+#include "CoreGame/CoreObjectsFactory.h"
 
 
 
@@ -28,7 +28,7 @@ public:
 
 public:
 
-	virtual GBaseWindow* ConstructWindow(uint16 Width, uint16 Height, int WindowStyle) override;
+	virtual GBaseWindow* ConstructWindow(int WindowStyle) override;
 };
 
 
@@ -43,7 +43,7 @@ class ENGINE_API WinWindow : public GBaseWindow
 
 public:
 
-	WinWindow(uint16 InWidth, uint16 InHeight, int InWindowStyle) : Super(InWidth, InHeight, InWindowStyle) { }
+	WinWindow(int InWindowStyle) : Super(InWindowStyle) { }
 	~WinWindow();
 
 
@@ -53,24 +53,28 @@ public:
 	virtual void Construct() override;
 	virtual FWindowHandle::WindowHandle GetWindowHandle() const override;
 
-	virtual void GetWindowSize(uint16& Width, uint16& Height) const;
-	virtual void GetFullScreenSize(uint16& Width, uint16& Height) const;
-	virtual void SetWindowSize(uint16 Width, uint16 Height);
-	virtual void SetWindowFullScreen(bool Enable);
-	virtual void SetWindowPosition(uint16 X, uint16 Y);
-	virtual void GetWindowPosition(uint16& X, uint16& Y) const;
+	virtual void GetWindowSize(uint16& Width, uint16& Height) const override;
+	virtual void GetFullScreenSize(uint16& Width, uint16& Height) const override;
+	virtual void SetWindowSize(uint16 Width, uint16 Height) override;
+	virtual void SetWindowFullScreen(bool Enable) override;
+	virtual void SetWindowPosition(uint16 X, uint16 Y) override;
+	virtual void GetWindowPosition(uint16& X, uint16& Y) const override;
 
-	virtual void SetWindowTitle(const std::string& Text);
-	virtual void SetWindowIcon(const std::string& IconPath);
-	virtual void SetWindowCursor(const std::string& CursorPath);
+	virtual void SetWindowTitle(const std::string& Text) override;
+	virtual void SetWindowIcon(const std::string& IconPath) override;
+	virtual void SetWindowCursor(const std::string& CursorPath) override;
 
-	virtual void SetMouseCursorVisible(bool Visible);
-	virtual bool IsMouseCursorVisible() const;
-	virtual void SetMouseCursorGrabbed(bool Grab);
-	virtual bool IsMouseCursorGrabbed() const;
+	virtual void SetMouseCursorVisible(bool Visible) override;
+	virtual bool IsMouseCursorVisible() const override;
+	virtual void SetMouseCursorGrabbed(bool Grab) override;
+	virtual bool IsMouseCursorGrabbed() const override;
+	virtual void SetMousePosition(uint16 X, uint16 Y) override;
+	virtual void GetMousePosition(uint16& X, uint16& Y) const override;
+	virtual void SetMousePositionRelative(uint16 X, uint16 Y) override;
+	virtual void GetMousePositionRelative(uint16& X, uint16& Y) const override;
 
-	virtual void RequestFocus();
-	virtual bool HasFocus() const;
+	virtual void RequestFocus() override;
+	virtual bool HasFocus() const override;
 
 protected:
 

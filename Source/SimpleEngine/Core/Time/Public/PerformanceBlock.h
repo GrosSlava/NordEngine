@@ -35,6 +35,8 @@ public:
 
 	FORCEINLINE double GetWorkTime() const noexcept { return WorkTime; }
 
+	FORCEINLINE void Reset() { WorkTime = 0.0; }
+
 
 
 

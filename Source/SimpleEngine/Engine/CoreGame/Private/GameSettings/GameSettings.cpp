@@ -3,8 +3,8 @@
 #include "GameSettings/GameUserSettings.h"
 #include "GameSettings/GameInputSettings.h"
 
-#include "CoreGame.h"
-#include "CoreObjectsFactory.h"
+#include "CoreGame/CoreGame.h"
+#include "CoreGame/CoreObjectsFactory.h"
 #include "Path.h"
 
 #include "Window/BaseWindow.h"
@@ -97,7 +97,7 @@ void GGameSettings::ApplyGameSettings(GBaseWindow* Window)
 
 	GCoreGame::Get()->SetFPSLock(FrameRateLimit);
 	GCoreGame::Get()->SetVSyncEnabled(VSyncEnabled);
-	
+
 
 	if( GameUserSettings != nullptr )
 	{
@@ -160,7 +160,7 @@ GBaseWindow* GGameSettings::ConstructWindow()
 	if( MainWindowResizable ) LWindowStyle |= EWindowStyle::Resize;
 	if( MainWindowCloseable ) LWindowStyle |= EWindowStyle::Close;
 
-	return GCoreObjectsFactory::Get()->ConstructWindow(WindowClassName, WindowBaseWidth, WindowBaseHeight, LWindowStyle);
+	return GCoreObjectsFactory::Get()->ConstructWindow(WindowClassName, LWindowStyle);
 }
 
 GGameInstance* GGameSettings::ConstructGameInstance()

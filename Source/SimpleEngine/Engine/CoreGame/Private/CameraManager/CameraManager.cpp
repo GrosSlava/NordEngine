@@ -1,7 +1,7 @@
 
 #include "CameraManager/CameraManager.h"
 
-#include "CoreGame.h"
+#include "CoreGame/CoreGame.h"
 
 
 

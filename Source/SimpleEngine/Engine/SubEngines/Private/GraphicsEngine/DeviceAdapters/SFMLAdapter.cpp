@@ -2,7 +2,7 @@
 #include "GraphicsEngine/DeviceAdapters/SFMLAdapter.h"
 
 #include "GameInput/GameInput.h"
-#include "CoreGame.h"
+#include "CoreGame/CoreGame.h"
 
 #include "Window/BaseWindow.h"
 
@@ -100,13 +100,6 @@ void USFMLAdapter2D::SetVSyncEnabled(bool Enable)
 	SFMLWindow.setVerticalSyncEnabled(Enable);
 }
 
-void USFMLAdapter2D::SetFrameRateLimit(uint16 Limit)
-{
-	if( !SFMLWindow.isOpen() ) return;
-
-	SFMLWindow.setFramerateLimit(Limit);
-}
-
 void USFMLAdapter2D::SetCameraFOV(float VerticalFovInRadians)
 {
 	//TODO
@@ -165,13 +158,13 @@ void USFMLAdapter2D::OnWindowMoved()
 
 void USFMLAdapter2D::OnWindowSizeChanged()
 {
-	if( !SFMLWindow.isOpen() || !GCoreGame::Get()->GetWindow() ) return;
+	if( !SFMLWindow.isOpen() || !GCoreGame::Get()->GetCoreObjectsFacade().GetWindow() ) return;
 
 	sf::View LView = SFMLWindow.getDefaultView();
 
 	uint16 LWidth;
 	uint16 LHeight;
-	GCoreGame::Get()->GetWindow()->GetWindowSize(LWidth, LHeight);
+	GCoreGame::Get()->GetCoreObjectsFacade().GetWindow()->GetWindowSize(LWidth, LHeight);
 
 	LView.setSize(sf::Vector2f(LWidth, LHeight));
 	LView.setCenter(sf::Vector2f(LWidth / 2, LHeight / 2));

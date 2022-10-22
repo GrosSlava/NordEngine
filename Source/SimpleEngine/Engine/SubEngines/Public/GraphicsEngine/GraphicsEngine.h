@@ -19,7 +19,7 @@ class GWorld;
 */
 class ENGINE_API GGraphicsEngine : public IAPIListener
 {
-	friend class GCoreGame;
+	friend class GCoreObjectsFacade;
 
 	GENERATED_BODY(GGraphicsEngine)
 	NONCOPYABLE(GGraphicsEngine)
@@ -33,6 +33,9 @@ public:
 
 public:
 
+	virtual void BroadcastEvents();
+	virtual void Render(GWorld* World);
+
 	void SetNewDeviceResourcesAdapter(IDeviceResourcesAdapter* Adapter);
 	FORCEINLINE IDeviceResourcesAdapter* GetDeviceResourcesAdapter() const noexcept { return DeviceResourcesAdapter; }
 	
@@ -43,17 +46,11 @@ public:
 	void SetVSyncEnabled(bool Enable);
 	FORCEINLINE bool GetVSyncEnable() const noexcept { return VSyncEnabled; }
 
-	void SetFrameRateLimit(uint16 Limit);
-	FORCEINLINE uint16 GetFrameRateLimit() const noexcept { return FrameRateLimit; }
-
 public:
 
 	FORCEINLINE bool GetGraphicsGameWasStarted() const noexcept { return GraphicsGameWasStarted; }
 
 protected:
-
-	virtual void BroadcastEvents();
-	virtual void Render(GWorld* World);
 
 	virtual void OnGameStart();
 	virtual void OnGameEnd();

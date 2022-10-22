@@ -13,7 +13,7 @@ class GCamera;
 	Base class for camera manager.
 	You can inherit it and set it in the game settings.
 	Created by GGameSettings.
-	@see GCamera, GGameSettings, GCoreGame.
+	@see GCamera, GGameSettings.
 */
 class ENGINE_API GCameraManager
 {
@@ -31,11 +31,12 @@ public:
 
 public:
 
-	virtual void SetActiveCamera(std::shared_ptr<GCamera> NewCamera);
+	virtual void Tick(double DeltaTime);
 
+	virtual void SetActiveCamera(std::shared_ptr<GCamera> NewCamera);
+	
 protected:
 
-	virtual void Tick(double DeltaTime);
 	virtual void UpdateCameraProperties();
 
 

@@ -31,7 +31,7 @@ void UGameInputSettings::SaveInputSettings()
 	{
 		LIniFile.Set("Actions", LAction.first, LAction.second.ToStr());
 	}
-	
+
 	FINIWriter::Write(FPath::GetGameInputConfigPath(), LIniFile);
 }
 

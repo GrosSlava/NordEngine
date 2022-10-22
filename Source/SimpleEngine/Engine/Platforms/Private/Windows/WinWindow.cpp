@@ -11,9 +11,9 @@
 
 
 
-GBaseWindow* FWinWindowBuilder::ConstructWindow(uint16 Width, uint16 Height, int WindowStyle)
+GBaseWindow* FWinWindowBuilder::ConstructWindow(int WindowStyle)
 {
-	return new WinWindow(Width, Height, WindowStyle);
+	return new WinWindow(WindowStyle);
 }
 
 
@@ -191,6 +191,7 @@ void WinWindow::GetWindowPosition(uint16& X, uint16& Y) const
 
 void WinWindow::SetWindowTitle(const std::string& Text)
 {
+	CurrentTitle = Text;
 	SetWindowTextA(m_hWnd, Text.c_str());
 
 	OnWindowTitleChanged();
@@ -299,6 +300,37 @@ void WinWindow::GrabCursore(bool Grab)
 bool WinWindow::IsMouseCursorGrabbed() const
 {
 	return IsCursorGrabbed;
+}
+
+void WinWindow::SetMousePosition(uint16 X, uint16 Y)
+{
+	SetCursorPos(X, Y);
+}
+
+void WinWindow::GetMousePosition(uint16& X, uint16& Y) const
+{
+	POINT LPoint;
+	GetCursorPos(&LPoint);
+
+	X = LPoint.x;
+	Y = LPoint.y;
+}
+
+void WinWindow::SetMousePositionRelative(uint16 X, uint16 Y)
+{
+	POINT LPoint = {X, Y};
+	ClientToScreen(m_hWnd, &LPoint);
+	SetCursorPos(LPoint.x, LPoint.y);
+}
+
+void WinWindow::GetMousePositionRelative(uint16& X, uint16& Y) const
+{
+	POINT LPoint;
+	GetCursorPos(&LPoint);
+	ScreenToClient(m_hWnd, &LPoint);
+
+	X = LPoint.x;
+	Y = LPoint.y;
 }
 
 

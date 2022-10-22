@@ -6,7 +6,7 @@
 #include "GraphicsEngine/DeviceResourcesAdapter.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 
-#include "CoreObjectsFactory.h"
+#include "CoreGame/CoreObjectsFactory.h"
 
 
 
@@ -56,7 +56,6 @@ public:
 	virtual void Render(const FSceneView& SceneView) override;
 
 	virtual void SetVSyncEnabled(bool Enable) override;
-	virtual void SetFrameRateLimit(uint16 Limit) override;
 	virtual void SetCameraFOV(float VerticalFovInRadians) override;
 	virtual void SetCameraLocation(const FVector2D& NewLocation) override;
 	virtual void SetCameraRotation(float NewRotation) override;

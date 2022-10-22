@@ -59,7 +59,8 @@ public:
 	/* Converts cycles to seconds. */
 	static FORCEINLINE float ToSeconds(const uint32 Cycles) { return GetSecondsPerCycle() * Cycles; }
 
-
+	static void Sleep(uint32 Milliseconds); 
+	
 
 
 	static void SystemTime(int32& Year, int32& Month, int32& DayOfWeek, int32& Day, int32& Hour, int32& Min, int32& Sec, int32& MSec);

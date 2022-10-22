@@ -1,5 +1,5 @@
 
-#include "CoreObjectsFactory.h"
+#include "CoreGame/CoreObjectsFactory.h"
 
 #include "World/World.h"
 #include "Window/BaseWindow.h"
@@ -23,9 +23,9 @@ GWorld* FWorldBuilder::ConstructWorld()
 	return new GWorld();
 }
 
-GBaseWindow* FWindowBuilder::ConstructWindow(uint16 Width, uint16 Height, int WindowStyle)
+GBaseWindow* FWindowBuilder::ConstructWindow(int WindowStyle)
 {
-	return new GBaseWindow(Width, Height, WindowStyle);
+	return new GBaseWindow(WindowStyle);
 }
 
 GGameInstance* FGameInstanceBuilder::ConstructGameInstance()
@@ -55,6 +55,7 @@ GGraphicsEngine* FGraphicsEngineBuilder::ConstructGraphicsEngine()
 
 IDeviceResourcesAdapter* FDeviceResourcesAdapterBuilder::ConstructDeviceResourcesAdapter()
 {
+	// no adapter by default
 	return nullptr;
 }
 
@@ -125,18 +126,18 @@ void GCoreObjectsFactory::UnregisterWindowClass(const std::string& ClassName)
 	WindowClassesMap.UnregisterBuilderClass(ClassName);
 }
 
-GBaseWindow* GCoreObjectsFactory::ConstructWindow(const std::string& ClassName, uint16 Width, uint16 Height, int WindowStyle)
+GBaseWindow* GCoreObjectsFactory::ConstructWindow(const std::string& ClassName, int WindowStyle)
 {
 	if( ClassName.empty() )
 	{
 		FWindowBuilder LWindowBuilder;
-		return LWindowBuilder.ConstructWindow(Width, Height, WindowStyle);
+		return LWindowBuilder.ConstructWindow(WindowStyle);
 	}
 
 	FWindowBuilder* LWindowBuilder = WindowClassesMap.GetClassBuilder(ClassName);
 	if( LWindowBuilder == nullptr ) return nullptr;
 
-	return LWindowBuilder->ConstructWindow(Width, Height, WindowStyle);
+	return LWindowBuilder->ConstructWindow(WindowStyle);
 }
 
 

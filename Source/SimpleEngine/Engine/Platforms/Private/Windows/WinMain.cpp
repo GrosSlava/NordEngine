@@ -5,8 +5,8 @@
 
 #include "Windows/WinMain.h"
 
-#include "CoreGame.h"
-#include "CoreObjectsFactory.h"
+#include "CoreGame/CoreGame.h"
+#include "CoreGame/CoreObjectsFactory.h"
 
 #include "Windows/WinWindow.h"
 #include "GraphicsEngine/DeviceAdapters/SFMLAdapter.h"

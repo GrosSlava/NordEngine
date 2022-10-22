@@ -10,7 +10,7 @@
 
 class ENGINE_API GWorld
 {
-	friend class GCoreGame;
+	friend class GCoreObjectsFacade;
 
 	GENERATED_BODY(GWorld)
 	NONCOPYABLE(GWorld)
@@ -24,6 +24,8 @@ public:
 
 public:
 
+	virtual void Tick(double DeltaTime);
+
 	template<class T, typename... args>
 	std::shared_ptr<T> SpawnActor2D(const FSceneObject2DSpawnParams& SpwnParams, args... Params);
 	
@@ -36,8 +38,6 @@ protected:
 
 	virtual void OnGameStart();
 	virtual void OnGameEnd();
-
-	virtual void Tick(double DeltaTime);
 
 
 

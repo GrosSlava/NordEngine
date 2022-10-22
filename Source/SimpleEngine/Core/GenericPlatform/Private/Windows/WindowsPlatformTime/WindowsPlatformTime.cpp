@@ -1,7 +1,7 @@
 
 #include "Windows/WindowsPlatformTime/WindowsPlatformTime.h"
 
-
+#include <mmsystem.h>
 
 
 
@@ -36,6 +36,25 @@ uint64 FWindowsPlatformTime::GetQPCFrequency()
 
 
 
+
+void FWindowsPlatformTime::Sleep(uint32 Milliseconds)
+{
+	static const UINT periodMin = []
+	{
+		TIMECAPS tc;
+		timeGetDevCaps(&tc, sizeof(TIMECAPS));
+		return tc.wPeriodMin;
+	}();
+
+	// Set the timer resolution to the minimum for the Sleep call
+	timeBeginPeriod(periodMin);
+
+	// Wait...
+	::Sleep(static_cast<DWORD>(Milliseconds));
+
+	// Reset the timer resolution back to the system default
+	timeEndPeriod(periodMin);
+}
 
 void FWindowsPlatformTime::SystemTime(int32& Year, int32& Month, int32& DayOfWeek, int32& Day, int32& Hour, int32& Min, int32& Sec, int32& MSec)
 {

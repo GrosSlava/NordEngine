@@ -19,11 +19,16 @@ class GGraphicsEngine;
 
 
 
+/*
+	Main object of all settings in game.
+	@see UGameInputSettings, UGameUserSettings.
+*/
 class ENGINE_API GGameSettings final
 {
-	friend class GCoreGame;
+	friend class GCoreObjectsFacade;
 
 	SINGLETON(GGameSettings)
+	GENERATED_BODY(GGameSettings)
 
 public:
 
@@ -33,8 +38,17 @@ public:
 
 public:
 
+	/*
+		Load all settings.
+	*/
 	void LoadSettings();
+	/*
+		Apply all settings.
+	*/
 	void ApplyGameSettings(GBaseWindow* Window);
+	/*
+		Save all settings.
+	*/
 	void SaveGameSettings();
 
 protected:
@@ -124,7 +138,13 @@ private:
 	uint16 FrameRateLimit = 60;
 
 
+	/*
+		Cached user settings.
+	*/
 	UGameUserSettings* GameUserSettings = nullptr;
+	/*
+		Cached input settings.
+	*/
 	UGameInputSettings* GameInputSettings = nullptr;
 };
 

@@ -33,7 +33,6 @@ public:
 	virtual void Render(const FSceneView& SceneView) = 0;
 
 	virtual void SetVSyncEnabled(bool Enable) = 0;
-	virtual void SetFrameRateLimit(uint16 Limit) = 0;
 	virtual void SetCameraFOV(float VerticalFovInRadians) = 0;
 
 

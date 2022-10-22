@@ -20,6 +20,10 @@ class GGraphicsEngine;
 
 //.................................................Builders....................................................//
 
+/*
+	Builder for World.
+	@see GCoreObjectsFactory.
+*/
 class ENGINE_API FWorldBuilder
 {
 	GENERATED_BODY(FWorldBuilder)
@@ -34,6 +38,10 @@ public:
 	virtual GWorld* ConstructWorld();
 };
 
+/*
+	Builder for Window.
+	@see GCoreObjectsFactory.
+*/
 class ENGINE_API FWindowBuilder
 {
 	GENERATED_BODY(FWindowBuilder)
@@ -45,9 +53,13 @@ public:
 
 public:
 
-	virtual GBaseWindow* ConstructWindow(uint16 Width, uint16 Height, int WindowStyle);
+	virtual GBaseWindow* ConstructWindow(int WindowStyle);
 };
 
+/*
+	Builder for GameInstance.
+	@see GCoreObjectsFactory.
+*/
 class ENGINE_API FGameInstanceBuilder
 {
 	GENERATED_BODY(FGameInstanceBuilder)
@@ -62,6 +74,10 @@ public:
 	virtual GGameInstance* ConstructGameInstance();
 };
 
+/*
+	Builder for CameraManager.
+	@see GCoreObjectsFactory.
+*/
 class ENGINE_API FCameraManagerBuilder
 {
 	GENERATED_BODY(FCameraManagerBuilder)
@@ -76,6 +92,10 @@ public:
 	virtual GCameraManager* ConstructCameraManager();
 };
 
+/*
+	Builder for GameUserSettings.
+	@see GCoreObjectsFactory.
+*/
 class ENGINE_API FGameUserSettingsBuilder
 {
 	GENERATED_BODY(FGameUserSettingsBuilder)
@@ -90,6 +110,10 @@ public:
 	virtual UGameUserSettings* ConstructGameUserSettings();
 };
 
+/*
+	Builder for GameInputSettings.
+	@see GCoreObjectsFactory.
+*/
 class ENGINE_API FGameInputSettingsBuilder
 {
 	GENERATED_BODY(FGameInputSettingsBuilder)
@@ -104,6 +128,10 @@ public:
 	virtual UGameInputSettings* ConstructGameInputSettings();
 };
 
+/*
+	Builder for DeviceResourcesAdapter.
+	@see GCoreObjectsFactory, GGraphicsEngine.
+*/
 class ENGINE_API FDeviceResourcesAdapterBuilder
 {
 	GENERATED_BODY(FDeviceResourcesAdapterBuilder)
@@ -118,6 +146,10 @@ public:
 	virtual IDeviceResourcesAdapter* ConstructDeviceResourcesAdapter();
 };
 
+/*
+	Builder for GraphicsEngine.
+	@see GCoreObjectsFactory, IDeviceResourcesAdapter.
+*/
 class ENGINE_API FGraphicsEngineBuilder
 {
 	GENERATED_BODY(FGraphicsEngineBuilder)
@@ -135,17 +167,26 @@ public:
 //.............................................................................................................//
 
 
-
+/*
+	Container for builders of objects of the same class.
+	@see GCoreObjectsFactory.
+*/
 template<class T>
 struct TFactoryContainer
 {
 public:
 
-	FORCEINLINE void RegisterBuilderClass(const std::string& ClassName, T* ClassBuilder) 
-	{ 
-		ClassesMap.insert_or_assign(ClassName, ClassBuilder); 
-	}
+	/*
+		Register object builder under unique name.
+		@param ClassName - name of class that will be used as key to construct object.
+		@param ClassBuilder - Builder of object.
+	*/
+	FORCEINLINE void RegisterBuilderClass(const std::string& ClassName, T* ClassBuilder) { ClassesMap.insert_or_assign(ClassName, ClassBuilder); }
 
+	/*
+		Unregister object builder if it exists.
+		@param ClassName - name of class to unregister.
+	*/
 	FORCEINLINE void UnregisterBuilderClass(const std::string& ClassName)
 	{
 		auto LPair = ClassesMap.find(ClassName);
@@ -159,7 +200,10 @@ public:
 		}
 	}
 
-	FORCEINLINE void Clear() 
+	/*
+		Clear all builder and forget all classes.
+	*/
+	FORCEINLINE void Clear()
 	{
 		for( auto LPair : ClassesMap )
 		{
@@ -171,6 +215,11 @@ public:
 		ClassesMap.clear();
 	}
 
+	/*
+		Find builder of class by ClassName.
+		@param ClassName - name of class as key for builder searching.
+		@return class builder or nullptr if not found.
+	*/
 	FORCEINLINE T* GetClassBuilder(const std::string& ClassName) const
 	{
 		auto LPair = ClassesMap.find(ClassName);
@@ -182,6 +231,10 @@ public:
 
 private:
 
+	/*
+		Key - Class name.
+		Value - Builder of concrete class.
+	*/
 	std::unordered_map<std::string, T*> ClassesMap;
 };
 
@@ -195,6 +248,7 @@ private:
 class ENGINE_API GCoreObjectsFactory final
 {
 	SINGLETON(GCoreObjectsFactory)
+	GENERATED_BODY(GCoreObjectsFactory)
 
 public:
 
@@ -216,7 +270,7 @@ public:
 
 	void RegisterWindowClass(const std::string& ClassName, FWindowBuilder* WindowBuilder);
 	void UnregisterWindowClass(const std::string& ClassName);
-	GBaseWindow* ConstructWindow(const std::string& ClassName, uint16 Width, uint16 Height, int WindowStyle);
+	GBaseWindow* ConstructWindow(const std::string& ClassName, int WindowStyle);
 
 	void RegisterGameInstanceClass(const std::string& ClassName, FGameInstanceBuilder* GameInstanceBuilder);
 	void UnregisterGameInstanceClass(const std::string& ClassName);
@@ -242,7 +296,7 @@ public:
 	void UnregisterGraphicsEngineClass(const std::string& ClassName);
 	GGraphicsEngine* ConstructGraphicsEngine(const std::string& ClassName);
 
-	
+
 
 
 private:

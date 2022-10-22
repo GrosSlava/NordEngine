@@ -64,7 +64,8 @@ ENGINE_USING_LIBS = [ \
 "sfml-window", \
 "sfml-system", \
 "sfml-audio", \
-"sfml-network" \
+"sfml-network", \
+"winmm" \
 ]
 
 '''

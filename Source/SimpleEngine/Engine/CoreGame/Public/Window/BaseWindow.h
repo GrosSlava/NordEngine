@@ -20,7 +20,7 @@ class ENGINE_API GBaseWindow
 public:
 
 	GBaseWindow() = delete;
-	GBaseWindow(uint16 InWidth, uint16 InHeight, int InWindowStyle) : Style(InWindowStyle) { }
+	GBaseWindow(int InWindowStyle) : Style(InWindowStyle) { }
 
 	virtual ~GBaseWindow() { }
 
@@ -42,7 +42,7 @@ public:
 	virtual void SetWindowFullScreen(bool Enable);
 	virtual void SetWindowPosition(uint16 X, uint16 Y);
 	virtual void GetWindowPosition(uint16& X, uint16& Y) const;
-
+	
 	virtual void SetWindowTitle(const std::string& Text);
 	virtual void SetWindowIcon(const std::string& IconPath);
 	virtual void SetWindowCursor(const std::string& CursorPath);
@@ -51,6 +51,10 @@ public:
 	virtual bool IsMouseCursorVisible() const;
 	virtual void SetMouseCursorGrabbed(bool Grab);
 	virtual bool IsMouseCursorGrabbed() const;
+	virtual void SetMousePosition(uint16 X, uint16 Y);
+	virtual void GetMousePosition(uint16& X, uint16& Y) const;
+	virtual void SetMousePositionRelative(uint16 X, uint16 Y);
+	virtual void GetMousePositionRelative(uint16& X, uint16& Y) const;
 
 	virtual void RequestFocus();
 	virtual bool HasFocus() const;
@@ -107,7 +111,12 @@ protected:
 
 protected:
 
+	/*
+		Current window style.
+	*/
 	int Style = EWindowStyle::Default;
-
+	/*
+		Cached window title.
+	*/
 	std::string CurrentTitle = "";
 };

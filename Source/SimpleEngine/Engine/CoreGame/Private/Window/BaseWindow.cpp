@@ -1,7 +1,7 @@
 
 #include "Window/BaseWindow.h"
 
-#include "CoreGame.h"
+#include "CoreGame/CoreGame.h"
 #include "GameInput/GameInput.h"
 
 
@@ -118,6 +118,31 @@ void GBaseWindow::SetMouseCursorGrabbed(bool Grab)
 bool GBaseWindow::IsMouseCursorGrabbed() const
 {
 	return false;
+}
+
+void GBaseWindow::SetMousePosition(uint16 X, uint16 Y)
+{
+	//TODO on child
+}
+
+void GBaseWindow::GetMousePosition(uint16& X, uint16& Y) const
+{
+	X = 0;
+	Y = 0;
+
+	//TODO on child
+}
+
+void GBaseWindow::SetMousePositionRelative(uint16 X, uint16 Y)
+{
+}
+
+void GBaseWindow::GetMousePositionRelative(uint16& X, uint16& Y) const
+{
+	X = 0;
+	Y = 0;
+
+	//TODO on child
 }
 
 

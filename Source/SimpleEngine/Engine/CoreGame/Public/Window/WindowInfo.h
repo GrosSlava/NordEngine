@@ -6,6 +6,9 @@
 
 
 
+/*
+	Base window styles.
+*/
 namespace EWindowStyle
 {
 enum
@@ -19,7 +22,9 @@ enum
 };
 } // namespace EWindowStyle
 
-
+/*
+	Platform specific handler of window.
+*/
 namespace FWindowHandle
 {
 // clang-format off
