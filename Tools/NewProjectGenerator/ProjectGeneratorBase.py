@@ -22,11 +22,19 @@ import uuid
 '''
 	Helper function to get list of used libs.
 '''
-def GetUsingLibs(IsEngineModule: bool):
-	if IsEngineModule:
-		return ToolsConfig.ENGINE_USING_LIBS[1:]
+def GetUsingLibs(IsEngineModule: bool, Platform: str):
+	LLibs = []
+	if Platform == "Windows":
+		LLibs = ToolsConfig.ENGINE_WINDOWS_USING_LIBS
+	elif Platform == "Linux":
+		LLibs = ToolsConfig.ENGINE_LINUX_USING_LIBS
 	else:
-		return ToolsConfig.ENGINE_USING_LIBS
+		return LLibs
+
+	if IsEngineModule:
+		return LLibs[1:]
+	else:
+		return LLibs
 #------------------------------------------------------#
 
 

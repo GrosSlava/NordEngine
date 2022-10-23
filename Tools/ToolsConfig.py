@@ -53,11 +53,14 @@ os.path.join("Source", "SimpleEngine", "Engine", "SubEngines", "Public"), \
 os.path.join("Source", "SimpleEngine", "Engine", "UObject", "Public") \
 ]
 
+
+
+
 '''
 	Libs used by engine.
-	Append with platform specific suffix like '.lib' or '.a', '.so' etc...
+	Append with platform specific suffix like '.lib'
 '''
-ENGINE_USING_LIBS = [ \
+ENGINE_WINDOWS_USING_LIBS = [ \
 "SimpleEngine", \
 "openal32", \
 "sfml-graphics", \
@@ -67,6 +70,17 @@ ENGINE_USING_LIBS = [ \
 "sfml-network", \
 "winmm" \
 ]
+
+'''
+	Libs used by engine.
+	Append with platform specific suffix like '.a', '.so'.
+'''
+ENGINE_LINUX_USING_LIBS = [ \
+"SimpleEngine" \
+]
+
+
+
 
 '''
 	Reserved folders names.

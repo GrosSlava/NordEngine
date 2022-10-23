@@ -269,7 +269,7 @@ def GenerateWindowsProject(ProjectConfig: Common.ProjectConfig.FProjectConfig):
 		f.write(GetSolutionFileText(LSubmodules))
 	
 	for LSubmodule in LSubmodules:
-		UsingLibs = ";".join(list(map(lambda x : x + ".lib", ProjectGeneratorBase.GetUsingLibs(LSubmodule.IsEngineModule)))) + ";"
+		UsingLibs = ";".join(list(map(lambda x : x + ".lib", ProjectGeneratorBase.GetUsingLibs(LSubmodule.IsEngineModule, "Windows")))) + ";"
 
 		with open(os.path.join(LSubmodule.ModulePath, "{Name}.vcxproj".format(Name = LSubmodule.Name)), 'w') as f:
 			f.write(GetVCXFileText(ProjectConfig, LSubmodule, EngineIncludePaths, LibsDir, UsingLibs))
