@@ -3,7 +3,10 @@
 
 #include "CoreMinimal.h"
 
-#include "GraphicsEngine/SceneView/SceneView.h"
+#include "CoreInterfaces/APIListener.h"
+#include "CoreInterfaces/SubEngine.h"
+
+#include "GraphicsEngine/SceneView.h"
 
 
 
@@ -12,9 +15,11 @@ class GBaseWindow;
 
 
 /*
-	Adapter interface of hardware or third-party renderer.
+	Adapter interface for hardware or third-party render API.
+	Can't be implemented directly.
+	@see IDeviceResourcesAdapter2D, IDeviceResourcesAdapter3D.
 */
-class IDeviceResourcesAdapter
+class IDeviceResourcesAdapter : public IAPIListener, public ISubEngine
 {
 public:
 
@@ -24,36 +29,49 @@ public:
 
 public:
 
+	/*
+		Initialize adapter by platform specific Window.
+	*/
 	virtual void InitAdapter(GBaseWindow* Window) = 0;
 
-	virtual void BeginGameLogicSection() = 0;
-	virtual void EndGameLogicSection() = 0;
-
-	virtual void BroadcastEvents() = 0;
+	/*
+		Request rendering.
+		@param SceneView - prepared view from all scene objects.
+	*/
 	virtual void Render(const FSceneView& SceneView) = 0;
 
-	virtual void SetVSyncEnabled(bool Enable) = 0;
-	virtual void SetCameraFOV(float VerticalFovInRadians) = 0;
 
-
-	virtual void OnDeviceLost() = 0;
-	virtual void OnDeviceRestored() = 0;
-
+	/*
+		Event to start graphics logic.
+	*/
 	virtual void OnGameStart() = 0;
+	/*
+		Event to end graphics logic.
+	*/
 	virtual void PreGameDestroy() = 0;
 
-	virtual void OnActivated() = 0;
-	virtual void OnDeactivated() = 0;
-	virtual void OnSuspending() = 0;
-	virtual void OnResuming() = 0;
-	virtual void OnWindowMoved() = 0;
-	virtual void OnWindowSizeChanged() = 0;
-	virtual void OnWindowTitleChanged() = 0;
-	virtual void OnWindowIconChanged() = 0;
-	virtual void OnWindowCursorChanged() = 0;
-	virtual void OnWindowMouseCursorVisibilityChanged() = 0;
-	virtual void OnWindowMouseCursorGrabbingChanged() = 0;
+	/*
+		Hardware device was lost.
+	*/
+	virtual void OnDeviceLost() = 0;
+	/*
+		Hardware device was restored.
+	*/
+	virtual void OnDeviceRestored() = 0;
+
+
+	/*
+		Enable/disable vertical sync.
+	*/
+	virtual void SetVSyncEnabled(bool Enable) = 0;
+	/*
+		Change camera field of view.
+	*/
+	virtual void SetCameraFOV(float VerticalFovInRadians) = 0;
 };
+
+
+
 
 /*
 	2D specialized adapter for renderer.
@@ -62,6 +80,23 @@ class IDeviceResourcesAdapter2D : public IDeviceResourcesAdapter
 {
 public:
 
+	/*
+		Set virtual rendering 2D camera location.
+	*/
 	virtual void SetCameraLocation(const FVector2D& NewLocation) = 0;
+	/*
+		Set virtual rendering 2D camera rotation.
+		@param NewRotation - angle in [TODO FAngle]
+	*/
 	virtual void SetCameraRotation(float NewRotation) = 0;
+};
+
+/*
+	3D specialized adapter for renderer.
+*/
+class IDeviceResourcesAdapter3D : public IDeviceResourcesAdapter
+{
+public:
+
+	//TODO
 };

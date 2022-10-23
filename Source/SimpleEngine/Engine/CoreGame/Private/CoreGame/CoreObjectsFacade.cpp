@@ -114,7 +114,7 @@ void GCoreObjectsFacade::Clear()
 	if( GraphicsEngine != nullptr )
 	{
 		GraphicsEngine->OnGameEnd();
-		delete GraphicsEngine; // will clear it's resources
+		delete GraphicsEngine;
 		GraphicsEngine = nullptr;
 	}
 

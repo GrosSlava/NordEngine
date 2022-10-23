@@ -84,15 +84,16 @@ void GGameSettings::LoadSettings()
 	}
 }
 
-void GGameSettings::ApplyGameSettings(GBaseWindow* Window)
+void GGameSettings::ApplyGameSettings()
 {
-	if( Window != nullptr )
+	GBaseWindow* LWindow = GCoreGame::Get()->GetCoreObjectsFacade().GetWindow();
+	if( LWindow != nullptr )
 	{
-		Window->SetWindowTitle(GameName);
-		Window->SetWindowSize(WindowBaseWidth, WindowBaseHeight);
-		Window->SetWindowIcon(GameIconPath);
-		Window->SetWindowCursor(GameCursorPath);
-		Window->SetWindowFullScreen(MainWindowFullscreen);
+		LWindow->SetWindowTitle(GameName);
+		LWindow->SetWindowSize(WindowBaseWidth, WindowBaseHeight);
+		LWindow->SetWindowIcon(GameIconPath);
+		LWindow->SetWindowCursor(GameCursorPath);
+		LWindow->SetWindowFullScreen(MainWindowFullscreen);
 	}
 
 	GCoreGame::Get()->SetFPSLock(FrameRateLimit);

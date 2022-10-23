@@ -26,6 +26,10 @@ GCoreTickLoop::~GCoreTickLoop()
 
 void GCoreTickLoop::Tick(GCoreObjectsFacade& CoreObjectsFacade)
 {
+	// Begin tick critical section
+	if( IsTickingNow ) return;
+	IsTickingNow = true;
+
 	CurrentTickCoreObjectsFacade = &CoreObjectsFacade;
 
 
@@ -36,6 +40,10 @@ void GCoreTickLoop::Tick(GCoreObjectsFacade& CoreObjectsFacade)
 	{
 		FPlatformTime::Sleep(TickTargetTime - LWorkTime);
 	}
+
+
+	// End tick critical section
+	IsTickingNow = false;
 }
 
 void GCoreTickLoop::Update()
@@ -77,10 +85,15 @@ void GCoreTickLoop::Update()
 
 void GCoreTickLoop::UpdateInputs()
 {
+	//..........Populate engines events.............//
+
 	if( CurrentTickCoreObjectsFacade->GetGraphicsEngine() != nullptr )
 	{
 		CurrentTickCoreObjectsFacade->GetGraphicsEngine()->BroadcastEvents();
 	}
+
+	//.............................................//
+
 
 	GGameInput::Get()->BroadcastInputs();
 }

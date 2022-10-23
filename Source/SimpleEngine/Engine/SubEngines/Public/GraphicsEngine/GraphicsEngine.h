@@ -4,6 +4,8 @@
 #include "CoreMinimal.h"
 
 #include "CoreInterfaces/APIListener.h"
+#include "CoreInterfaces/SubEngine.h"
+
 
 
 
@@ -17,7 +19,7 @@ class GWorld;
 	Engine for graphics. 
 	@see IDeviceResourcesAdapter.
 */
-class ENGINE_API GGraphicsEngine : public IAPIListener
+class ENGINE_API GGraphicsEngine : public IAPIListener, public ISubEngine
 {
 	friend class GCoreObjectsFacade;
 
@@ -33,28 +35,39 @@ public:
 
 public:
 
-	virtual void BroadcastEvents();
+	/*
+		Render all objects from World.
+		@param World - World to render.
+	*/
 	virtual void Render(GWorld* World);
 
+	/*
+		Set adapter for rendering API or hardware interface.
+	*/
 	void SetNewDeviceResourcesAdapter(IDeviceResourcesAdapter* Adapter);
+	/*
+		@return current rendering adapter.
+	*/
 	FORCEINLINE IDeviceResourcesAdapter* GetDeviceResourcesAdapter() const noexcept { return DeviceResourcesAdapter; }
-	
 
-	void BeginGameLogicSection();
-	void EndGameLogicSection();
 
+
+	/*
+		Enable/disable vertical sync.
+	*/
 	void SetVSyncEnabled(bool Enable);
+	/*
+		@return vertical sync enabled or not.
+	*/
 	FORCEINLINE bool GetVSyncEnable() const noexcept { return VSyncEnabled; }
 
-public:
 
+	/*
+		@return true if GraphicsEngine has started the game.
+	*/
 	FORCEINLINE bool GetGraphicsGameWasStarted() const noexcept { return GraphicsGameWasStarted; }
 
-protected:
-
-	virtual void OnGameStart();
-	virtual void OnGameEnd();
-
+public:
 
 	//..................IAPIListener interface.......................//
 
@@ -72,8 +85,32 @@ protected:
 
 	//...............................................................//
 
+	//....................ISubEngine interface.......................//
+
+	virtual void BroadcastEvents() override;
+
+	virtual void BeginGameLogicSection() override;
+	virtual void EndGameLogicSection() override;
+
+	//...............................................................//
+
+
 protected:
 
+	/*
+		Event to start graphics logic.
+	*/
+	virtual void OnGameStart();
+	/*
+		Event to end graphics logic.
+	*/
+	virtual void OnGameEnd();
+
+protected:
+
+	/*
+		Apply current graphics settings to adapter.
+	*/
 	virtual void ApplySettingsToAdapter();
 
 
@@ -81,10 +118,24 @@ protected:
 
 protected:
 
+	/*
+		Adapter to communicate with rendering API or hardware interface.
+	*/
 	IDeviceResourcesAdapter* DeviceResourcesAdapter = nullptr;
 
-	bool VSyncEnabled = false;
-	uint16 FrameRateLimit = 0;
 
+	/*
+		VSync enable state.
+	*/
+	bool VSyncEnabled = false;
+
+
+	/*
+		Marks that the GraphicsEngine has started the game.
+	*/
 	bool GraphicsGameWasStarted = false;
+	/*
+		Rendering critical section marker.
+	*/
+	bool IsRenderingNow = false;
 };

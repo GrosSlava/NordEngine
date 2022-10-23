@@ -15,27 +15,27 @@ public:
 
 	/*
         Game is becoming active window.
-    */
+	*/
 	virtual void OnActivated() = 0;
 	/* 
         Game is becoming background window.
-    */
+	*/
 	virtual void OnDeactivated() = 0;
 	/* 
         Game is being power - suspended(or minimized).
-    */
+	*/
 	virtual void OnSuspending() = 0;
 	/* 
         Game is being power-resumed (or returning from minimize).
-    */
+	*/
 	virtual void OnResuming() = 0;
 	/* 
         Game window is being moved. 
-    */
+	*/
 	virtual void OnWindowMoved() = 0;
 	/* 
         Game window is being resized.
-    */
+	*/
 	virtual void OnWindowSizeChanged() = 0;
 	/*
 		Game window title changed.

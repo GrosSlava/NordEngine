@@ -82,4 +82,10 @@ private:
 		Objects facade for current tick.
 	*/
 	GCoreObjectsFacade* CurrentTickCoreObjectsFacade = nullptr;
+
+
+	/*
+		Tick critical section marker.
+	*/
+	bool IsTickingNow = false;
 };

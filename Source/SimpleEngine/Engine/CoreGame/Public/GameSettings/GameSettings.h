@@ -45,7 +45,7 @@ public:
 	/*
 		Apply all settings.
 	*/
-	void ApplyGameSettings(GBaseWindow* Window);
+	void ApplyGameSettings();
 	/*
 		Save all settings.
 	*/

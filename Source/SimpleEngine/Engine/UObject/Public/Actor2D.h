@@ -4,12 +4,11 @@
 #include "CoreMinimal.h"
 
 #include "World/SpawnableObject.h"
-#include "GraphicsEngine/RenderableObject.h"
 
 
 
 
-class ENGINE_API AActor2D : public ISpawnableObject2D, public IRenderableObject2D //TODO replace renderable by component system
+class ENGINE_API AActor2D : public ISpawnableObject2D
 {
 	GENERATED_BODY(AActor2D)
 	NONCOPYABLE(AActor2D)
@@ -52,9 +51,6 @@ public:
 	virtual int GetLayer() const override { return LayerIndex; }
 	virtual void SetLayer(int NewLayer) override { LayerIndex = NewLayer; }
 
-	//.......................................................................//
-
-	//..........................IRenderableObject2D..........................//
 
 	virtual bool GetIsVisible() const override { return IsVisible; }
 	virtual void SetIsVisible(bool NewVisible) override { IsVisible = NewVisible; }

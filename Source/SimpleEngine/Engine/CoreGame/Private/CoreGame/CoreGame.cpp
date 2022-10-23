@@ -57,7 +57,7 @@ void GCoreGame::OnGameStart()
 
 
 	GGameSettings* LGameSettings = GGameSettings::Get();
-	LGameSettings->ApplyGameSettings(CoreObjectsFacade.GetWindow());
+	LGameSettings->ApplyGameSettings();
 	LGameSettings->SaveGameSettings();
 }
 
