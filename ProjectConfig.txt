@@ -1,4 +1,4 @@
 PathToEngine = .
-ProjectName = SimpleEngine
+ProjectName = NordEngine
 ShowConsole = true
-Modules = SimpleEngine
+Modules = NordEngine

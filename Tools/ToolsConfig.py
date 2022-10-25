@@ -5,6 +5,10 @@ import sys
 
 
 
+# Name of engine to use in paths and other names.
+ENGINE_NAME = "NordEngine"
+
+
 
 '''
 	Folders to remove from project.
@@ -36,21 +40,21 @@ INTERMEDIATE_EXTENSIONS = [ \
 '''
 ENGINE_INCLUDE_PATHS = [ \
 os.path.join("Source", "ThirdParty", "SFML", "include"), \
-os.path.join("Source", "SimpleEngine", "Core", "Containers", "Public"), \
-os.path.join("Source", "SimpleEngine", "Core", "Delegate", "Public"), \
-os.path.join("Source", "SimpleEngine", "Core", "Files", "Public"), \
-os.path.join("Source", "SimpleEngine", "Core", "GenericPlatform", "Public"), \
-os.path.join("Source", "SimpleEngine", "Core", "Macros"), \
-os.path.join("Source", "SimpleEngine", "Core", "Math", "Public"), \
-os.path.join("Source", "SimpleEngine", "Core", "Memory", "Public"), \
-os.path.join("Source", "SimpleEngine", "Core", "Misc"), \
-os.path.join("Source", "SimpleEngine", "Core", "Path", "Public"), \
-os.path.join("Source", "SimpleEngine", "Core", "Templates"), \
-os.path.join("Source", "SimpleEngine", "Core", "Time", "Public"), \
-os.path.join("Source", "SimpleEngine", "Engine", "CoreGame", "Public"), \
-os.path.join("Source", "SimpleEngine", "Engine", "Platforms", "Public"), \
-os.path.join("Source", "SimpleEngine", "Engine", "SubEngines", "Public"), \
-os.path.join("Source", "SimpleEngine", "Engine", "UObject", "Public") \
+os.path.join("Source", ENGINE_NAME, "Core", "Containers", "Public"), \
+os.path.join("Source", ENGINE_NAME, "Core", "Delegate", "Public"), \
+os.path.join("Source", ENGINE_NAME, "Core", "Files", "Public"), \
+os.path.join("Source", ENGINE_NAME, "Core", "GenericPlatform", "Public"), \
+os.path.join("Source", ENGINE_NAME, "Core", "Macros"), \
+os.path.join("Source", ENGINE_NAME, "Core", "Math", "Public"), \
+os.path.join("Source", ENGINE_NAME, "Core", "Memory", "Public"), \
+os.path.join("Source", ENGINE_NAME, "Core", "Misc"), \
+os.path.join("Source", ENGINE_NAME, "Core", "Path", "Public"), \
+os.path.join("Source", ENGINE_NAME, "Core", "Templates"), \
+os.path.join("Source", ENGINE_NAME, "Core", "Time", "Public"), \
+os.path.join("Source", ENGINE_NAME, "Engine", "CoreGame", "Public"), \
+os.path.join("Source", ENGINE_NAME, "Engine", "Platforms", "Public"), \
+os.path.join("Source", ENGINE_NAME, "Engine", "SubEngines", "Public"), \
+os.path.join("Source", ENGINE_NAME, "Engine", "UObject", "Public") \
 ]
 
 
@@ -61,7 +65,7 @@ os.path.join("Source", "SimpleEngine", "Engine", "UObject", "Public") \
 	Append with platform specific suffix like '.lib'
 '''
 ENGINE_WINDOWS_USING_LIBS = [ \
-"SimpleEngine", \
+ENGINE_NAME, \
 "openal32", \
 "sfml-graphics", \
 "sfml-window", \
@@ -76,7 +80,7 @@ ENGINE_WINDOWS_USING_LIBS = [ \
 	Append with platform specific suffix like '.a', '.so'.
 '''
 ENGINE_LINUX_USING_LIBS = [ \
-"SimpleEngine" \
+ENGINE_NAME \
 ]
 
 
@@ -113,6 +117,6 @@ RESERVED_PROJECT_FOLDER_NAME = [ \
 
 #..................Reserved modules names.................#
 
-ENGINE_MODULE_NAME = "SimpleEngine"
+ENGINE_MODULE_NAME = ENGINE_NAME
 
 #.........................................................#

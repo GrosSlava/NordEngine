@@ -11,8 +11,8 @@
 // Various strings used for engine resources
 #define COMPANY_NAME "TestCompany"
 #define COPYRIGHT_STRING "TestCompany"
-#define PRODUCT_NAME "Simple Engine"
-#define PRODUCT_IDENTIFIER "SimpleEngine"
+#define PRODUCT_NAME "Nord Engine"
+#define PRODUCT_IDENTIFIER "NordEngine"
 
 
 
