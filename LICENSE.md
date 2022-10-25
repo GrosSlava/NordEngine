@@ -1,1 +1,1 @@
-//TODO
+Use of the Nord Engine is governed by the terms of the Nord® Engine End User License Agreement, which can be found at [https://www.nordengine.com/eula](https://www.nordengine.com/eula).
