@@ -10,6 +10,7 @@ def GetDefault_Gitignore_FileText():
 
 **Build
 **Intermediate
+**venv
 **.vs
 **__pycache__
 
