@@ -84,6 +84,13 @@ def GetVCXFileText(ProjectConfig: Common.ProjectConfig.FProjectConfig, ModuleSol
 	else:
 		LConfigurationType = "Application"
 
+	LIconPath = ""
+	LIconResourceSection = ""
+	if not ModuleSolution.IsEngineModule and not ModuleSolution.IsPlugin:
+		LIconPath = os.path.join(ProjectConfig.GetAbsolutePathToEngine(), "Content", "IconResource.rc")
+	if LIconPath != "" and os.path.exists(LIconPath) and os.path.isfile(LIconPath):
+		LIconResourceSection = '\t\t<ResourceCompile Include="{FilePath}" />'.format(FilePath = LIconPath)
+
 
 	LPostBuildEvent = ""
 	if ProjectConfig.IsEngine:
@@ -208,6 +215,9 @@ def GetVCXFileText(ProjectConfig: Common.ProjectConfig.FProjectConfig, ModuleSol
 	<ItemGroup>
 {PrivateFilesSection}
 	</ItemGroup>
+	<ItemGroup>
+{IconResourceSection}
+	</ItemGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 	<ImportGroup Label="ExtensionTargets">
 	</ImportGroup>
@@ -223,6 +233,7 @@ def GetVCXFileText(ProjectConfig: Common.ProjectConfig.FProjectConfig, ModuleSol
 				PreprocessorReleaseDefinitions = LPreprocessorReleaseDefinitions, \
 				PublicFilesSection = LPublicFilesSection, \
 				PrivateFilesSection = LPrivateFilesSection, \
+				IconResourceSection = LIconResourceSection, \
 				PostBuildEvent = LPostBuildEvent
 				)
 #------------------------------------------------------#

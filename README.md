@@ -1,4 +1,4 @@
-[![NordEngine logo](https://www.nordengine.ru/Images/Logo.png)](https://www.nordengine.ru)
+[![NordEngine logo](Logo.png)](https://www.nordengine.ru)
 
 
 
