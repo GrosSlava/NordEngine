@@ -1,5 +1,4 @@
-[![NordEngine logo](Logo.png)](https://www.nordengine.ru)
-
+<img src="Logo.png" width="256" height="256" alt="NordEngine logo"/>
 
 
 # Nord Engine
