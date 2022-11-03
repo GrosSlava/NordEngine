@@ -33,8 +33,8 @@ Other short-lived branches may pop-up from time to time as we stabilize new rele
 
 There are several places to learn **Nord Engine**:
 
-- The [`official tutorials`](https://www.nordengine.ru/Tutorials/)
-- The [`online API documentation`](https://www.nordengine.ru/Documentation/)
+- The [`official tutorials`](https://www.nordengine.ru/Documentation/Tutorials/)
+- The [`online API documentation`](https://www.nordengine.ru/Documentation/API)
 - The `offline documentation` in folder `Docs`
 
 
@@ -48,7 +48,7 @@ There are several places to learn **Nord Engine**:
 
 ## Install
 
-Follow the instructions of the [tutorials](https://www.nordengine.ru/Tutorials/) or `offline documentation` in folder `Docs`.
+Follow the instructions of the [tutorials](https://www.nordengine.ru/Documentation/Tutorials/) or `offline documentation` in folder `Docs`.
 
 
 
@@ -56,9 +56,9 @@ Follow the instructions of the [tutorials](https://www.nordengine.ru/Tutorials/)
 
 We welcome contributions to **Nord Engine** development through `pull requests`.
 
-We prefer to take pull requests in our active development branches, particularly for new features. Please make sure that all new code adheres to the [`coding standards`](https://www.nordengine.ru/CodingStandard).
+We prefer to take pull requests in our active development branches, particularly for new features. Please make sure that all new code adheres to the [`coding standards`](https://www.nordengine.ru/Documentation/CodingStandard).
 
-For more information on the process and expectations, see [`the documentation`](https://www.nordengine.ru/Contributing/).
+For more information on the process and expectations, see [`the documentation`](https://www.nordengine.ru/Documentation/Contributing/).
 
 All contributions are governed by the terms of your EULA.
 
