@@ -68,8 +68,7 @@ All contributions are governed by the terms of your EULA.
 
 Here are some useful community links:
 
-- [Discord](https://discord.gg/TODO)
-
+- [Discord](https://discord.gg/uRUxBGZwYN)
 
 
 ## License
