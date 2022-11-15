@@ -15,7 +15,7 @@ class ENGINE_API ISpawnableObject
 {
 public:
 
-	virtual ~ISpawnableObject() {};
+	virtual ~ISpawnableObject() {}
 
 
 

@@ -173,10 +173,10 @@ private:
 
 #else // DO_ENSURE
 
-#define ensure(InExpression)							(!!(InExpression))
-#define ensureMsgf(InExpression, InFormat, ...)			(!!(InExpression))
-#define ensureAlways(InExpression)						(!!(InExpression))
-#define ensureAlwaysMsgf(InExpression, InFormat, ...)	(!!(InExpression))
+#define ensure(InExpression)							//(!!(InExpression))
+#define ensureMsgf(InExpression, InFormat, ...)			//(!!(InExpression))
+#define ensureAlways(InExpression)						//(!!(InExpression))
+#define ensureAlwaysMsgf(InExpression, InFormat, ...)	//(!!(InExpression))
 
 #endif // DO_ENSURE
 

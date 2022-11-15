@@ -22,8 +22,8 @@
 	private:																					\
 		using Self = ClassName;																	\
 	public:																						\
-		virtual std::string GetSemanticClassName() const noexcept { return #ClassName ; }	\
-		virtual std::string GetParentSemanticClassName() const noexcept { return "None"; }	\
+		virtual std::string GetSemanticClassName() const noexcept { return #ClassName ; }		\
+		virtual std::string GetParentSemanticClassName() const noexcept { return "None"; }		\
 	private:
 /*
 	@param StructName.
@@ -42,8 +42,8 @@
 		using Super = ParentClass;																				\
 		using Self = ClassName;																					\
 	public:																										\
-		virtual std::string GetSemanticClassName() const noexcept override { return #ClassName; }			\
-		virtual std::string GetParentSemanticClassName() const noexcept override { return #ParentClass; }	\
+		virtual std::string GetSemanticClassName() const noexcept override { return #ClassName; }				\
+		virtual std::string GetParentSemanticClassName() const noexcept override { return #ParentClass; }		\
 	private:
 
 

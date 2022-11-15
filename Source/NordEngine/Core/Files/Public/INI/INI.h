@@ -4,7 +4,7 @@
 #include "GenericPlatform.h"
 
 #include <vector>
-#include <unordered_map>
+#include <map>
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -20,7 +20,7 @@ struct ENGINE_API FINIFile
 {
 public:
 
-	FINIFile() {};
+	FORCEINLINE FINIFile() {};
 	FINIFile(const std::string& FileName);
 	FINIFile(FILE* File);
 
@@ -28,7 +28,7 @@ public:
 
 public:
 
-	FORCEINLINE std::vector<std::string> GetSections() const 
+	FORCEINLINE std::vector<std::string> GetSections() const
 	{
 		std::vector<std::string> LResult;
 		LResult.reserve(Values.size());
@@ -40,20 +40,20 @@ public:
 
 		return LResult;
 	}
-	FORCEINLINE std::unordered_map<std::string, std::string> GetSection(const std::string& Section) const
+	FORCEINLINE std::map<std::string, std::string> GetSection(const std::string& Section) const
 	{
 		const auto LSection = Values.find(Section);
 
 		if( LSection == Values.end() )
 		{
-			return std::unordered_map<std::string, std::string>();
+			return std::map<std::string, std::string>();
 		}
 
 		return LSection->second;
 	}
-	FORCEINLINE std::vector<std::string> GetKeys(const std::string& Section) const 
+	FORCEINLINE std::vector<std::string> GetKeys(const std::string& Section) const
 	{
-		const std::unordered_map<std::string, std::string> LSection = GetSection(Section);
+		const std::map<std::string, std::string> LSection = GetSection(Section);
 
 		std::vector<std::string> LResult;
 		LResult.reserve(LSection.size());
@@ -154,10 +154,9 @@ protected:
 	template<>
 	FORCEINLINE bool Value2T<bool>(std::string S) const
 	{
-		std::transform(S.begin(), S.end(), S.begin(), [](unsigned char c) { return std::tolower(c); } );
-		
-		static const std::unordered_map<std::string, bool> s2b 
-		{
+		std::transform(S.begin(), S.end(), S.begin(), [](unsigned char c) { return std::tolower(c); });
+
+		static const std::map<std::string, bool> s2b {
 			{"1", true},
 			{"true", true},
 			{"yes", true},
@@ -181,7 +180,7 @@ protected:
 
 protected:
 
-	std::unordered_map<std::string, std::unordered_map<std::string, std::string>> Values;
+	std::map<std::string, std::map<std::string, std::string>> Values;
 };
 
 
@@ -190,7 +189,7 @@ struct ENGINE_API FINIWriter
 {
 public:
 
-	FINIWriter() { }
+	FORCEINLINE FINIWriter() { }
 
 
 

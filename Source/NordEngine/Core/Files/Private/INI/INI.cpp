@@ -29,7 +29,7 @@ namespace INI_Private
 #define INI_INLINE_COMMENT_PREFIXES ";"
 
 /* Strip whitespace chars off end of given string, in place. Return s. */
-inline static char* rstrip(char* s)
+FORCEINLINE static char* rstrip(char* s)
 {
 	char* p = s + strlen(s);
 	while( p > s && isspace((unsigned char)(*--p)) )
@@ -40,7 +40,7 @@ inline static char* rstrip(char* s)
 }
 
 /* Return pointer to first non-whitespace char in given string. */
-inline static char* lskip(const char* s)
+FORCEINLINE static char* lskip(const char* s)
 {
 	while( *s && isspace((unsigned char)(*s)) )
 	{
@@ -52,7 +52,7 @@ inline static char* lskip(const char* s)
 /* Return pointer to first char (of chars) or inline comment in given string,
    or pointer to null at end of string if neither found. Inline comment must
    be prefixed by a whitespace character to register as a comment. */
-inline static char* find_chars_or_comment(const char* s, const char* chars)
+FORCEINLINE static char* find_chars_or_comment(const char* s, const char* chars)
 {
 	int was_space = 0;
 	while( *s && (!chars || !strchr(chars, *s)) && !(was_space && strchr(INI_INLINE_COMMENT_PREFIXES, *s)) )
@@ -64,7 +64,7 @@ inline static char* find_chars_or_comment(const char* s, const char* chars)
 }
 
 /* Version of strncpy that ensures dest (size bytes) is null-terminated. */
-inline static char* strncpy0(char* dest, const char* src, size_t size)
+FORCEINLINE static char* strncpy0(char* dest, const char* src, size_t size)
 {
 	strncpy_s(dest, size, src, size - 1);
 	dest[size - 1] = '\0';

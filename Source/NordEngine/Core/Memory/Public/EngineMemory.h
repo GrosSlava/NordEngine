@@ -10,6 +10,9 @@
 
 
 
+/*
+	Wrapper around standard memory operations.
+*/
 struct ENGINE_API FMemory
 {
 	static FORCEINLINE void* Memmove(void* Dest, const void* Src, size_t Count)

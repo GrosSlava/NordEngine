@@ -1,6 +1,8 @@
 ﻿
 #pragma once
 
+#include "GenericPlatform.h"
+
 #include "TypeTraits/IsArithmetic.h"
 #include "TypeTraits/IsSigned.h"
 
@@ -14,16 +16,18 @@
 	Templated literal struct to allow selection of wide or ansi string literals
 	based on the character type provided, and not on compiler switches.
 */
-template <typename T> struct TLiteral
+template<typename T>
+struct TLiteral
 {
-	static const ANSICHAR  Select(const ANSICHAR  ansi, const WIDECHAR)		{ return ansi; }
-	static const ANSICHAR* Select(const ANSICHAR* ansi, const WIDECHAR*)	{ return ansi; }
+	static const ANSICHAR Select(const ANSICHAR ansi, const WIDECHAR) { return ansi; }
+	static const ANSICHAR* Select(const ANSICHAR* ansi, const WIDECHAR*) { return ansi; }
 };
 
-template <> struct TLiteral<WIDECHAR>
+template<>
+struct TLiteral<WIDECHAR>
 {
-	static const WIDECHAR  Select(const ANSICHAR, const WIDECHAR  wide)		{ return wide; }
-	static const WIDECHAR* Select(const ANSICHAR*, const WIDECHAR* wide)	{ return wide; }
+	static const WIDECHAR Select(const ANSICHAR, const WIDECHAR wide) { return wide; }
+	static const WIDECHAR* Select(const ANSICHAR*, const WIDECHAR* wide) { return wide; }
 };
 
 #define LITERAL(CharType, StringLiteral) TLiteral<CharType>::Select(StringLiteral, TEXT(StringLiteral))
@@ -32,7 +36,7 @@ template <> struct TLiteral<WIDECHAR>
 
 
 
-template <typename CharType, const unsigned int Size>
+template<typename CharType, const unsigned int Size>
 struct TCharBase
 {
 	static constexpr CharType LineFeed = 0xa;
@@ -43,15 +47,10 @@ struct TCharBase
 	static constexpr CharType LineSeparator = 0x2028;
 	static constexpr CharType ParagraphSeparator = 0x2029;
 
-	static bool IsLinebreak(CharType Char)
-	{
-		return ((uint32(Char) - LineFeed) <= uint32(CarriageReturn - LineFeed)) |
-			(Char == NextLine) | (Char == LineSeparator) | (Char == ParagraphSeparator);
-	}
-
+	static bool IsLinebreak(CharType Char) { return ((uint32(Char) - LineFeed) <= uint32(CarriageReturn - LineFeed)) | (Char == NextLine) | (Char == LineSeparator) | (Char == ParagraphSeparator); }
 };
 
-template <typename CharType>
+template<typename CharType>
 struct TCharBase<CharType, 1>
 {
 	static constexpr CharType LineFeed = 0xa;
@@ -59,10 +58,7 @@ struct TCharBase<CharType, 1>
 	static constexpr CharType FormFeed = 0xc;
 	static constexpr CharType CarriageReturn = 0xd;
 
-	static bool IsLinebreak(CharType Char)
-	{
-		return ((uint32(Char) - LineFeed) <= uint32(CarriageReturn - LineFeed));
-	}
+	static bool IsLinebreak(CharType Char) { return ((uint32(Char) - LineFeed) <= uint32(CarriageReturn - LineFeed)); }
 };
 
 
@@ -75,24 +71,18 @@ struct TCharBase<CharType, 1>
 	are specialized for ANSICHAR and TCHAR character types. You can use the
 	typedefs FChar and FCharAnsi for convenience.
 */
-template <typename CharType>
+template<typename CharType>
 struct TChar : TCharBase<CharType, sizeof(CharType)>
 {
 	/*
 		Only converts ASCII characters, same as CRT to[w]upper() with standard C locale
 	*/
-	static CharType ToUpper(CharType Char)
-	{
-		return (CharType)(ToUnsigned(Char) - ((uint32(Char) - 'a' < 26u) << 5));
-	}
+	static CharType ToUpper(CharType Char) { return (CharType)(ToUnsigned(Char) - ((uint32(Char) - 'a' < 26u) << 5)); }
 
 	/*
 		Only converts ASCII characters, same as CRT to[w]upper() with standard C locale
 	*/
-	static CharType ToLower(CharType Char)
-	{
-		return (CharType)(ToUnsigned(Char) + ((uint32(Char) - 'A' < 26u) << 5));
-	}
+	static CharType ToLower(CharType Char) { return (CharType)(ToUnsigned(Char) + ((uint32(Char) - 'A' < 26u) << 5)); }
 
 	static bool IsUpper(CharType Char);
 	static bool IsLower(CharType Char);
@@ -105,25 +95,13 @@ struct TChar : TCharBase<CharType, sizeof(CharType)>
 	static bool IsHexDigit(CharType Char);
 	static bool IsWhitespace(CharType Char);
 
-	static bool IsOctDigit(CharType Char)
-	{
-		return uint32(Char) - '0' < 8u;
-	}
+	static bool IsOctDigit(CharType Char) { return uint32(Char) - '0' < 8u; }
 
-	static int32 ConvertCharDigitToInt(CharType Char)
-	{
-		return static_cast<int32>(Char) - static_cast<int32>('0');
-	}
+	static int32 ConvertCharDigitToInt(CharType Char) { return static_cast<int32>(Char) - static_cast<int32>('0'); }
 
-	static bool IsIdentifier(CharType Char)
-	{
-		return IsAlnum(Char) || IsUnderscore(Char);
-	}
+	static bool IsIdentifier(CharType Char) { return IsAlnum(Char) || IsUnderscore(Char); }
 
-	static bool IsUnderscore(CharType Char)
-	{
-		return Char == LITERAL(CharType, '_');
-	}
+	static bool IsUnderscore(CharType Char) { return Char == LITERAL(CharType, '_'); }
 
 	/*
 		Avoid sign extension problems with signed characters smaller than int
@@ -133,13 +111,10 @@ struct TChar : TCharBase<CharType, sizeof(CharType)>
 	
 		Mainly needed for subtraction and addition.
 	*/
-	static constexpr FORCEINLINE uint32 ToUnsigned(CharType Char)
-	{
-		return (typename TUnsignedIntType<sizeof(CharType)>::Type)Char;
-	}
+	static constexpr FORCEINLINE uint32 ToUnsigned(CharType Char) { return (typename TUnsignedIntType<sizeof(CharType)>::Type)Char; }
 };
 
-typedef TChar<TCHAR>    FChar;
+typedef TChar<TCHAR> FChar;
 typedef TChar<WIDECHAR> FCharWide;
 typedef TChar<ANSICHAR> FCharAnsi;
 
@@ -150,29 +125,109 @@ typedef TChar<ANSICHAR> FCharAnsi;
 /*-----------------------------------------------------------------------------
 	WIDECHAR specialized functions
 -----------------------------------------------------------------------------*/
-template <> inline bool TChar<WIDECHAR>::IsUpper(WIDECHAR Char)			{ return iswupper(Char) != 0; }
-template <> inline bool TChar<WIDECHAR>::IsLower(WIDECHAR Char)			{ return iswlower(Char) != 0; }
-template <> inline bool TChar<WIDECHAR>::IsAlpha(WIDECHAR Char)			{ return iswalpha(Char) != 0; }
-template <> inline bool TChar<WIDECHAR>::IsGraph(WIDECHAR Char)			{ return iswgraph(Char) != 0; }
-template <> inline bool TChar<WIDECHAR>::IsPrint(WIDECHAR Char)			{ return iswprint(Char) != 0; }
-template <> inline bool TChar<WIDECHAR>::IsPunct(WIDECHAR Char)			{ return iswpunct(Char) != 0; }
-template <> inline bool TChar<WIDECHAR>::IsAlnum(WIDECHAR Char)			{ return iswalnum(Char) != 0; }
-template <> inline bool TChar<WIDECHAR>::IsDigit(WIDECHAR Char)			{ return iswdigit(Char) != 0; }
-template <> inline bool TChar<WIDECHAR>::IsHexDigit(WIDECHAR Char)		{ return iswxdigit(Char) != 0; }
-template <> inline bool TChar<WIDECHAR>::IsWhitespace(WIDECHAR Char)	{ return iswspace(Char) != 0; }
+template<>
+inline bool TChar<WIDECHAR>::IsUpper(WIDECHAR Char)
+{
+	return iswupper(Char) != 0;
+}
+template<>
+inline bool TChar<WIDECHAR>::IsLower(WIDECHAR Char)
+{
+	return iswlower(Char) != 0;
+}
+template<>
+inline bool TChar<WIDECHAR>::IsAlpha(WIDECHAR Char)
+{
+	return iswalpha(Char) != 0;
+}
+template<>
+inline bool TChar<WIDECHAR>::IsGraph(WIDECHAR Char)
+{
+	return iswgraph(Char) != 0;
+}
+template<>
+inline bool TChar<WIDECHAR>::IsPrint(WIDECHAR Char)
+{
+	return iswprint(Char) != 0;
+}
+template<>
+inline bool TChar<WIDECHAR>::IsPunct(WIDECHAR Char)
+{
+	return iswpunct(Char) != 0;
+}
+template<>
+inline bool TChar<WIDECHAR>::IsAlnum(WIDECHAR Char)
+{
+	return iswalnum(Char) != 0;
+}
+template<>
+inline bool TChar<WIDECHAR>::IsDigit(WIDECHAR Char)
+{
+	return iswdigit(Char) != 0;
+}
+template<>
+inline bool TChar<WIDECHAR>::IsHexDigit(WIDECHAR Char)
+{
+	return iswxdigit(Char) != 0;
+}
+template<>
+inline bool TChar<WIDECHAR>::IsWhitespace(WIDECHAR Char)
+{
+	return iswspace(Char) != 0;
+}
 
 
 
 /*-----------------------------------------------------------------------------
 	ANSICHAR specialized functions
 -----------------------------------------------------------------------------*/
-template <> inline bool TChar<ANSICHAR>::IsUpper(ANSICHAR Char)			{ return isupper((unsigned char)Char) != 0; }
-template <> inline bool TChar<ANSICHAR>::IsLower(ANSICHAR Char)			{ return islower((unsigned char)Char) != 0; }
-template <> inline bool TChar<ANSICHAR>::IsAlpha(ANSICHAR Char)			{ return isalpha((unsigned char)Char) != 0; }
-template <> inline bool TChar<ANSICHAR>::IsGraph(ANSICHAR Char)			{ return isgraph((unsigned char)Char) != 0; }
-template <> inline bool TChar<ANSICHAR>::IsPrint(ANSICHAR Char)			{ return isprint((unsigned char)Char) != 0; }
-template <> inline bool TChar<ANSICHAR>::IsPunct(ANSICHAR Char)			{ return ispunct((unsigned char)Char) != 0; }
-template <> inline bool TChar<ANSICHAR>::IsAlnum(ANSICHAR Char)			{ return isalnum((unsigned char)Char) != 0; }
-template <> inline bool TChar<ANSICHAR>::IsDigit(ANSICHAR Char)			{ return isdigit((unsigned char)Char) != 0; }
-template <> inline bool TChar<ANSICHAR>::IsHexDigit(ANSICHAR Char)		{ return isxdigit((unsigned char)Char) != 0; }
-template <> inline bool TChar<ANSICHAR>::IsWhitespace(ANSICHAR Char)	{ return isspace((unsigned char)Char) != 0; }
+template<>
+inline bool TChar<ANSICHAR>::IsUpper(ANSICHAR Char)
+{
+	return isupper((unsigned char)Char) != 0;
+}
+template<>
+inline bool TChar<ANSICHAR>::IsLower(ANSICHAR Char)
+{
+	return islower((unsigned char)Char) != 0;
+}
+template<>
+inline bool TChar<ANSICHAR>::IsAlpha(ANSICHAR Char)
+{
+	return isalpha((unsigned char)Char) != 0;
+}
+template<>
+inline bool TChar<ANSICHAR>::IsGraph(ANSICHAR Char)
+{
+	return isgraph((unsigned char)Char) != 0;
+}
+template<>
+inline bool TChar<ANSICHAR>::IsPrint(ANSICHAR Char)
+{
+	return isprint((unsigned char)Char) != 0;
+}
+template<>
+inline bool TChar<ANSICHAR>::IsPunct(ANSICHAR Char)
+{
+	return ispunct((unsigned char)Char) != 0;
+}
+template<>
+inline bool TChar<ANSICHAR>::IsAlnum(ANSICHAR Char)
+{
+	return isalnum((unsigned char)Char) != 0;
+}
+template<>
+inline bool TChar<ANSICHAR>::IsDigit(ANSICHAR Char)
+{
+	return isdigit((unsigned char)Char) != 0;
+}
+template<>
+inline bool TChar<ANSICHAR>::IsHexDigit(ANSICHAR Char)
+{
+	return isxdigit((unsigned char)Char) != 0;
+}
+template<>
+inline bool TChar<ANSICHAR>::IsWhitespace(ANSICHAR Char)
+{
+	return isspace((unsigned char)Char) != 0;
+}

@@ -1,15 +1,16 @@
+
 #pragma once
 
 #include "GenericPlatform.h"
 
 #include "EngineMemory.h"
 
-#include "AndOrNot.h"
-#include "TypeTraits.h"
-#include "IsClass.h"
-#include "IsTriviallyDestructible.h"
-#include "IsTriviallyCopyAssignable.h"
-#include "EnableIf.h"
+#include "TypeTraits/AndOrNot.h"
+#include "TypeTraits/TypeTraits.h"
+#include "TypeTraits/IsClass.h"
+#include "TypeTraits/IsTriviallyDestructible.h"
+#include "TypeTraits/IsTriviallyCopyAssignable.h"
+#include "TypeTraits/EnableIf.h"
 
 
 

@@ -2,6 +2,7 @@
 #pragma once
 
 #include "GenericPlatform.h"
+#include "AssertionMacros.h"
 
 
 
@@ -42,6 +43,9 @@ public:
 
 private:
 
+	/*
+		Stored data structure.
+	*/
 	void* StructuredData = nullptr;
 };
 
@@ -82,7 +86,7 @@ public:
 
 	virtual void Call(ParamTypes... Params) override
 	{ 
-		check(Object != nullptr)
+		ensure(Object != nullptr)
 		(Object->*Method)(Params...);
 	}
 
@@ -102,8 +106,17 @@ public:
 
 private:
 
+	/*
+		Object, which method we handle.
+	*/
 	TObject* Object = nullptr;
+	/*
+		Object's method? which we handle.
+	*/
 	TMethod Method;
 
+	/*
+		Marks that this handle is invalid.
+	*/
 	bool WasInvalidated = false;
 };

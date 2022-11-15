@@ -6,7 +6,7 @@
 
 
 
-class GCamera;
+class ICamera;
 
 
 /*
@@ -17,8 +17,6 @@ class GCamera;
 */
 class ENGINE_API GCameraManager
 {
-	friend class GCoreGame;
-
 	GENERATED_BODY(GCameraManager)
 	NONCOPYABLE(GCameraManager)
 
@@ -33,7 +31,7 @@ public:
 
 	virtual void Tick(double DeltaTime);
 
-	virtual void SetActiveCamera(std::shared_ptr<GCamera> NewCamera);
+	virtual void SetActiveCamera(std::shared_ptr<ICamera> NewCamera);
 	
 protected:
 
@@ -44,5 +42,5 @@ protected:
 
 protected:
 
-	std::shared_ptr<GCamera> ActiveCamera = nullptr;
+	std::shared_ptr<ICamera> ActiveCamera = nullptr;
 };

@@ -1,7 +1,9 @@
 
 #include "CameraManager/CameraManager.h"
+#include "CameraManager/CameraInterface.h"
 
 #include "CoreGame/CoreGame.h"
+#include "GraphicsEngine/GraphicsEngine.h"
 
 
 
@@ -17,25 +19,18 @@ void GCameraManager::UpdateCameraProperties()
 	if( ActiveCamera == nullptr ) return;
 
 
-	//GCoreGame::Get()->GetGraphicsEngine()->GetDeviceResourcesAdapter()->SetCameraLocation(ActiveCamera->GetCameraLocation());
-	//GCoreGame::Get()->GetGraphicsEngine()->GetDeviceResourcesAdapter()->SetCameraRotation(ActiveCamera->GetCameraRotation());
-
-
-	//if( ActiveCamera->WerePropertyChanged() )
-	//{
-		//....................Put camera properties to graphics engine................//
-
-		//GCoreGame::Get()->GetGraphicsEngine()->GetDeviceResourcesAdapter()->SetCameraFOV(ActiveCamera->GetCameraFOV());
-
-		//............................................................................//
-
-		//ActiveCamera->OnChangesApplied();
-	//}
+	if( GGraphicsEngine* LGraphicsEngine = GCoreGame::Get()->GetCoreObjectsFacade().GetGraphicsEngine() )
+	{
+		if( IDeviceResourcesAdapter* LAdapter = LGraphicsEngine->GetDeviceResourcesAdapter() )
+		{
+			ActiveCamera->ApplyVisualProperties(LAdapter);
+		}
+	}
 }
 
 
 
-void GCameraManager::SetActiveCamera(std::shared_ptr<GCamera> NewCamera)
+void GCameraManager::SetActiveCamera(std::shared_ptr<ICamera> NewCamera)
 {
 	ActiveCamera = NewCamera;
 }

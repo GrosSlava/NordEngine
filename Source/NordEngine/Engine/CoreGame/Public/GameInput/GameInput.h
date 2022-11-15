@@ -18,7 +18,7 @@ class ENGINE_API GGameInput final
 
 public:
 
-	~GGameInput() { }
+	FORCEINLINE ~GGameInput() { }
 
 
 

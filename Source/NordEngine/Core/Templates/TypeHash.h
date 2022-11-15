@@ -105,7 +105,7 @@ FORCEINLINE uint32 GetTypeHash(void* A)
 	return PointerHash(A);
 }
 
-template <typename EnumType>
+template<typename EnumType>
 FORCEINLINE typename TEnableIf<TIsEnum<EnumType>::Value, uint32>::Type GetTypeHash(EnumType E)
 {
 	return GetTypeHash((__underlying_type(EnumType))E);

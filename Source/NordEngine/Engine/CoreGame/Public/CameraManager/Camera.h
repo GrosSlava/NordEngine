@@ -1,8 +1,8 @@
+
 #pragma once
 
-#include "SpecificationMacros.h"
-#include "Transform.h"
-#include "Matrix.h"
+#include "CoreMinimal.h"
+#include "CameraManager/CameraInterface.h"
 
 
 

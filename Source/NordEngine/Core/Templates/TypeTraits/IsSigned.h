@@ -31,7 +31,7 @@ template<typename T> struct TIsSigned<const volatile T>		{ enum { Value = TIsSig
 	Type trait which yields a signed integer type of a given number of bytes.
 	If there is no such type, the Type member type will be absent, allowing it to be used in SFINAE contexts.
 */
-template <int NumBytes>
+template<int NumBytes>
 struct TSignedIntType
 {
 };

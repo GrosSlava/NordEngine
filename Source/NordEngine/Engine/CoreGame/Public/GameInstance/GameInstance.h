@@ -19,7 +19,7 @@ class ENGINE_API GGameInstance
 
 public:
 
-	GGameInstance() { }
+	FORCEINLINE GGameInstance() { }
 	virtual ~GGameInstance() { }
 };
 

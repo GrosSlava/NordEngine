@@ -10,6 +10,9 @@
 
 
 
+/*
+	Helper class to manage ticks and FPS between updates.
+*/
 class ENGINE_API FTickTimer
 {
 	GENERATED_BODY(FTickTimer)
@@ -88,7 +91,9 @@ public:
 	}
 
 
-	// Update timer state, calling the specified Update function the appropriate number of times.
+	/*
+		Update timer state, calling the specified Update function the appropriate number of times.
+	*/
 	template<class C>
 	void Tick(C* Executor, void (C::*Update)())
 	{

@@ -123,7 +123,7 @@ struct TIsZeroConstructType
 template<typename T>
 struct TFormatSpecifier
 {
-	inline static TCHAR const* GetFormatSpecifier()
+	FORCEINLINE static TCHAR const* GetFormatSpecifier()
 	{
 		// Force the template instantiation to be dependent upon T so the compiler cannot automatically decide that this template can never be instantiated.
 		// If the static_assert below were a constant 0 or something not dependent on T, compilers are free to detect this and fail to compile the template.
@@ -137,7 +137,7 @@ struct TFormatSpecifier
 template<> \
 struct TFormatSpecifier<type> \
 {  \
-	inline static const TCHAR (&GetFormatSpecifier())[5] \
+	FORCEINLINE static const TCHAR (&GetFormatSpecifier())[5] \
 	{ \
 		static const TCHAR Spec[5] = TEXT(format); \
 		return Spec; \
@@ -167,7 +167,7 @@ Expose_TFormatSpecifier(unsigned long, "%lu")
 template<typename T>
 struct TNameOf
 {
-	inline static TCHAR const* GetName()
+	FORCEINLINE static TCHAR const* GetName()
 	{
 		return TEXT("Unknown");
 	}
@@ -177,7 +177,7 @@ struct TNameOf
 template<> \
 struct TNameOf<type> \
 {  \
-	inline static TCHAR const* GetName() \
+	FORCEINLINE static TCHAR const* GetName() \
 	{ \
 		return TEXT(#type); \
 	} \

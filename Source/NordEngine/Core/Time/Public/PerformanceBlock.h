@@ -32,9 +32,15 @@ public:
 		return std::chrono::duration<double, std::milli>(LCodeTimeEnd - LCodeTimeStart).count();
 	}
 
+public:
 
+	/*
+		@return last cached code work time in milliseconds. 
+	*/
 	FORCEINLINE double GetWorkTime() const noexcept { return WorkTime; }
-
+	/*
+		Clear cache.
+	*/
 	FORCEINLINE void Reset() { WorkTime = 0.0; }
 
 

@@ -21,7 +21,7 @@ class ENGINE_API GWorld
 
 public:
 
-	GWorld() { }
+	FORCEINLINE GWorld() { }
 	virtual ~GWorld() { }
 
 
