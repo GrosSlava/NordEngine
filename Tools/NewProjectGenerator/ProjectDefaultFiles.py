@@ -27,6 +27,7 @@ def GetDefault_Gitignore_FileText():
 /BuildProjectWindows.bat
 /ClearIntermediate.bat
 /GenerateWindowsProject.bat
+/GenerateDocs.bat
 
 //.........................................................//
 
