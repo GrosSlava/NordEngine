@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['iapilistener_0',['IAPIListener',['../class_i_a_p_i_listener.html',1,'']]],
+  ['icamera_1',['ICamera',['../class_i_camera.html',1,'']]],
+  ['icamera2d_2',['ICamera2D',['../class_i_camera2_d.html',1,'']]],
+  ['icamera3d_3',['ICamera3D',['../class_i_camera3_d.html',1,'']]],
+  ['identification_4',['Identification',['../structsf_1_1_joystick_1_1_identification.html',1,'sf::Joystick']]],
+  ['ideviceresourcesadapter_5',['IDeviceResourcesAdapter',['../class_i_device_resources_adapter.html',1,'']]],
+  ['ideviceresourcesadapter2d_6',['IDeviceResourcesAdapter2D',['../class_i_device_resources_adapter2_d.html',1,'']]],
+  ['ideviceresourcesadapter3d_7',['IDeviceResourcesAdapter3D',['../class_i_device_resources_adapter3_d.html',1,'']]],
+  ['image_8',['Image',['../classsf_1_1_image.html',1,'sf']]],
+  ['info_9',['Info',['../structsf_1_1_font_1_1_info.html',1,'sf::Font::Info'],['../structsf_1_1_sound_file_reader_1_1_info.html',1,'sf::SoundFileReader::Info']]],
+  ['inputsoundfile_10',['InputSoundFile',['../classsf_1_1_input_sound_file.html',1,'sf']]],
+  ['inputstream_11',['InputStream',['../classsf_1_1_input_stream.html',1,'sf']]],
+  ['ipaddress_12',['IpAddress',['../classsf_1_1_ip_address.html',1,'sf']]],
+  ['ispawnableobject_13',['ISpawnableObject',['../class_i_spawnable_object.html',1,'']]],
+  ['ispawnableobject2d_14',['ISpawnableObject2D',['../class_i_spawnable_object2_d.html',1,'']]],
+  ['ispawnableobject3d_15',['ISpawnableObject3D',['../class_i_spawnable_object3_d.html',1,'']]],
+  ['isubengine_16',['ISubEngine',['../class_i_sub_engine.html',1,'']]]
+];

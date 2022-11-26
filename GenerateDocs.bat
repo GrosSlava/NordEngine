@@ -1,0 +1,6 @@
+
+@echo off
+
+
+doxygen "Doxyfile"
+	

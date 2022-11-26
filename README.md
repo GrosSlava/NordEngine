@@ -17,6 +17,13 @@ Modify the code in any way you can imagine, and share your changes with others!
 
 
 
+## Requirements
+
+- Python3
+- doxygen
+
+
+
 ## State of Development
 
 We publish source for the engine in several branches:

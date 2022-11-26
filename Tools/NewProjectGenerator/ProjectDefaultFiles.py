@@ -252,3 +252,13 @@ goto Exit
 exit /B 1
 	""".format(PathToEngine = PathToEngine)
 #------------------------------------------------------#
+
+def GetDefault_GenerateDocs_BatFileText():
+	return \
+	r"""
+@echo off
+
+
+doxygen "Doxyfile"
+	"""
+#------------------------------------------------------#
