@@ -9,9 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,9 +30,21 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NordEngine
+   <div id="projectname">NordEngine<span id="projectnumber">&#160;0.1.0</span>
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -35,17 +56,23 @@
 var searchBox = new SearchBox("searchBox", "search/",'.html');
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search');
-  $(document).ready(function() { init_search(); });
-});
+$(document).ready(function(){initNavTree('class_g_core_objects_facade.html',''); initResizable(); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -67,7 +94,6 @@ $(function() {
 </div>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -115,28 +141,28 @@ FORCEINLINE <a class="el" href="class_g_camera_manager.html">GCameraManager</a> 
 <tr class="memitem:a6a65cc43177bab8ca0bfa05c645cfc81"><td class="memItemLeft" align="right" valign="top"><a id="a6a65cc43177bab8ca0bfa05c645cfc81" name="a6a65cc43177bab8ca0bfa05c645cfc81"></a>
 FORCEINLINE <a class="el" href="class_g_graphics_engine.html">GGraphicsEngine</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetGraphicsEngine</b> () const noexcept</td></tr>
 <tr class="separator:a6a65cc43177bab8ca0bfa05c645cfc81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae34984a336be8505609bf01623f51141"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#ae34984a336be8505609bf01623f51141">OnActivated</a> () override</td></tr>
-<tr class="separator:ae34984a336be8505609bf01623f51141"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04d4d503bf80a7051753c57d6301fca2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a04d4d503bf80a7051753c57d6301fca2">OnDeactivated</a> () override</td></tr>
-<tr class="separator:a04d4d503bf80a7051753c57d6301fca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d2daabaa5e4cc6a2d09ec0be1e639da"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a4d2daabaa5e4cc6a2d09ec0be1e639da">OnSuspending</a> () override</td></tr>
-<tr class="separator:a4d2daabaa5e4cc6a2d09ec0be1e639da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d54c328d9c978a1be3d50e97de0d093"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a8d54c328d9c978a1be3d50e97de0d093">OnResuming</a> () override</td></tr>
-<tr class="separator:a8d54c328d9c978a1be3d50e97de0d093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79ed5095bebf576317f3ea62787f2a68"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a79ed5095bebf576317f3ea62787f2a68">OnWindowMoved</a> () override</td></tr>
-<tr class="separator:a79ed5095bebf576317f3ea62787f2a68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a483572becbd7117c29464f0396d860b7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a483572becbd7117c29464f0396d860b7">OnWindowSizeChanged</a> () override</td></tr>
-<tr class="separator:a483572becbd7117c29464f0396d860b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f04f8043802f370cd4f947fd3325015"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a2f04f8043802f370cd4f947fd3325015">OnWindowTitleChanged</a> () override</td></tr>
-<tr class="separator:a2f04f8043802f370cd4f947fd3325015"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a154d0ca8fe3dfa899f7e8e5bc0bad0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a0a154d0ca8fe3dfa899f7e8e5bc0bad0">OnWindowIconChanged</a> () override</td></tr>
-<tr class="separator:a0a154d0ca8fe3dfa899f7e8e5bc0bad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c1ad385ed541852bd32a0c8e7cc4b0a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a4c1ad385ed541852bd32a0c8e7cc4b0a">OnWindowCursorChanged</a> () override</td></tr>
-<tr class="separator:a4c1ad385ed541852bd32a0c8e7cc4b0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5266e76bf785d3fb215e9ae819ae5ff7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a5266e76bf785d3fb215e9ae819ae5ff7">OnWindowMouseCursorVisibilityChanged</a> () override</td></tr>
-<tr class="separator:a5266e76bf785d3fb215e9ae819ae5ff7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81963c4ee491e2a6b106e2376ee280c5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a81963c4ee491e2a6b106e2376ee280c5">OnWindowMouseCursorGrabbingChanged</a> () override</td></tr>
-<tr class="separator:a81963c4ee491e2a6b106e2376ee280c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1869b6d0eee91c518d4fff3cd8055ff3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a1869b6d0eee91c518d4fff3cd8055ff3">OnActivated</a> () override</td></tr>
+<tr class="separator:a1869b6d0eee91c518d4fff3cd8055ff3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41be64e81534a5959231e0762700f246"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a41be64e81534a5959231e0762700f246">OnDeactivated</a> () override</td></tr>
+<tr class="separator:a41be64e81534a5959231e0762700f246"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0f97cd0a7f4d33693d9f1752607f8fd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#ae0f97cd0a7f4d33693d9f1752607f8fd">OnSuspending</a> () override</td></tr>
+<tr class="separator:ae0f97cd0a7f4d33693d9f1752607f8fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20aef744cc279de539a1032042dc126f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a20aef744cc279de539a1032042dc126f">OnResuming</a> () override</td></tr>
+<tr class="separator:a20aef744cc279de539a1032042dc126f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a940349b366ec57774dd5c7200c191aed"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a940349b366ec57774dd5c7200c191aed">OnWindowMoved</a> () override</td></tr>
+<tr class="separator:a940349b366ec57774dd5c7200c191aed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cb179c7fb8bb1f43dcc986889d28faa"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a3cb179c7fb8bb1f43dcc986889d28faa">OnWindowSizeChanged</a> () override</td></tr>
+<tr class="separator:a3cb179c7fb8bb1f43dcc986889d28faa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6271994b8b0822a2dedd1a9a2f96a3e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#ad6271994b8b0822a2dedd1a9a2f96a3e">OnWindowTitleChanged</a> () override</td></tr>
+<tr class="separator:ad6271994b8b0822a2dedd1a9a2f96a3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae628da6185e96ff2f7533dcfb1b40d56"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#ae628da6185e96ff2f7533dcfb1b40d56">OnWindowIconChanged</a> () override</td></tr>
+<tr class="separator:ae628da6185e96ff2f7533dcfb1b40d56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17cca1bc8dd868ea6e8016f8aa96d819"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a17cca1bc8dd868ea6e8016f8aa96d819">OnWindowCursorChanged</a> () override</td></tr>
+<tr class="separator:a17cca1bc8dd868ea6e8016f8aa96d819"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3eb19cac791a6eab83a25e305b5c63a5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a3eb19cac791a6eab83a25e305b5c63a5">OnWindowMouseCursorVisibilityChanged</a> () override</td></tr>
+<tr class="separator:a3eb19cac791a6eab83a25e305b5c63a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79e8a287954518a8a35d2a726a90d2e2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_core_objects_facade.html#a79e8a287954518a8a35d2a726a90d2e2">OnWindowMouseCursorGrabbingChanged</a> () override</td></tr>
+<tr class="separator:a79e8a287954518a8a35d2a726a90d2e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91d4f7afb800fb791b2a14e30972b276"><td class="memItemLeft" align="right" valign="top"><a id="a91d4f7afb800fb791b2a14e30972b276" name="a91d4f7afb800fb791b2a14e30972b276"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>OnActivated</b> ()=0</td></tr>
 <tr class="separator:a91d4f7afb800fb791b2a14e30972b276"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -190,8 +216,8 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a5bdd5909f133324a308e3275fd5fd38a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ae34984a336be8505609bf01623f51141" name="ae34984a336be8505609bf01623f51141"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae34984a336be8505609bf01623f51141">&#9670;&#160;</a></span>OnActivated()</h2>
+<a id="a1869b6d0eee91c518d4fff3cd8055ff3" name="a1869b6d0eee91c518d4fff3cd8055ff3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1869b6d0eee91c518d4fff3cd8055ff3">&#9670;&#160;</a></span>OnActivated()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -200,7 +226,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void GCoreObjectsFacade::OnActivated </td>
+          <td class="memname">virtual void GCoreObjectsFacade::OnActivated </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -217,8 +243,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a04d4d503bf80a7051753c57d6301fca2" name="a04d4d503bf80a7051753c57d6301fca2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04d4d503bf80a7051753c57d6301fca2">&#9670;&#160;</a></span>OnDeactivated()</h2>
+<a id="a41be64e81534a5959231e0762700f246" name="a41be64e81534a5959231e0762700f246"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41be64e81534a5959231e0762700f246">&#9670;&#160;</a></span>OnDeactivated()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -227,7 +253,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void GCoreObjectsFacade::OnDeactivated </td>
+          <td class="memname">virtual void GCoreObjectsFacade::OnDeactivated </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -244,8 +270,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a8d54c328d9c978a1be3d50e97de0d093" name="a8d54c328d9c978a1be3d50e97de0d093"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8d54c328d9c978a1be3d50e97de0d093">&#9670;&#160;</a></span>OnResuming()</h2>
+<a id="a20aef744cc279de539a1032042dc126f" name="a20aef744cc279de539a1032042dc126f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20aef744cc279de539a1032042dc126f">&#9670;&#160;</a></span>OnResuming()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -254,7 +280,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void GCoreObjectsFacade::OnResuming </td>
+          <td class="memname">virtual void GCoreObjectsFacade::OnResuming </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -271,8 +297,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a4d2daabaa5e4cc6a2d09ec0be1e639da" name="a4d2daabaa5e4cc6a2d09ec0be1e639da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d2daabaa5e4cc6a2d09ec0be1e639da">&#9670;&#160;</a></span>OnSuspending()</h2>
+<a id="ae0f97cd0a7f4d33693d9f1752607f8fd" name="ae0f97cd0a7f4d33693d9f1752607f8fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0f97cd0a7f4d33693d9f1752607f8fd">&#9670;&#160;</a></span>OnSuspending()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -281,7 +307,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void GCoreObjectsFacade::OnSuspending </td>
+          <td class="memname">virtual void GCoreObjectsFacade::OnSuspending </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -298,8 +324,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a4c1ad385ed541852bd32a0c8e7cc4b0a" name="a4c1ad385ed541852bd32a0c8e7cc4b0a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4c1ad385ed541852bd32a0c8e7cc4b0a">&#9670;&#160;</a></span>OnWindowCursorChanged()</h2>
+<a id="a17cca1bc8dd868ea6e8016f8aa96d819" name="a17cca1bc8dd868ea6e8016f8aa96d819"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17cca1bc8dd868ea6e8016f8aa96d819">&#9670;&#160;</a></span>OnWindowCursorChanged()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -308,7 +334,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void GCoreObjectsFacade::OnWindowCursorChanged </td>
+          <td class="memname">virtual void GCoreObjectsFacade::OnWindowCursorChanged </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -325,8 +351,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a0a154d0ca8fe3dfa899f7e8e5bc0bad0" name="a0a154d0ca8fe3dfa899f7e8e5bc0bad0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0a154d0ca8fe3dfa899f7e8e5bc0bad0">&#9670;&#160;</a></span>OnWindowIconChanged()</h2>
+<a id="ae628da6185e96ff2f7533dcfb1b40d56" name="ae628da6185e96ff2f7533dcfb1b40d56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae628da6185e96ff2f7533dcfb1b40d56">&#9670;&#160;</a></span>OnWindowIconChanged()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -335,7 +361,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void GCoreObjectsFacade::OnWindowIconChanged </td>
+          <td class="memname">virtual void GCoreObjectsFacade::OnWindowIconChanged </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -352,8 +378,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a81963c4ee491e2a6b106e2376ee280c5" name="a81963c4ee491e2a6b106e2376ee280c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81963c4ee491e2a6b106e2376ee280c5">&#9670;&#160;</a></span>OnWindowMouseCursorGrabbingChanged()</h2>
+<a id="a79e8a287954518a8a35d2a726a90d2e2" name="a79e8a287954518a8a35d2a726a90d2e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79e8a287954518a8a35d2a726a90d2e2">&#9670;&#160;</a></span>OnWindowMouseCursorGrabbingChanged()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -362,7 +388,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void GCoreObjectsFacade::OnWindowMouseCursorGrabbingChanged </td>
+          <td class="memname">virtual void GCoreObjectsFacade::OnWindowMouseCursorGrabbingChanged </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -379,8 +405,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a5266e76bf785d3fb215e9ae819ae5ff7" name="a5266e76bf785d3fb215e9ae819ae5ff7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5266e76bf785d3fb215e9ae819ae5ff7">&#9670;&#160;</a></span>OnWindowMouseCursorVisibilityChanged()</h2>
+<a id="a3eb19cac791a6eab83a25e305b5c63a5" name="a3eb19cac791a6eab83a25e305b5c63a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3eb19cac791a6eab83a25e305b5c63a5">&#9670;&#160;</a></span>OnWindowMouseCursorVisibilityChanged()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -389,7 +415,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void GCoreObjectsFacade::OnWindowMouseCursorVisibilityChanged </td>
+          <td class="memname">virtual void GCoreObjectsFacade::OnWindowMouseCursorVisibilityChanged </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -406,8 +432,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a79ed5095bebf576317f3ea62787f2a68" name="a79ed5095bebf576317f3ea62787f2a68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79ed5095bebf576317f3ea62787f2a68">&#9670;&#160;</a></span>OnWindowMoved()</h2>
+<a id="a940349b366ec57774dd5c7200c191aed" name="a940349b366ec57774dd5c7200c191aed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a940349b366ec57774dd5c7200c191aed">&#9670;&#160;</a></span>OnWindowMoved()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -416,7 +442,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void GCoreObjectsFacade::OnWindowMoved </td>
+          <td class="memname">virtual void GCoreObjectsFacade::OnWindowMoved </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -433,8 +459,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a483572becbd7117c29464f0396d860b7" name="a483572becbd7117c29464f0396d860b7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a483572becbd7117c29464f0396d860b7">&#9670;&#160;</a></span>OnWindowSizeChanged()</h2>
+<a id="a3cb179c7fb8bb1f43dcc986889d28faa" name="a3cb179c7fb8bb1f43dcc986889d28faa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cb179c7fb8bb1f43dcc986889d28faa">&#9670;&#160;</a></span>OnWindowSizeChanged()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -443,7 +469,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void GCoreObjectsFacade::OnWindowSizeChanged </td>
+          <td class="memname">virtual void GCoreObjectsFacade::OnWindowSizeChanged </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -460,8 +486,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a2f04f8043802f370cd4f947fd3325015" name="a2f04f8043802f370cd4f947fd3325015"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f04f8043802f370cd4f947fd3325015">&#9670;&#160;</a></span>OnWindowTitleChanged()</h2>
+<a id="ad6271994b8b0822a2dedd1a9a2f96a3e" name="ad6271994b8b0822a2dedd1a9a2f96a3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6271994b8b0822a2dedd1a9a2f96a3e">&#9670;&#160;</a></span>OnWindowTitleChanged()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -470,7 +496,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void GCoreObjectsFacade::OnWindowTitleChanged </td>
+          <td class="memname">virtual void GCoreObjectsFacade::OnWindowTitleChanged </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -487,14 +513,17 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>Source/NordEngine/Engine/CoreGame/Public/CoreGame/<a class="el" href="_core_objects_facade_8h_source.html">CoreObjectsFacade.h</a></li>
-<li>Source/NordEngine/Engine/CoreGame/Private/CoreGame/CoreObjectsFacade.cpp</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_g_core_objects_facade.html">GCoreObjectsFacade</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
+  </ul>
+</div>
 </body>
 </html>

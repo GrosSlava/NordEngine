@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['keepalive_0',['keepAlive',['../classsf_1_1_ftp.html#aa1127d442b4acb2105aa8060a39d04fc',1,'sf::Ftp']]]
+  ['lerpusinghsv_0',['LerpUsingHSV',['../struct_f_linear_color.html#a1026f3827865642a48b21f505dedcff0',1,'FLinearColor']]],
+  ['linearrgbtohsv_1',['LinearRGBToHSV',['../struct_f_linear_color.html#a4941b1a4de8018545fa188f5228e1227',1,'FLinearColor']]]
 ];

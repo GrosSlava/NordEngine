@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['height_0',['height',['../classsf_1_1_rect.html#a6fa0fc7de1636d78cae1a1b54eef95cd',1,'sf::Rect::height()'],['../structsf_1_1_event_1_1_size_event.html#af0f76a599d5f48189cb8d78d4e5facdb',1,'sf::Event::SizeEvent::height()'],['../classsf_1_1_video_mode.html#a5a88d44c9470db7474361a42a189342d',1,'sf::VideoMode::height()']]]
+  ['rightvector_0',['RightVector',['../struct_f_vector3_d.html#aa629e2878c56a4c3489f68433268b41b',1,'FVector3D']]],
+  ['roll_1',['Roll',['../struct_f_rotator.html#aae501271aa428d5c586b889a27fb46e3',1,'FRotator']]]
 ];

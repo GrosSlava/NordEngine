@@ -9,9 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,9 +30,21 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NordEngine
+   <div id="projectname">NordEngine<span id="projectnumber">&#160;0.1.0</span>
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -35,17 +56,23 @@
 var searchBox = new SearchBox("searchBox", "search/",'.html');
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search');
-  $(document).ready(function() { init_search(); });
-});
+$(document).ready(function(){initNavTree('struct_f_linear_color.html',''); initResizable(); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -67,7 +94,6 @@ $(function() {
 </div>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="headertitle"><div class="title">FLinearColor Member List</div></div>
 </div><!--header-->
@@ -84,15 +110,15 @@ $(function() {
   <tr class="even"><td class="entry"><a class="el" href="struct_f_linear_color.html#a2d242231d7ec56bfd8eb8e6621976912">Desaturate</a>(float Desaturation) const noexcept</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_linear_color.html#a50c2adada43069945d42e6cf0315bfe8">Dist</a>(const FLinearColor &amp;V1, const FLinearColor &amp;V2)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Equals</b>(const FLinearColor &amp;ColorB, float Tolerance=KINDA_SMALL_NUMBER) const noexcept (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="struct_f_linear_color.html#a6bfc2ac2c827fc5a780ee33cd5e24d3a">EvaluateBezier</a>(const FLinearColor *ControlPoints, int32 NumPoints, TArray&lt; FLinearColor &gt; &amp;OutPoints)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="struct_f_linear_color.html#af696a9a4f3704730c56548314685db4c">EvaluateBezier</a>(const FLinearColor *ControlPoints, int32 NumPoints, TArray&lt; FLinearColor &gt; &amp;OutPoints)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>FLinearColor</b>() (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>FLinearColor</b>(float InR, float InG, float InB, float InA=1.0f) noexcept (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="struct_f_linear_color.html#a49fa628320f859b0f1d574a328885fbe">FLinearColor</a>(const FColor &amp;Color) noexcept</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>FLinearColor</b>(const FVector3D &amp;Vector) noexcept (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>FLinearColor</b>(const FVector4D &amp;Vector) noexcept (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>FLinearColor</b>(const FFloat16Color &amp;C) noexcept (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="struct_f_linear_color.html#a1f33373cb3edeeaad0aaf5ffc0e11090">FromPow22Color</a>(const FColor &amp;Color)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="struct_f_linear_color.html#a7b1722f5d4ec4623b35a7027c906221a">FromSRGBColor</a>(const FColor &amp;Color)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="struct_f_linear_color.html#a16e6eebcb59516316a7be1b8296abbd7">FromPow22Color</a>(const FColor &amp;Color)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="struct_f_linear_color.html#a76d127d251f94de025b876b54a94d13c">FromSRGBColor</a>(const FColor &amp;Color)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>G</b> (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>GetClamped</b>(float InMin=0.0f, float InMax=1.0f) const noexcept (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>GetLuminance</b>() const noexcept (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
@@ -102,11 +128,11 @@ $(function() {
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Green</b> (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_linear_color.html#a4fe216bd7df0d10fd1d1bc96adcdbc0e">HSVToLinearRGB</a>() const noexcept</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="struct_f_linear_color.html#a53bdd15e62f966428e7311984e3410bc">IsAlmostBlack</a>() const noexcept</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="struct_f_linear_color.html#aea10f584abf2169e160e1e967c37de3d">LerpUsingHSV</a>(const FLinearColor &amp;From, const FLinearColor &amp;To, const float Progress)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="struct_f_linear_color.html#a1026f3827865642a48b21f505dedcff0">LerpUsingHSV</a>(const FLinearColor &amp;From, const FLinearColor &amp;To, const float Progress)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="struct_f_linear_color.html#a4941b1a4de8018545fa188f5228e1227">LinearRGBToHSV</a>() const noexcept</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="struct_f_linear_color.html#aafa22d9455ce051b262e94ed913d32a9">MakeFromColorTemperature</a>(float Temp)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="struct_f_linear_color.html#a664b69ef45fe3ac6a9bc26debbcf1087">MakeFromColorTemperature</a>(float Temp)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="struct_f_linear_color.html#a5d894a5d7f1b2d061315f2b6c08ae0a9">MakeFromHSV8</a>(uint8 H, uint8 S, uint8 V)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="struct_f_linear_color.html#ab2bcc28862d5fccb2811af9a731160e8">MakeRandomColor</a>()</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="struct_f_linear_color.html#a4df50c5a1feb64bdeb5fb16a732fc984">MakeRandomColor</a>()</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>operator!=</b>(const FLinearColor &amp;Other) const (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>operator*</b>(const FLinearColor &amp;ColorB) const noexcept (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>operator*</b>(float Scalar) const noexcept (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
@@ -121,21 +147,24 @@ $(function() {
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>operator/=</b>(const FLinearColor &amp;ColorB) noexcept (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>operator/=</b>(float Scalar) noexcept (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_linear_color.html#a7ecd182adaec6de337eb6f62449f3b54">operator==</a>(const FLinearColor &amp;ColorB) const</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="struct_f_linear_color.html#af1a3237200f1ff917716c28ee018f4e9">Pow22OneOver255Table</a></td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="struct_f_linear_color.html#ab4c519f7b4006764ed6e848c896bf83d">Pow22OneOver255Table</a></td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_linear_color.html#a1b790e5e5ffb2c9575f601705628d92b">Quantize</a>() const noexcept</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="struct_f_linear_color.html#a0ba1f47efc69ecac7124a3b30afbcdd9">QuantizeRound</a>() const noexcept</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>R</b> (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Red</b> (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="struct_f_linear_color.html#a341e83b077f26502cadda15c9e0c6752">sRGBToLinearTable</a></td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="struct_f_linear_color.html#a0a2d7b82482f4573cd30b6d5537eb660">sRGBToLinearTable</a></td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="struct_f_linear_color.html#a75e0114bc80d9eb2d2d86708bc197c6c">ToFColor</a>(const bool bSRGB) const noexcept</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>ToRGBE</b>() const noexcept (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Transparent</b> (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>White</b> (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Yellow</b> (defined in <a class="el" href="struct_f_linear_color.html">FLinearColor</a>)</td><td class="entry"><a class="el" href="struct_f_linear_color.html">FLinearColor</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
+  </ul>
+</div>
 </body>
 </html>

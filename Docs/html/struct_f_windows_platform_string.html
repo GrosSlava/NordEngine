@@ -9,9 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,9 +30,21 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NordEngine
+   <div id="projectname">NordEngine<span id="projectnumber">&#160;0.1.0</span>
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -35,17 +56,23 @@
 var searchBox = new SearchBox("searchBox", "search/",'.html');
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search');
-  $(document).ready(function() { init_search(); });
-});
+$(document).ready(function(){initNavTree('struct_f_windows_platform_string.html',''); initResizable(); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -67,7 +94,6 @@ $(function() {
 </div>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="struct_f_windows_platform_string-members.html">List of all members</a>  </div>
@@ -226,141 +252,145 @@ static FORCEINLINE int32&#160;</td><td class="memItemRight" valign="bottom"><b>S
 <tr class="memitem:aedcacd395361c450557f27133324e68a inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="aedcacd395361c450557f27133324e68a" name="aedcacd395361c450557f27133324e68a"></a>
 static FORCEINLINE int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strnlen</b> (const UCS2CHAR *String, size_t StringSize) noexcept</td></tr>
 <tr class="separator:aedcacd395361c450557f27133324e68a inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a176fb8a911d561cb3fbb93240319b9 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a7a176fb8a911d561cb3fbb93240319b9" name="a7a176fb8a911d561cb3fbb93240319b9"></a>
+<tr class="memitem:ac4bf4abda97c69edffa9dcf9ad4633b1 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="ac4bf4abda97c69edffa9dcf9ad4633b1" name="ac4bf4abda97c69edffa9dcf9ad4633b1"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const ANSICHAR *String1, const ANSICHAR *String2)</td></tr>
-<tr class="separator:a7a176fb8a911d561cb3fbb93240319b9 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af14ca97ca8ae3ce2b27ff44006e12a36 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="af14ca97ca8ae3ce2b27ff44006e12a36" name="af14ca97ca8ae3ce2b27ff44006e12a36"></a>
+<tr class="separator:ac4bf4abda97c69edffa9dcf9ad4633b1 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9c0dd5931ab8075a08a8daeb03fdb7a inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="ad9c0dd5931ab8075a08a8daeb03fdb7a" name="ad9c0dd5931ab8075a08a8daeb03fdb7a"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const WIDECHAR *String1, const WIDECHAR *String2)</td></tr>
-<tr class="separator:af14ca97ca8ae3ce2b27ff44006e12a36 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f4e15f0e81d4085dcaeca3cbb887711 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a9f4e15f0e81d4085dcaeca3cbb887711" name="a9f4e15f0e81d4085dcaeca3cbb887711"></a>
+<tr class="separator:ad9c0dd5931ab8075a08a8daeb03fdb7a inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdda67295e654a355b9ccca874c695f5 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="afdda67295e654a355b9ccca874c695f5" name="afdda67295e654a355b9ccca874c695f5"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const UTF8CHAR *String1, const UTF8CHAR *String2)</td></tr>
-<tr class="separator:a9f4e15f0e81d4085dcaeca3cbb887711 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a695851ab04461ba60d6f0a49354a7606 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a695851ab04461ba60d6f0a49354a7606" name="a695851ab04461ba60d6f0a49354a7606"></a>
+<tr class="separator:afdda67295e654a355b9ccca874c695f5 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a082cdeb14ccf02d04ebbfdb267a8ddb9 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a082cdeb14ccf02d04ebbfdb267a8ddb9" name="a082cdeb14ccf02d04ebbfdb267a8ddb9"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const UTF16CHAR *String1, const UTF16CHAR *String2)</td></tr>
-<tr class="separator:a695851ab04461ba60d6f0a49354a7606 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a337ba631a137309c978177575837af81 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a337ba631a137309c978177575837af81" name="a337ba631a137309c978177575837af81"></a>
+<tr class="separator:a082cdeb14ccf02d04ebbfdb267a8ddb9 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cb2d29ea24e50b8c1963e97c4b6bca2 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a0cb2d29ea24e50b8c1963e97c4b6bca2" name="a0cb2d29ea24e50b8c1963e97c4b6bca2"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const UTF32CHAR *String1, const UTF32CHAR *String2)</td></tr>
-<tr class="separator:a337ba631a137309c978177575837af81 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5257676b94d015cb388d8ab2653f10f9 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a5257676b94d015cb388d8ab2653f10f9" name="a5257676b94d015cb388d8ab2653f10f9"></a>
+<tr class="separator:a0cb2d29ea24e50b8c1963e97c4b6bca2 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2c86d7cd64a382772f5df3e36fef0e2 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="ac2c86d7cd64a382772f5df3e36fef0e2" name="ac2c86d7cd64a382772f5df3e36fef0e2"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const ANSICHAR *String1, const WIDECHAR *String2)</td></tr>
-<tr class="separator:a5257676b94d015cb388d8ab2653f10f9 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52885a06d4892069443fc7dafdeee061 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a52885a06d4892069443fc7dafdeee061" name="a52885a06d4892069443fc7dafdeee061"></a>
+<tr class="separator:ac2c86d7cd64a382772f5df3e36fef0e2 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a917afa9cbf120d75fbec6f57ccbb9665 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a917afa9cbf120d75fbec6f57ccbb9665" name="a917afa9cbf120d75fbec6f57ccbb9665"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const ANSICHAR *String1, const UTF8CHAR *String2)</td></tr>
-<tr class="separator:a52885a06d4892069443fc7dafdeee061 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ac73c96d3532dbe8ed5be22ccaf5a52 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a1ac73c96d3532dbe8ed5be22ccaf5a52" name="a1ac73c96d3532dbe8ed5be22ccaf5a52"></a>
+<tr class="separator:a917afa9cbf120d75fbec6f57ccbb9665 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a439c9c32e4b1d4713464661ae29042d0 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a439c9c32e4b1d4713464661ae29042d0" name="a439c9c32e4b1d4713464661ae29042d0"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const ANSICHAR *String1, const UTF16CHAR *String2)</td></tr>
-<tr class="separator:a1ac73c96d3532dbe8ed5be22ccaf5a52 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a810c3a1a6b244af514e36987d6910bb5 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a810c3a1a6b244af514e36987d6910bb5" name="a810c3a1a6b244af514e36987d6910bb5"></a>
+<tr class="separator:a439c9c32e4b1d4713464661ae29042d0 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8773c34e4e4b48cb644a0f8cc095ae5f inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a8773c34e4e4b48cb644a0f8cc095ae5f" name="a8773c34e4e4b48cb644a0f8cc095ae5f"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const ANSICHAR *String1, const UTF32CHAR *String2)</td></tr>
-<tr class="separator:a810c3a1a6b244af514e36987d6910bb5 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a520ab62aa7987d33d2de4ca32cc74a21 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a520ab62aa7987d33d2de4ca32cc74a21" name="a520ab62aa7987d33d2de4ca32cc74a21"></a>
+<tr class="separator:a8773c34e4e4b48cb644a0f8cc095ae5f inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdbf409715d6fa291ade986a1e10c6fe inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="afdbf409715d6fa291ade986a1e10c6fe" name="afdbf409715d6fa291ade986a1e10c6fe"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const WIDECHAR *String1, const ANSICHAR *String2)</td></tr>
-<tr class="separator:a520ab62aa7987d33d2de4ca32cc74a21 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79d1416dc2aaa71d3a0d556f20089590 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a79d1416dc2aaa71d3a0d556f20089590" name="a79d1416dc2aaa71d3a0d556f20089590"></a>
+<tr class="separator:afdbf409715d6fa291ade986a1e10c6fe inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a101b2d69f646c3bd8b50a33decc628ac inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a101b2d69f646c3bd8b50a33decc628ac" name="a101b2d69f646c3bd8b50a33decc628ac"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const UTF8CHAR *String1, const ANSICHAR *String2)</td></tr>
-<tr class="separator:a79d1416dc2aaa71d3a0d556f20089590 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7c8f0ac94570c6a1e022123c77f9e61 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="aa7c8f0ac94570c6a1e022123c77f9e61" name="aa7c8f0ac94570c6a1e022123c77f9e61"></a>
+<tr class="separator:a101b2d69f646c3bd8b50a33decc628ac inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6b83e29046cab80987e8737f64a903c inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="ac6b83e29046cab80987e8737f64a903c" name="ac6b83e29046cab80987e8737f64a903c"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const UTF16CHAR *String1, const ANSICHAR *String2)</td></tr>
-<tr class="separator:aa7c8f0ac94570c6a1e022123c77f9e61 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ac5332b0542b94bb2958fea6d8eb8e3 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a1ac5332b0542b94bb2958fea6d8eb8e3" name="a1ac5332b0542b94bb2958fea6d8eb8e3"></a>
+<tr class="separator:ac6b83e29046cab80987e8737f64a903c inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a402d16e67d1cc7288b65dbb89f09f466 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a402d16e67d1cc7288b65dbb89f09f466" name="a402d16e67d1cc7288b65dbb89f09f466"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const UTF32CHAR *String1, const ANSICHAR *String2)</td></tr>
-<tr class="separator:a1ac5332b0542b94bb2958fea6d8eb8e3 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a601f9dbe1f588733c5b58b565d940b7f inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a601f9dbe1f588733c5b58b565d940b7f" name="a601f9dbe1f588733c5b58b565d940b7f"></a>
+<tr class="separator:a402d16e67d1cc7288b65dbb89f09f466 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d529914bfd635ea1c78dd3240a7e98c inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a6d529914bfd635ea1c78dd3240a7e98c" name="a6d529914bfd635ea1c78dd3240a7e98c"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strncmp</b> (const ANSICHAR *String1, const ANSICHAR *String2, SIZE_T Count)</td></tr>
-<tr class="separator:a601f9dbe1f588733c5b58b565d940b7f inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae65699cbd27e01ed55216d4ac43462d4 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="ae65699cbd27e01ed55216d4ac43462d4" name="ae65699cbd27e01ed55216d4ac43462d4"></a>
+<tr class="separator:a6d529914bfd635ea1c78dd3240a7e98c inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd99cb1b14df27b8b7c58490c1dc5159 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="acd99cb1b14df27b8b7c58490c1dc5159" name="acd99cb1b14df27b8b7c58490c1dc5159"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strncmp</b> (const WIDECHAR *String1, const WIDECHAR *String2, SIZE_T Count)</td></tr>
-<tr class="separator:ae65699cbd27e01ed55216d4ac43462d4 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ac702a87f23e2dfc21086aafbb227fe inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a3ac702a87f23e2dfc21086aafbb227fe" name="a3ac702a87f23e2dfc21086aafbb227fe"></a>
+<tr class="separator:acd99cb1b14df27b8b7c58490c1dc5159 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13e5ede8ba3e507e78b64460cddeccfb inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a13e5ede8ba3e507e78b64460cddeccfb" name="a13e5ede8ba3e507e78b64460cddeccfb"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strncmp</b> (const ANSICHAR *String1, const WIDECHAR *String2, SIZE_T Count)</td></tr>
-<tr class="separator:a3ac702a87f23e2dfc21086aafbb227fe inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a15543d8d406afafdd353d4dae68fcb inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a5a15543d8d406afafdd353d4dae68fcb" name="a5a15543d8d406afafdd353d4dae68fcb"></a>
+<tr class="separator:a13e5ede8ba3e507e78b64460cddeccfb inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd16cc8bc7681191563dff9864aaa08b inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="abd16cc8bc7681191563dff9864aaa08b" name="abd16cc8bc7681191563dff9864aaa08b"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strncmp</b> (const WIDECHAR *String1, const ANSICHAR *String2, SIZE_T Count)</td></tr>
-<tr class="separator:a5a15543d8d406afafdd353d4dae68fcb inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05434d153e364d5c01a46213fdf25578 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a05434d153e364d5c01a46213fdf25578" name="a05434d153e364d5c01a46213fdf25578"></a>
+<tr class="separator:abd16cc8bc7681191563dff9864aaa08b inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50eb36732c6355c81e48cd38aedc3d20 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a50eb36732c6355c81e48cd38aedc3d20" name="a50eb36732c6355c81e48cd38aedc3d20"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strnicmp</b> (const ANSICHAR *String1, const ANSICHAR *String2, SIZE_T Count)</td></tr>
-<tr class="separator:a05434d153e364d5c01a46213fdf25578 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8b86620b10b380143403058b5088724 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="ad8b86620b10b380143403058b5088724" name="ad8b86620b10b380143403058b5088724"></a>
+<tr class="separator:a50eb36732c6355c81e48cd38aedc3d20 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a740d436e69d7e500743e98fe96ffd98a inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a740d436e69d7e500743e98fe96ffd98a" name="a740d436e69d7e500743e98fe96ffd98a"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strnicmp</b> (const WIDECHAR *String1, const WIDECHAR *String2, SIZE_T Count)</td></tr>
-<tr class="separator:ad8b86620b10b380143403058b5088724 inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6d8821a4be9314cbe762f4e721003eb inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="af6d8821a4be9314cbe762f4e721003eb" name="af6d8821a4be9314cbe762f4e721003eb"></a>
+<tr class="separator:a740d436e69d7e500743e98fe96ffd98a inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa72e61a3e66e68fd47bc22d886206e1e inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="aa72e61a3e66e68fd47bc22d886206e1e" name="aa72e61a3e66e68fd47bc22d886206e1e"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strnicmp</b> (const ANSICHAR *String1, const WIDECHAR *String2, SIZE_T Count)</td></tr>
-<tr class="separator:af6d8821a4be9314cbe762f4e721003eb inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f812d77b673727c96be51f3c30d1b2b inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a3f812d77b673727c96be51f3c30d1b2b" name="a3f812d77b673727c96be51f3c30d1b2b"></a>
+<tr class="separator:aa72e61a3e66e68fd47bc22d886206e1e inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a8db00107fd979d23ea0948c641e7de inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a6a8db00107fd979d23ea0948c641e7de" name="a6a8db00107fd979d23ea0948c641e7de"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strnicmp</b> (const WIDECHAR *String1, const ANSICHAR *String2, SIZE_T Count)</td></tr>
-<tr class="separator:a3f812d77b673727c96be51f3c30d1b2b inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a6a8db00107fd979d23ea0948c641e7de inherit pub_static_methods_struct_f_microsoft_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_methods_struct_f_generic_platform_string"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_struct_f_generic_platform_string')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="struct_f_generic_platform_string.html">FGenericPlatformString</a></td></tr>
-<tr class="memitem:a7a176fb8a911d561cb3fbb93240319b9 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a7a176fb8a911d561cb3fbb93240319b9" name="a7a176fb8a911d561cb3fbb93240319b9"></a>
+<tr class="memitem:ac4bf4abda97c69edffa9dcf9ad4633b1 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="ac4bf4abda97c69edffa9dcf9ad4633b1" name="ac4bf4abda97c69edffa9dcf9ad4633b1"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const ANSICHAR *String1, const ANSICHAR *String2)</td></tr>
-<tr class="separator:a7a176fb8a911d561cb3fbb93240319b9 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af14ca97ca8ae3ce2b27ff44006e12a36 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="af14ca97ca8ae3ce2b27ff44006e12a36" name="af14ca97ca8ae3ce2b27ff44006e12a36"></a>
+<tr class="separator:ac4bf4abda97c69edffa9dcf9ad4633b1 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9c0dd5931ab8075a08a8daeb03fdb7a inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="ad9c0dd5931ab8075a08a8daeb03fdb7a" name="ad9c0dd5931ab8075a08a8daeb03fdb7a"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const WIDECHAR *String1, const WIDECHAR *String2)</td></tr>
-<tr class="separator:af14ca97ca8ae3ce2b27ff44006e12a36 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f4e15f0e81d4085dcaeca3cbb887711 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a9f4e15f0e81d4085dcaeca3cbb887711" name="a9f4e15f0e81d4085dcaeca3cbb887711"></a>
+<tr class="separator:ad9c0dd5931ab8075a08a8daeb03fdb7a inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdda67295e654a355b9ccca874c695f5 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="afdda67295e654a355b9ccca874c695f5" name="afdda67295e654a355b9ccca874c695f5"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const UTF8CHAR *String1, const UTF8CHAR *String2)</td></tr>
-<tr class="separator:a9f4e15f0e81d4085dcaeca3cbb887711 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a695851ab04461ba60d6f0a49354a7606 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a695851ab04461ba60d6f0a49354a7606" name="a695851ab04461ba60d6f0a49354a7606"></a>
+<tr class="separator:afdda67295e654a355b9ccca874c695f5 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a082cdeb14ccf02d04ebbfdb267a8ddb9 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a082cdeb14ccf02d04ebbfdb267a8ddb9" name="a082cdeb14ccf02d04ebbfdb267a8ddb9"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const UTF16CHAR *String1, const UTF16CHAR *String2)</td></tr>
-<tr class="separator:a695851ab04461ba60d6f0a49354a7606 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a337ba631a137309c978177575837af81 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a337ba631a137309c978177575837af81" name="a337ba631a137309c978177575837af81"></a>
+<tr class="separator:a082cdeb14ccf02d04ebbfdb267a8ddb9 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cb2d29ea24e50b8c1963e97c4b6bca2 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a0cb2d29ea24e50b8c1963e97c4b6bca2" name="a0cb2d29ea24e50b8c1963e97c4b6bca2"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const UTF32CHAR *String1, const UTF32CHAR *String2)</td></tr>
-<tr class="separator:a337ba631a137309c978177575837af81 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5257676b94d015cb388d8ab2653f10f9 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a5257676b94d015cb388d8ab2653f10f9" name="a5257676b94d015cb388d8ab2653f10f9"></a>
+<tr class="separator:a0cb2d29ea24e50b8c1963e97c4b6bca2 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2c86d7cd64a382772f5df3e36fef0e2 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="ac2c86d7cd64a382772f5df3e36fef0e2" name="ac2c86d7cd64a382772f5df3e36fef0e2"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const ANSICHAR *String1, const WIDECHAR *String2)</td></tr>
-<tr class="separator:a5257676b94d015cb388d8ab2653f10f9 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52885a06d4892069443fc7dafdeee061 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a52885a06d4892069443fc7dafdeee061" name="a52885a06d4892069443fc7dafdeee061"></a>
+<tr class="separator:ac2c86d7cd64a382772f5df3e36fef0e2 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a917afa9cbf120d75fbec6f57ccbb9665 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a917afa9cbf120d75fbec6f57ccbb9665" name="a917afa9cbf120d75fbec6f57ccbb9665"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const ANSICHAR *String1, const UTF8CHAR *String2)</td></tr>
-<tr class="separator:a52885a06d4892069443fc7dafdeee061 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ac73c96d3532dbe8ed5be22ccaf5a52 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a1ac73c96d3532dbe8ed5be22ccaf5a52" name="a1ac73c96d3532dbe8ed5be22ccaf5a52"></a>
+<tr class="separator:a917afa9cbf120d75fbec6f57ccbb9665 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a439c9c32e4b1d4713464661ae29042d0 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a439c9c32e4b1d4713464661ae29042d0" name="a439c9c32e4b1d4713464661ae29042d0"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const ANSICHAR *String1, const UTF16CHAR *String2)</td></tr>
-<tr class="separator:a1ac73c96d3532dbe8ed5be22ccaf5a52 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a810c3a1a6b244af514e36987d6910bb5 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a810c3a1a6b244af514e36987d6910bb5" name="a810c3a1a6b244af514e36987d6910bb5"></a>
+<tr class="separator:a439c9c32e4b1d4713464661ae29042d0 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8773c34e4e4b48cb644a0f8cc095ae5f inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a8773c34e4e4b48cb644a0f8cc095ae5f" name="a8773c34e4e4b48cb644a0f8cc095ae5f"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const ANSICHAR *String1, const UTF32CHAR *String2)</td></tr>
-<tr class="separator:a810c3a1a6b244af514e36987d6910bb5 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a520ab62aa7987d33d2de4ca32cc74a21 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a520ab62aa7987d33d2de4ca32cc74a21" name="a520ab62aa7987d33d2de4ca32cc74a21"></a>
+<tr class="separator:a8773c34e4e4b48cb644a0f8cc095ae5f inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdbf409715d6fa291ade986a1e10c6fe inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="afdbf409715d6fa291ade986a1e10c6fe" name="afdbf409715d6fa291ade986a1e10c6fe"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const WIDECHAR *String1, const ANSICHAR *String2)</td></tr>
-<tr class="separator:a520ab62aa7987d33d2de4ca32cc74a21 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79d1416dc2aaa71d3a0d556f20089590 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a79d1416dc2aaa71d3a0d556f20089590" name="a79d1416dc2aaa71d3a0d556f20089590"></a>
+<tr class="separator:afdbf409715d6fa291ade986a1e10c6fe inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a101b2d69f646c3bd8b50a33decc628ac inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a101b2d69f646c3bd8b50a33decc628ac" name="a101b2d69f646c3bd8b50a33decc628ac"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const UTF8CHAR *String1, const ANSICHAR *String2)</td></tr>
-<tr class="separator:a79d1416dc2aaa71d3a0d556f20089590 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7c8f0ac94570c6a1e022123c77f9e61 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="aa7c8f0ac94570c6a1e022123c77f9e61" name="aa7c8f0ac94570c6a1e022123c77f9e61"></a>
+<tr class="separator:a101b2d69f646c3bd8b50a33decc628ac inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6b83e29046cab80987e8737f64a903c inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="ac6b83e29046cab80987e8737f64a903c" name="ac6b83e29046cab80987e8737f64a903c"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const UTF16CHAR *String1, const ANSICHAR *String2)</td></tr>
-<tr class="separator:aa7c8f0ac94570c6a1e022123c77f9e61 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ac5332b0542b94bb2958fea6d8eb8e3 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a1ac5332b0542b94bb2958fea6d8eb8e3" name="a1ac5332b0542b94bb2958fea6d8eb8e3"></a>
+<tr class="separator:ac6b83e29046cab80987e8737f64a903c inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a402d16e67d1cc7288b65dbb89f09f466 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a402d16e67d1cc7288b65dbb89f09f466" name="a402d16e67d1cc7288b65dbb89f09f466"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Stricmp</b> (const UTF32CHAR *String1, const ANSICHAR *String2)</td></tr>
-<tr class="separator:a1ac5332b0542b94bb2958fea6d8eb8e3 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05434d153e364d5c01a46213fdf25578 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a05434d153e364d5c01a46213fdf25578" name="a05434d153e364d5c01a46213fdf25578"></a>
+<tr class="separator:a402d16e67d1cc7288b65dbb89f09f466 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50eb36732c6355c81e48cd38aedc3d20 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a50eb36732c6355c81e48cd38aedc3d20" name="a50eb36732c6355c81e48cd38aedc3d20"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strnicmp</b> (const ANSICHAR *String1, const ANSICHAR *String2, SIZE_T Count)</td></tr>
-<tr class="separator:a05434d153e364d5c01a46213fdf25578 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8b86620b10b380143403058b5088724 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="ad8b86620b10b380143403058b5088724" name="ad8b86620b10b380143403058b5088724"></a>
+<tr class="separator:a50eb36732c6355c81e48cd38aedc3d20 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a740d436e69d7e500743e98fe96ffd98a inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a740d436e69d7e500743e98fe96ffd98a" name="a740d436e69d7e500743e98fe96ffd98a"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strnicmp</b> (const WIDECHAR *String1, const WIDECHAR *String2, SIZE_T Count)</td></tr>
-<tr class="separator:ad8b86620b10b380143403058b5088724 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6d8821a4be9314cbe762f4e721003eb inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="af6d8821a4be9314cbe762f4e721003eb" name="af6d8821a4be9314cbe762f4e721003eb"></a>
+<tr class="separator:a740d436e69d7e500743e98fe96ffd98a inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa72e61a3e66e68fd47bc22d886206e1e inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="aa72e61a3e66e68fd47bc22d886206e1e" name="aa72e61a3e66e68fd47bc22d886206e1e"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strnicmp</b> (const ANSICHAR *String1, const WIDECHAR *String2, SIZE_T Count)</td></tr>
-<tr class="separator:af6d8821a4be9314cbe762f4e721003eb inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f812d77b673727c96be51f3c30d1b2b inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a3f812d77b673727c96be51f3c30d1b2b" name="a3f812d77b673727c96be51f3c30d1b2b"></a>
+<tr class="separator:aa72e61a3e66e68fd47bc22d886206e1e inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a8db00107fd979d23ea0948c641e7de inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a6a8db00107fd979d23ea0948c641e7de" name="a6a8db00107fd979d23ea0948c641e7de"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strnicmp</b> (const WIDECHAR *String1, const ANSICHAR *String2, SIZE_T Count)</td></tr>
-<tr class="separator:a3f812d77b673727c96be51f3c30d1b2b inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a601f9dbe1f588733c5b58b565d940b7f inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a601f9dbe1f588733c5b58b565d940b7f" name="a601f9dbe1f588733c5b58b565d940b7f"></a>
+<tr class="separator:a6a8db00107fd979d23ea0948c641e7de inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d529914bfd635ea1c78dd3240a7e98c inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a6d529914bfd635ea1c78dd3240a7e98c" name="a6d529914bfd635ea1c78dd3240a7e98c"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strncmp</b> (const ANSICHAR *String1, const ANSICHAR *String2, SIZE_T Count)</td></tr>
-<tr class="separator:a601f9dbe1f588733c5b58b565d940b7f inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae65699cbd27e01ed55216d4ac43462d4 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="ae65699cbd27e01ed55216d4ac43462d4" name="ae65699cbd27e01ed55216d4ac43462d4"></a>
+<tr class="separator:a6d529914bfd635ea1c78dd3240a7e98c inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd99cb1b14df27b8b7c58490c1dc5159 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="acd99cb1b14df27b8b7c58490c1dc5159" name="acd99cb1b14df27b8b7c58490c1dc5159"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strncmp</b> (const WIDECHAR *String1, const WIDECHAR *String2, SIZE_T Count)</td></tr>
-<tr class="separator:ae65699cbd27e01ed55216d4ac43462d4 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ac702a87f23e2dfc21086aafbb227fe inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a3ac702a87f23e2dfc21086aafbb227fe" name="a3ac702a87f23e2dfc21086aafbb227fe"></a>
+<tr class="separator:acd99cb1b14df27b8b7c58490c1dc5159 inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13e5ede8ba3e507e78b64460cddeccfb inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a13e5ede8ba3e507e78b64460cddeccfb" name="a13e5ede8ba3e507e78b64460cddeccfb"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strncmp</b> (const ANSICHAR *String1, const WIDECHAR *String2, SIZE_T Count)</td></tr>
-<tr class="separator:a3ac702a87f23e2dfc21086aafbb227fe inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a15543d8d406afafdd353d4dae68fcb inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="a5a15543d8d406afafdd353d4dae68fcb" name="a5a15543d8d406afafdd353d4dae68fcb"></a>
+<tr class="separator:a13e5ede8ba3e507e78b64460cddeccfb inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd16cc8bc7681191563dff9864aaa08b inherit pub_static_methods_struct_f_generic_platform_string"><td class="memItemLeft" align="right" valign="top"><a id="abd16cc8bc7681191563dff9864aaa08b" name="abd16cc8bc7681191563dff9864aaa08b"></a>
 static int32&#160;</td><td class="memItemRight" valign="bottom"><b>Strncmp</b> (const WIDECHAR *String1, const ANSICHAR *String2, SIZE_T Count)</td></tr>
-<tr class="separator:a5a15543d8d406afafdd353d4dae68fcb inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:abd16cc8bc7681191563dff9864aaa08b inherit pub_static_methods_struct_f_generic_platform_string"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li>Source/NordEngine/Core/GenericPlatform/Public/Windows/WindowsPlatformString/<a class="el" href="_windows_platform_string_8h_source.html">WindowsPlatformString.h</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="struct_f_windows_platform_string.html">FWindowsPlatformString</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
+  </ul>
+</div>
 </body>
 </html>

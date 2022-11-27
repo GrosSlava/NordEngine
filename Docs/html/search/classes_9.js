@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['joystick_0',['Joystick',['../classsf_1_1_joystick.html',1,'sf']]],
-  ['joystickbuttonevent_1',['JoystickButtonEvent',['../structsf_1_1_event_1_1_joystick_button_event.html',1,'sf::Event']]],
-  ['joystickconnectevent_2',['JoystickConnectEvent',['../structsf_1_1_event_1_1_joystick_connect_event.html',1,'sf::Event']]],
-  ['joystickmoveevent_3',['JoystickMoveEvent',['../structsf_1_1_event_1_1_joystick_move_event.html',1,'sf::Event']]]
+  ['ugameinputsettings_0',['UGameInputSettings',['../class_u_game_input_settings.html',1,'']]],
+  ['ugameusersettings_1',['UGameUserSettings',['../class_u_game_user_settings.html',1,'']]],
+  ['uscene2dview_2',['UScene2DView',['../class_u_scene2_d_view.html',1,'']]],
+  ['uscene3dview_3',['UScene3DView',['../class_u_scene3_d_view.html',1,'']]],
+  ['usfmladapter2d_4',['USFMLAdapter2D',['../class_u_s_f_m_l_adapter2_d.html',1,'']]]
 ];

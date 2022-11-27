@@ -9,9 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,9 +30,21 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NordEngine
+   <div id="projectname">NordEngine<span id="projectnumber">&#160;0.1.0</span>
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -35,17 +56,23 @@
 var searchBox = new SearchBox("searchBox", "search/",'.html');
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search');
-  $(document).ready(function() { init_search(); });
-});
+$(document).ready(function(){initNavTree('_rotator_8h_source.html',''); initResizable(); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -67,11 +94,6 @@ $(function() {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a class="el" href="dir_bf80161b754576c0dd9219a87171c0e7.html">NordEngine</a></li><li class="navelem"><a class="el" href="dir_2c8cd888bb4f162346ac26a4f85cc21e.html">Core</a></li><li class="navelem"><a class="el" href="dir_e15d7e6d16bcde3206aa16a7311782e9.html">Containers</a></li><li class="navelem"><a class="el" href="dir_48d1e3fbe98f89fc27e111a8b8658ac7.html">Public</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle"><div class="title">Rotator.h</div></div>
 </div><!--header-->
@@ -108,7 +130,7 @@ $(function() {
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    </div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <a class="code hl_function" href="struct_f_rotator.html#ade62c46c77f0ba4750e92d1fbb0393c5">FRotator</a>(<span class="keyword">const</span> FQuat&amp; Quat);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="struct_f_rotator.html#a5f38f41a127fb05ff03a404e7b105080">   58</a></span>    <a class="code hl_function" href="struct_f_rotator.html#a5f38f41a127fb05ff03a404e7b105080">FRotator</a>(<span class="keyword">const</span> FQuat&amp; Quat);</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
@@ -308,21 +330,21 @@ $(function() {
 <div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span> </div>
 <div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span> </div>
 <div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span> </div>
-<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>    <a class="code hl_struct" href="struct_f_rotator.html">FRotator</a> <a class="code hl_function" href="struct_f_rotator.html#a5f8e4578fc2d17399c32027bf18692d5">GetInverse</a>() const noexcept;</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno"><a class="line" href="struct_f_rotator.html#a5f8e4578fc2d17399c32027bf18692d5">  397</a></span>    <a class="code hl_struct" href="struct_f_rotator.html">FRotator</a> <a class="code hl_function" href="struct_f_rotator.html#a5f8e4578fc2d17399c32027bf18692d5">GetInverse</a>() const noexcept;</div>
 <div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>    </div>
-<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>    <a class="code hl_struct" href="struct_f_vector3_d.html">FVector3D</a> <a class="code hl_function" href="struct_f_rotator.html#a30ae7e10bb41a215e66064699baa3bdb">Vector</a>() const noexcept;</div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno"><a class="line" href="struct_f_rotator.html#a30ae7e10bb41a215e66064699baa3bdb">  404</a></span>    <a class="code hl_struct" href="struct_f_vector3_d.html">FVector3D</a> <a class="code hl_function" href="struct_f_rotator.html#a30ae7e10bb41a215e66064699baa3bdb">Vector</a>() const noexcept;</div>
 <div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>    </div>
 <div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span> </div>
-<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>    FQuat <a class="code hl_function" href="struct_f_rotator.html#ad4e62083bf0136a4dfef8d464b7413b5">Quaternion</a>() const noexcept;</div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno"><a class="line" href="struct_f_rotator.html#ad4e62083bf0136a4dfef8d464b7413b5">  412</a></span>    FQuat <a class="code hl_function" href="struct_f_rotator.html#ad4e62083bf0136a4dfef8d464b7413b5">Quaternion</a>() const noexcept;</div>
 <div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>    </div>
 <div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span> </div>
-<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>    <a class="code hl_struct" href="struct_f_vector3_d.html">FVector3D</a> <a class="code hl_function" href="struct_f_rotator.html#a0a6bab5ab33ab06df7026a586dec0bc7">Euler</a>() const noexcept;</div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno"><a class="line" href="struct_f_rotator.html#a0a6bab5ab33ab06df7026a586dec0bc7">  420</a></span>    <a class="code hl_struct" href="struct_f_vector3_d.html">FVector3D</a> <a class="code hl_function" href="struct_f_rotator.html#a0a6bab5ab33ab06df7026a586dec0bc7">Euler</a>() const noexcept;</div>
 <div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>    </div>
 <div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span> </div>
-<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>    <a class="code hl_struct" href="struct_f_vector3_d.html">FVector3D</a> <a class="code hl_function" href="struct_f_rotator.html#a20a608b035d5e196fc20102d84dd7da8">RotateVector</a>(const <a class="code hl_struct" href="struct_f_vector3_d.html">FVector3D</a>&amp; V) const noexcept;</div>
+<div class="line"><a id="l00429" name="l00429"></a><span class="lineno"><a class="line" href="struct_f_rotator.html#a20a608b035d5e196fc20102d84dd7da8">  429</a></span>    <a class="code hl_struct" href="struct_f_vector3_d.html">FVector3D</a> <a class="code hl_function" href="struct_f_rotator.html#a20a608b035d5e196fc20102d84dd7da8">RotateVector</a>(const <a class="code hl_struct" href="struct_f_vector3_d.html">FVector3D</a>&amp; V) const noexcept;</div>
 <div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>    </div>
 <div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span> </div>
-<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>    <a class="code hl_struct" href="struct_f_vector3_d.html">FVector3D</a> <a class="code hl_function" href="struct_f_rotator.html#ace9e23ac58855e6996ca20aae585e2ec">UnrotateVector</a>(const <a class="code hl_struct" href="struct_f_vector3_d.html">FVector3D</a>&amp; V) const noexcept;</div>
+<div class="line"><a id="l00438" name="l00438"></a><span class="lineno"><a class="line" href="struct_f_rotator.html#ace9e23ac58855e6996ca20aae585e2ec">  438</a></span>    <a class="code hl_struct" href="struct_f_vector3_d.html">FVector3D</a> <a class="code hl_function" href="struct_f_rotator.html#ace9e23ac58855e6996ca20aae585e2ec">UnrotateVector</a>(const <a class="code hl_struct" href="struct_f_vector3_d.html">FVector3D</a>&amp; V) const noexcept;</div>
 <div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>    </div>
 <div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span> </div>
 <div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span> </div>
@@ -383,7 +405,7 @@ $(function() {
 <div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span> </div>
 <div class="line"><a id="l00533" name="l00533"></a><span class="lineno">  533</span> </div>
 <div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span> </div>
-<div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_rotator.html">FRotator</a> <a class="code hl_function" href="struct_f_rotator.html#a9659de3996a7f8222a7f239a7d7af12e">MakeFromEuler</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_f_vector3_d.html">FVector3D</a>&amp; <a class="code hl_function" href="struct_f_rotator.html#a0a6bab5ab33ab06df7026a586dec0bc7">Euler</a>);</div>
+<div class="line"><a id="l00541" name="l00541"></a><span class="lineno"><a class="line" href="struct_f_rotator.html#a8a3c5e0289259052345dd764edc1e7fe">  541</a></span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_rotator.html">FRotator</a> <a class="code hl_function" href="struct_f_rotator.html#a8a3c5e0289259052345dd764edc1e7fe">MakeFromEuler</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_f_vector3_d.html">FVector3D</a>&amp; <a class="code hl_function" href="struct_f_rotator.html#a0a6bab5ab33ab06df7026a586dec0bc7">Euler</a>);</div>
 <div class="line"><a id="l00542" name="l00542"></a><span class="lineno">  542</span> </div>
 <div class="line"><a id="l00543" name="l00543"></a><span class="lineno">  543</span> </div>
 <div class="line"><a id="l00544" name="l00544"></a><span class="lineno">  544</span> </div>
@@ -411,14 +433,14 @@ $(function() {
 <div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>}</div>
 <div class="ttc" id="astruct_f_rotator_html"><div class="ttname"><a href="struct_f_rotator.html">FRotator</a></div><div class="ttdef"><b>Definition:</b> Rotator.h:18</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a01f41d398ea3053dd0b7b7beb1d8f1bc"><div class="ttname"><a href="struct_f_rotator.html#a01f41d398ea3053dd0b7b7beb1d8f1bc">FRotator::ZeroRotator</a></div><div class="ttdeci">static const FRotator ZeroRotator</div><div class="ttdef"><b>Definition:</b> Rotator.h:548</div></div>
-<div class="ttc" id="astruct_f_rotator_html_a0a6bab5ab33ab06df7026a586dec0bc7"><div class="ttname"><a href="struct_f_rotator.html#a0a6bab5ab33ab06df7026a586dec0bc7">FRotator::Euler</a></div><div class="ttdeci">FVector3D Euler() const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.cpp:67</div></div>
+<div class="ttc" id="astruct_f_rotator_html_a0a6bab5ab33ab06df7026a586dec0bc7"><div class="ttname"><a href="struct_f_rotator.html#a0a6bab5ab33ab06df7026a586dec0bc7">FRotator::Euler</a></div><div class="ttdeci">FVector3D Euler() const noexcept</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a0b398e974b07943d71950ae71983f653"><div class="ttname"><a href="struct_f_rotator.html#a0b398e974b07943d71950ae71983f653">FRotator::GridSnap</a></div><div class="ttdeci">FORCEINLINE FRotator GridSnap(const FRotator &amp;RotGrid) const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:228</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a1afaf44535a41b06ed2b96a9f0d3e0cd"><div class="ttname"><a href="struct_f_rotator.html#a1afaf44535a41b06ed2b96a9f0d3e0cd">FRotator::DecompressAxisFromShort</a></div><div class="ttdeci">static FORCEINLINE float DecompressAxisFromShort(uint16 Angle)</div><div class="ttdef"><b>Definition:</b> Rotator.h:526</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a1f03e2f7482b096ef225610df9ba37aa"><div class="ttname"><a href="struct_f_rotator.html#a1f03e2f7482b096ef225610df9ba37aa">FRotator::Pitch</a></div><div class="ttdeci">float Pitch</div><div class="ttdef"><b>Definition:</b> Rotator.h:553</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a202f324cba2b7733ed8a020e259c8864"><div class="ttname"><a href="struct_f_rotator.html#a202f324cba2b7733ed8a020e259c8864">FRotator::Yaw</a></div><div class="ttdeci">float Yaw</div><div class="ttdef"><b>Definition:</b> Rotator.h:556</div></div>
-<div class="ttc" id="astruct_f_rotator_html_a20a608b035d5e196fc20102d84dd7da8"><div class="ttname"><a href="struct_f_rotator.html#a20a608b035d5e196fc20102d84dd7da8">FRotator::RotateVector</a></div><div class="ttdeci">FVector3D RotateVector(const FVector3D &amp;V) const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.cpp:72</div></div>
+<div class="ttc" id="astruct_f_rotator_html_a20a608b035d5e196fc20102d84dd7da8"><div class="ttname"><a href="struct_f_rotator.html#a20a608b035d5e196fc20102d84dd7da8">FRotator::RotateVector</a></div><div class="ttdeci">FVector3D RotateVector(const FVector3D &amp;V) const noexcept</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a26dbcc8f7e912a395f296c90129e9c07"><div class="ttname"><a href="struct_f_rotator.html#a26dbcc8f7e912a395f296c90129e9c07">FRotator::NormalizeAxis</a></div><div class="ttdeci">static FORCEINLINE float NormalizeAxis(float Angle)</div><div class="ttdef"><b>Definition:</b> Rotator.h:470</div></div>
-<div class="ttc" id="astruct_f_rotator_html_a30ae7e10bb41a215e66064699baa3bdb"><div class="ttname"><a href="struct_f_rotator.html#a30ae7e10bb41a215e66064699baa3bdb">FRotator::Vector</a></div><div class="ttdeci">FVector3D Vector() const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.cpp:29</div></div>
+<div class="ttc" id="astruct_f_rotator_html_a30ae7e10bb41a215e66064699baa3bdb"><div class="ttname"><a href="struct_f_rotator.html#a30ae7e10bb41a215e66064699baa3bdb">FRotator::Vector</a></div><div class="ttdeci">FVector3D Vector() const noexcept</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a35678755305a3b3aca0990af31510f6c"><div class="ttname"><a href="struct_f_rotator.html#a35678755305a3b3aca0990af31510f6c">FRotator::operator-=</a></div><div class="ttdeci">FORCEINLINE FRotator operator-=(const FRotator &amp;R) noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:128</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a4d06695b96e8a72672408035673db6bc"><div class="ttname"><a href="struct_f_rotator.html#a4d06695b96e8a72672408035673db6bc">FRotator::Add</a></div><div class="ttdeci">FORCEINLINE FRotator Add(float DeltaPitch, float DeltaYaw, float DeltaRoll) noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:212</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a4df9fecab0307f3a1196580f0efd6c3c"><div class="ttname"><a href="struct_f_rotator.html#a4df9fecab0307f3a1196580f0efd6c3c">FRotator::operator==</a></div><div class="ttdeci">FORCEINLINE bool operator==(const FRotator &amp;R) const</div><div class="ttdef"><b>Definition:</b> Rotator.h:144</div></div>
@@ -426,7 +448,8 @@ $(function() {
 <div class="ttc" id="astruct_f_rotator_html_a56c3b71105cc4ab3f082cf522ab398dd"><div class="ttname"><a href="struct_f_rotator.html#a56c3b71105cc4ab3f082cf522ab398dd">FRotator::Clamp</a></div><div class="ttdeci">FORCEINLINE FRotator Clamp() const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:243</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a5c87796964554c772d6b6dc3bd83f1cf"><div class="ttname"><a href="struct_f_rotator.html#a5c87796964554c772d6b6dc3bd83f1cf">FRotator::SetClosestToMe</a></div><div class="ttdeci">FORCEINLINE void SetClosestToMe(FRotator &amp;MakeClosest) const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:364</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a5e5bcf4260f9d58781a9afc04ec901ed"><div class="ttname"><a href="struct_f_rotator.html#a5e5bcf4260f9d58781a9afc04ec901ed">FRotator::GetComponentForAxis</a></div><div class="ttdeci">FORCEINLINE float GetComponentForAxis(EAxis Axis) const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:275</div></div>
-<div class="ttc" id="astruct_f_rotator_html_a5f8e4578fc2d17399c32027bf18692d5"><div class="ttname"><a href="struct_f_rotator.html#a5f8e4578fc2d17399c32027bf18692d5">FRotator::GetInverse</a></div><div class="ttdeci">FRotator GetInverse() const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.cpp:24</div></div>
+<div class="ttc" id="astruct_f_rotator_html_a5f38f41a127fb05ff03a404e7b105080"><div class="ttname"><a href="struct_f_rotator.html#a5f38f41a127fb05ff03a404e7b105080">FRotator::FRotator</a></div><div class="ttdeci">FRotator(const FQuat &amp;Quat)</div></div>
+<div class="ttc" id="astruct_f_rotator_html_a5f8e4578fc2d17399c32027bf18692d5"><div class="ttname"><a href="struct_f_rotator.html#a5f8e4578fc2d17399c32027bf18692d5">FRotator::GetInverse</a></div><div class="ttdeci">FRotator GetInverse() const noexcept</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a6234d788d25ad36c86680007fcda1982"><div class="ttname"><a href="struct_f_rotator.html#a6234d788d25ad36c86680007fcda1982">FRotator::GetNormalized</a></div><div class="ttdeci">FORCEINLINE FRotator GetNormalized() const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:253</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a6cd483527d6fd4049723bd88e9be6174"><div class="ttname"><a href="struct_f_rotator.html#a6cd483527d6fd4049723bd88e9be6174">FRotator::DecompressAxisFromByte</a></div><div class="ttdeci">static FORCEINLINE float DecompressAxisFromByte(uint8 Angle)</div><div class="ttdef"><b>Definition:</b> Rotator.h:502</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a6ebee7c874928b2d265802798aba23ed"><div class="ttname"><a href="struct_f_rotator.html#a6ebee7c874928b2d265802798aba23ed">FRotator::FRotator</a></div><div class="ttdeci">FORCEINLINE FRotator(float InF) noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:32</div></div>
@@ -436,17 +459,17 @@ $(function() {
 <div class="ttc" id="astruct_f_rotator_html_a7dad343d3df467f8aa70090672ae80f8"><div class="ttname"><a href="struct_f_rotator.html#a7dad343d3df467f8aa70090672ae80f8">FRotator::IsNearlyZero</a></div><div class="ttdeci">FORCEINLINE bool IsNearlyZero(float Tolerance=KINDA_SMALL_NUMBER) const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:171</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a7e7e2407e414b69f5647af556dd91098"><div class="ttname"><a href="struct_f_rotator.html#a7e7e2407e414b69f5647af556dd91098">FRotator::operator+=</a></div><div class="ttdeci">FORCEINLINE FRotator operator+=(const FRotator &amp;R) noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:116</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a83333f17f11e08203b51ecf31e7044e7"><div class="ttname"><a href="struct_f_rotator.html#a83333f17f11e08203b51ecf31e7044e7">FRotator::CompressAxisToShort</a></div><div class="ttdeci">static FORCEINLINE uint16 CompressAxisToShort(float Angle)</div><div class="ttdef"><b>Definition:</b> Rotator.h:514</div></div>
+<div class="ttc" id="astruct_f_rotator_html_a8a3c5e0289259052345dd764edc1e7fe"><div class="ttname"><a href="struct_f_rotator.html#a8a3c5e0289259052345dd764edc1e7fe">FRotator::MakeFromEuler</a></div><div class="ttdeci">static FRotator MakeFromEuler(const FVector3D &amp;Euler)</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a92b9885255c7f8b8f63f6d10cc4f2a09"><div class="ttname"><a href="struct_f_rotator.html#a92b9885255c7f8b8f63f6d10cc4f2a09">FRotator::Equals</a></div><div class="ttdeci">FORCEINLINE bool Equals(const FRotator &amp;R, float Tolerance=KINDA_SMALL_NUMBER) const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:197</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a937bb22747ddee74df37865b35936636"><div class="ttname"><a href="struct_f_rotator.html#a937bb22747ddee74df37865b35936636">FRotator::FRotator</a></div><div class="ttdeci">FORCEINLINE FRotator(float InPitch, float InYaw, float InRoll) noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:45</div></div>
-<div class="ttc" id="astruct_f_rotator_html_a9659de3996a7f8222a7f239a7d7af12e"><div class="ttname"><a href="struct_f_rotator.html#a9659de3996a7f8222a7f239a7d7af12e">FRotator::MakeFromEuler</a></div><div class="ttdeci">static FRotator MakeFromEuler(const FVector3D &amp;Euler)</div><div class="ttdef"><b>Definition:</b> Rotator.cpp:87</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a96b1424e880ab872f11ff6d3a3fa7d84"><div class="ttname"><a href="struct_f_rotator.html#a96b1424e880ab872f11ff6d3a3fa7d84">FRotator::operator+</a></div><div class="ttdeci">FORCEINLINE FRotator operator+(const FRotator &amp;R) const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:71</div></div>
 <div class="ttc" id="astruct_f_rotator_html_a9f838b0df817f5b6d00e7c7b6e06a306"><div class="ttname"><a href="struct_f_rotator.html#a9f838b0df817f5b6d00e7c7b6e06a306">FRotator::Normalize</a></div><div class="ttdeci">FORCEINLINE void Normalize() noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:308</div></div>
 <div class="ttc" id="astruct_f_rotator_html_aae501271aa428d5c586b889a27fb46e3"><div class="ttname"><a href="struct_f_rotator.html#aae501271aa428d5c586b889a27fb46e3">FRotator::Roll</a></div><div class="ttdeci">float Roll</div><div class="ttdef"><b>Definition:</b> Rotator.h:559</div></div>
 <div class="ttc" id="astruct_f_rotator_html_ab57ba67917fda663a3da181c2e9a00fe"><div class="ttname"><a href="struct_f_rotator.html#ab57ba67917fda663a3da181c2e9a00fe">FRotator::ClampAxis</a></div><div class="ttdeci">static FORCEINLINE float ClampAxis(float Angle)</div><div class="ttdef"><b>Definition:</b> Rotator.h:450</div></div>
 <div class="ttc" id="astruct_f_rotator_html_abec6969c6358845706f0c5aff95ba271"><div class="ttname"><a href="struct_f_rotator.html#abec6969c6358845706f0c5aff95ba271">FRotator::operator*</a></div><div class="ttdeci">FORCEINLINE FRotator operator*(float Scale) const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:93</div></div>
 <div class="ttc" id="astruct_f_rotator_html_acb9df3ac32d018516c3da4e6265806d5"><div class="ttname"><a href="struct_f_rotator.html#acb9df3ac32d018516c3da4e6265806d5">FRotator::GetManhattanDistance</a></div><div class="ttdeci">FORCEINLINE float GetManhattanDistance(const FRotator &amp;Rotator) const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:342</div></div>
-<div class="ttc" id="astruct_f_rotator_html_ace9e23ac58855e6996ca20aae585e2ec"><div class="ttname"><a href="struct_f_rotator.html#ace9e23ac58855e6996ca20aae585e2ec">FRotator::UnrotateVector</a></div><div class="ttdeci">FVector3D UnrotateVector(const FVector3D &amp;V) const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.cpp:77</div></div>
-<div class="ttc" id="astruct_f_rotator_html_ad4e62083bf0136a4dfef8d464b7413b5"><div class="ttname"><a href="struct_f_rotator.html#ad4e62083bf0136a4dfef8d464b7413b5">FRotator::Quaternion</a></div><div class="ttdeci">FQuat Quaternion() const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.cpp:43</div></div>
+<div class="ttc" id="astruct_f_rotator_html_ace9e23ac58855e6996ca20aae585e2ec"><div class="ttname"><a href="struct_f_rotator.html#ace9e23ac58855e6996ca20aae585e2ec">FRotator::UnrotateVector</a></div><div class="ttdeci">FVector3D UnrotateVector(const FVector3D &amp;V) const noexcept</div></div>
+<div class="ttc" id="astruct_f_rotator_html_ad4e62083bf0136a4dfef8d464b7413b5"><div class="ttname"><a href="struct_f_rotator.html#ad4e62083bf0136a4dfef8d464b7413b5">FRotator::Quaternion</a></div><div class="ttdeci">FQuat Quaternion() const noexcept</div></div>
 <div class="ttc" id="astruct_f_rotator_html_ad783e3bcd863acc432bbd80d48c37077"><div class="ttname"><a href="struct_f_rotator.html#ad783e3bcd863acc432bbd80d48c37077">FRotator::GetWindingAndRemainder</a></div><div class="ttdeci">FORCEINLINE void GetWindingAndRemainder(FRotator &amp;Winding, FRotator &amp;Remainder) const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:322</div></div>
 <div class="ttc" id="astruct_f_rotator_html_addf7a2f01fe59e016090aeedcc6963e8"><div class="ttname"><a href="struct_f_rotator.html#addf7a2f01fe59e016090aeedcc6963e8">FRotator::operator-</a></div><div class="ttdeci">FORCEINLINE FRotator operator-(const FRotator &amp;R) const noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:82</div></div>
 <div class="ttc" id="astruct_f_rotator_html_ade62c46c77f0ba4750e92d1fbb0393c5"><div class="ttname"><a href="struct_f_rotator.html#ade62c46c77f0ba4750e92d1fbb0393c5">FRotator::FRotator</a></div><div class="ttdeci">FORCEINLINE FRotator() noexcept</div><div class="ttdef"><b>Definition:</b> Rotator.h:25</div></div>
@@ -456,9 +479,13 @@ $(function() {
 <div class="ttc" id="astruct_f_rotator_html_af607add244a6d94e13cb1d0aa78a8b6f"><div class="ttname"><a href="struct_f_rotator.html#af607add244a6d94e13cb1d0aa78a8b6f">FRotator::operator!=</a></div><div class="ttdeci">FORCEINLINE bool operator!=(const FRotator &amp;V) const</div><div class="ttdef"><b>Definition:</b> Rotator.h:155</div></div>
 <div class="ttc" id="astruct_f_vector3_d_html"><div class="ttname"><a href="struct_f_vector3_d.html">FVector3D</a></div><div class="ttdef"><b>Definition:</b> Vector3D.h:23</div></div>
 </div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a class="el" href="dir_bf80161b754576c0dd9219a87171c0e7.html">NordEngine</a></li><li class="navelem"><a class="el" href="dir_2c8cd888bb4f162346ac26a4f85cc21e.html">Core</a></li><li class="navelem"><a class="el" href="dir_e15d7e6d16bcde3206aa16a7311782e9.html">Containers</a></li><li class="navelem"><a class="el" href="dir_48d1e3fbe98f89fc27e111a8b8658ac7.html">Public</a></li><li class="navelem"><b>Rotator.h</b></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
+  </ul>
+</div>
 </body>
 </html>

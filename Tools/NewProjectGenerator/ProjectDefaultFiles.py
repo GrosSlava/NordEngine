@@ -164,6 +164,48 @@ StatementMacros : [
 	"""
 #------------------------------------------------------#
 
+def Fixup_Doxyfile(FilePath: str, ProjectName: str):
+	NewFileS = ""
+	with open(FilePath, 'r') as f:
+		for LLine in f:
+			if len(LLine) == 0 or LLine[0] == '#':
+				NewFileS += LLine
+				continue
+			S = LLine.split("=")
+			if len(S) != 2:
+				NewFileS += LLine
+				continue
+			LKey = S[0].strip()
+			if LKey == "PROJECT_NAME":
+				NewFileS += S[0] + "= \"" + ProjectName + "\"\n"
+			elif LKey == "OUTPUT_DIRECTORY":
+				NewFileS += S[0] + "= Docs\n"
+			elif LKey == "INPUT":
+				NewFileS += S[0] + "= Source README.md\n"
+			elif LKey == "RECURSIVE":
+				NewFileS += S[0] + "= YES\n"
+			elif LKey == "EXCLUDE_PATTERNS":
+				NewFileS += S[0] + "= */Private/* */ThirdParty/*\n"
+			elif LKey == "USE_MDFILE_AS_MAINPAGE":
+				NewFileS += S[0] + "= README.md\n"
+			elif LKey == "GENERATE_LATEX":
+				NewFileS += S[0] + "= NO\n"
+			elif LKey == "BUILTIN_STL_SUPPORT":
+				NewFileS += S[0] + "= YES\n"
+			elif LKey == "EXTRACT_STATIC":
+				NewFileS += S[0] + "= YES\n"
+			elif LKey == "DISABLE_INDEX":
+				NewFileS += S[0] + "= Yes\n"
+			elif LKey == "GENERATE_TREEVIEW":
+				NewFileS += S[0] + "= Yes\n"
+			elif LKey == "FULL_SIDEBAR":
+				NewFileS += S[0] + "= NO\n"
+			else:
+				NewFileS += LLine
+	with open(FilePath, 'w') as f:
+		f.write(NewFileS)
+#------------------------------------------------------#
+
 
 
 
@@ -261,5 +303,6 @@ def GetDefault_GenerateDocs_BatFileText():
 
 
 doxygen "Doxyfile"
+pause
 	"""
 #------------------------------------------------------#

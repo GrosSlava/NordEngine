@@ -9,9 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,9 +30,21 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NordEngine
+   <div id="projectname">NordEngine<span id="projectnumber">&#160;0.1.0</span>
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -35,17 +56,23 @@
 var searchBox = new SearchBox("searchBox", "search/",'.html');
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search');
-  $(document).ready(function() { init_search(); });
-});
+$(document).ready(function(){initNavTree('_color_8h_source.html',''); initResizable(); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -67,11 +94,6 @@ $(function() {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a class="el" href="dir_bf80161b754576c0dd9219a87171c0e7.html">NordEngine</a></li><li class="navelem"><a class="el" href="dir_2c8cd888bb4f162346ac26a4f85cc21e.html">Core</a></li><li class="navelem"><a class="el" href="dir_e15d7e6d16bcde3206aa16a7311782e9.html">Containers</a></li><li class="navelem"><a class="el" href="dir_48d1e3fbe98f89fc27e111a8b8658ac7.html">Public</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle"><div class="title">Color.h</div></div>
 </div><!--header-->
@@ -114,7 +136,7 @@ $(function() {
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    }</div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_f_color.html">FColor</a>&amp; Color) <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="struct_f_linear_color.html#a49fa628320f859b0f1d574a328885fbe">   52</a></span>    <a class="code hl_function" href="struct_f_linear_color.html#a49fa628320f859b0f1d574a328885fbe">FLinearColor</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_f_color.html">FColor</a>&amp; Color) <span class="keyword">noexcept</span>;</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_f_vector3_d.html">FVector3D</a>&amp; Vector) <span class="keyword">noexcept</span>;</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
@@ -317,16 +339,16 @@ $(function() {
 <div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span> </div>
 <div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    <a class="code hl_struct" href="struct_f_color.html">FColor</a> ToRGBE() const noexcept;</div>
 <div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span> </div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a4941b1a4de8018545fa188f5228e1227">LinearRGBToHSV</a>() const noexcept;</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno"><a class="line" href="struct_f_linear_color.html#a4941b1a4de8018545fa188f5228e1227">  275</a></span>    <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a4941b1a4de8018545fa188f5228e1227">LinearRGBToHSV</a>() const noexcept;</div>
 <div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span> </div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a4fe216bd7df0d10fd1d1bc96adcdbc0e">HSVToLinearRGB</a>() const noexcept;</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno"><a class="line" href="struct_f_linear_color.html#a4fe216bd7df0d10fd1d1bc96adcdbc0e">  278</a></span>    <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a4fe216bd7df0d10fd1d1bc96adcdbc0e">HSVToLinearRGB</a>() const noexcept;</div>
 <div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
 <div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    <a class="code hl_struct" href="struct_f_color.html">FColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a1b790e5e5ffb2c9575f601705628d92b">Quantize</a>() const noexcept;</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno"><a class="line" href="struct_f_linear_color.html#a1b790e5e5ffb2c9575f601705628d92b">  282</a></span>    <a class="code hl_struct" href="struct_f_color.html">FColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a1b790e5e5ffb2c9575f601705628d92b">Quantize</a>() const noexcept;</div>
 <div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span> </div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>    <a class="code hl_struct" href="struct_f_color.html">FColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a0ba1f47efc69ecac7124a3b30afbcdd9">QuantizeRound</a>() const noexcept;</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno"><a class="line" href="struct_f_linear_color.html#a0ba1f47efc69ecac7124a3b30afbcdd9">  285</a></span>    <a class="code hl_struct" href="struct_f_color.html">FColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a0ba1f47efc69ecac7124a3b30afbcdd9">QuantizeRound</a>() const noexcept;</div>
 <div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span> </div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>    <a class="code hl_struct" href="struct_f_color.html">FColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a75e0114bc80d9eb2d2d86708bc197c6c">ToFColor</a>(const <span class="keywordtype">bool</span> bSRGB) const noexcept;</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno"><a class="line" href="struct_f_linear_color.html#a75e0114bc80d9eb2d2d86708bc197c6c">  288</a></span>    <a class="code hl_struct" href="struct_f_color.html">FColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a75e0114bc80d9eb2d2d86708bc197c6c">ToFColor</a>(const <span class="keywordtype">bool</span> bSRGB) const noexcept;</div>
 <div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span> </div>
 <div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span> </div>
 <div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>public:</div>
@@ -347,23 +369,23 @@ $(function() {
 <div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span> </div>
 <div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span> </div>
 <div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span> </div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a> <a class="code hl_function" href="struct_f_linear_color.html#aafa22d9455ce051b262e94ed913d32a9">MakeFromColorTemperature</a>(<span class="keywordtype">float</span> Temp);</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno"><a class="line" href="struct_f_linear_color.html#a664b69ef45fe3ac6a9bc26debbcf1087">  318</a></span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a664b69ef45fe3ac6a9bc26debbcf1087">MakeFromColorTemperature</a>(<span class="keywordtype">float</span> Temp);</div>
 <div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span> </div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>    <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="struct_f_linear_color.html#a6bfc2ac2c827fc5a780ee33cd5e24d3a">EvaluateBezier</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a>* ControlPoints, int32 NumPoints, <a class="code hl_class" href="class_t_array.html">TArray&lt;FLinearColor&gt;</a>&amp; OutPoints);</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno"><a class="line" href="struct_f_linear_color.html#af696a9a4f3704730c56548314685db4c">  328</a></span>    <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_function" href="struct_f_linear_color.html#af696a9a4f3704730c56548314685db4c">EvaluateBezier</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a>* ControlPoints, int32 NumPoints, <a class="code hl_class" href="class_t_array.html">TArray&lt;FLinearColor&gt;</a>&amp; OutPoints);</div>
 <div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span> </div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a> <a class="code hl_function" href="struct_f_linear_color.html#aea10f584abf2169e160e1e967c37de3d">LerpUsingHSV</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a>&amp; From, <span class="keyword">const</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a>&amp; To, <span class="keyword">const</span> <span class="keywordtype">float</span> Progress);</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno"><a class="line" href="struct_f_linear_color.html#a1026f3827865642a48b21f505dedcff0">  340</a></span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a1026f3827865642a48b21f505dedcff0">LerpUsingHSV</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a>&amp; From, <span class="keyword">const</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a>&amp; To, <span class="keyword">const</span> <span class="keywordtype">float</span> Progress);</div>
 <div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span> </div>
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a7b1722f5d4ec4623b35a7027c906221a">FromSRGBColor</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_f_color.html">FColor</a>&amp; Color);</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno"><a class="line" href="struct_f_linear_color.html#a76d127d251f94de025b876b54a94d13c">  346</a></span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a76d127d251f94de025b876b54a94d13c">FromSRGBColor</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_f_color.html">FColor</a>&amp; Color);</div>
 <div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span> </div>
-<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a1f33373cb3edeeaad0aaf5ffc0e11090">FromPow22Color</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_f_color.html">FColor</a>&amp; Color);</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno"><a class="line" href="struct_f_linear_color.html#a16e6eebcb59516316a7be1b8296abbd7">  352</a></span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a16e6eebcb59516316a7be1b8296abbd7">FromPow22Color</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_f_color.html">FColor</a>&amp; Color);</div>
 <div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span> </div>
-<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a> <a class="code hl_function" href="struct_f_linear_color.html#ab2bcc28862d5fccb2811af9a731160e8">MakeRandomColor</a>();</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno"><a class="line" href="struct_f_linear_color.html#a4df50c5a1feb64bdeb5fb16a732fc984">  357</a></span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a> <a class="code hl_function" href="struct_f_linear_color.html#a4df50c5a1feb64bdeb5fb16a732fc984">MakeRandomColor</a>();</div>
 <div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span> </div>
 <div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span><span class="keyword">public</span>:</div>
 <div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span> </div>
-<div class="line"><a id="l00362" name="l00362"></a><span class="lineno"><a class="line" href="struct_f_linear_color.html#af1a3237200f1ff917716c28ee018f4e9">  362</a></span>    <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_variable" href="struct_f_linear_color.html#af1a3237200f1ff917716c28ee018f4e9">Pow22OneOver255Table</a>[256];</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno"><a class="line" href="struct_f_linear_color.html#ab4c519f7b4006764ed6e848c896bf83d">  362</a></span>    <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_variable" href="struct_f_linear_color.html#ab4c519f7b4006764ed6e848c896bf83d">Pow22OneOver255Table</a>[256];</div>
 <div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span> </div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno"><a class="line" href="struct_f_linear_color.html#a341e83b077f26502cadda15c9e0c6752">  365</a></span>    <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_variable" href="struct_f_linear_color.html#a341e83b077f26502cadda15c9e0c6752">sRGBToLinearTable</a>[256];</div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno"><a class="line" href="struct_f_linear_color.html#a0a2d7b82482f4573cd30b6d5537eb660">  365</a></span>    <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code hl_variable" href="struct_f_linear_color.html#a0a2d7b82482f4573cd30b6d5537eb660">sRGBToLinearTable</a>[256];</div>
 <div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span> </div>
 <div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>    <span class="comment">// Common colors.   </span></div>
 <div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>    <span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="struct_f_linear_color.html">FLinearColor</a> White;</div>
@@ -493,11 +515,11 @@ $(function() {
 <div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span> </div>
 <div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span><span class="keyword">public</span>:</div>
 <div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span> </div>
-<div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_color.html">FColor</a> <a class="code hl_function" href="struct_f_color.html#a15a6cc72709b79118e18c1acfec4b339">MakeRandomColor</a>();</div>
+<div class="line"><a id="l00519" name="l00519"></a><span class="lineno"><a class="line" href="struct_f_color.html#ae8d70fb8c7b6c3ea9b1c8be60c93c013">  519</a></span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_color.html">FColor</a> <a class="code hl_function" href="struct_f_color.html#ae8d70fb8c7b6c3ea9b1c8be60c93c013">MakeRandomColor</a>();</div>
 <div class="line"><a id="l00520" name="l00520"></a><span class="lineno">  520</span> </div>
-<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_color.html">FColor</a> <a class="code hl_function" href="struct_f_color.html#aa8c4d5f5cfec508fcb2ad544f5dfeb77">MakeRedToGreenColorFromScalar</a>(<span class="keywordtype">float</span> Scalar);</div>
+<div class="line"><a id="l00524" name="l00524"></a><span class="lineno"><a class="line" href="struct_f_color.html#a9b802630e6016f5c2d03882d0d832eff">  524</a></span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_color.html">FColor</a> <a class="code hl_function" href="struct_f_color.html#a9b802630e6016f5c2d03882d0d832eff">MakeRedToGreenColorFromScalar</a>(<span class="keywordtype">float</span> Scalar);</div>
 <div class="line"><a id="l00525" name="l00525"></a><span class="lineno">  525</span> </div>
-<div class="line"><a id="l00529" name="l00529"></a><span class="lineno">  529</span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_color.html">FColor</a> <a class="code hl_function" href="struct_f_color.html#a496c37ed0aaf253971c4a9fffc0639a2">MakeFromColorTemperature</a>(<span class="keywordtype">float</span> Temp);</div>
+<div class="line"><a id="l00529" name="l00529"></a><span class="lineno"><a class="line" href="struct_f_color.html#a3204fd1b4c30517ca131033df33dd735">  529</a></span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_f_color.html">FColor</a> <a class="code hl_function" href="struct_f_color.html#a3204fd1b4c30517ca131033df33dd735">MakeFromColorTemperature</a>(<span class="keywordtype">float</span> Temp);</div>
 <div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span> </div>
 <div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span>    </div>
 <div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span> </div>
@@ -622,43 +644,48 @@ $(function() {
 <div class="ttc" id="aclass_f_float16_color_html"><div class="ttname"><a href="class_f_float16_color.html">FFloat16Color</a></div><div class="ttdef"><b>Definition:</b> Float16Color.h:14</div></div>
 <div class="ttc" id="aclass_t_array_html"><div class="ttname"><a href="class_t_array.html">TArray</a></div><div class="ttdef"><b>Definition:</b> TArray.h:156</div></div>
 <div class="ttc" id="astruct_f_color_html"><div class="ttname"><a href="struct_f_color.html">FColor</a></div><div class="ttdef"><b>Definition:</b> Color.h:399</div></div>
-<div class="ttc" id="astruct_f_color_html_a15a6cc72709b79118e18c1acfec4b339"><div class="ttname"><a href="struct_f_color.html#a15a6cc72709b79118e18c1acfec4b339">FColor::MakeRandomColor</a></div><div class="ttdeci">static FColor MakeRandomColor()</div><div class="ttdef"><b>Definition:</b> Color.cpp:538</div></div>
 <div class="ttc" id="astruct_f_color_html_a20fc314aad10f19e68d38b2c3b8c5925"><div class="ttname"><a href="struct_f_color.html#a20fc314aad10f19e68d38b2c3b8c5925">FColor::ToPackedARGB</a></div><div class="ttdeci">FORCEINLINE uint32 ToPackedARGB() const noexcept</div><div class="ttdef"><b>Definition:</b> Color.h:484</div></div>
+<div class="ttc" id="astruct_f_color_html_a3204fd1b4c30517ca131033df33dd735"><div class="ttname"><a href="struct_f_color.html#a3204fd1b4c30517ca131033df33dd735">FColor::MakeFromColorTemperature</a></div><div class="ttdeci">static FColor MakeFromColorTemperature(float Temp)</div></div>
 <div class="ttc" id="astruct_f_color_html_a42c7e340b701ea423678fd60b7bdfe79"><div class="ttname"><a href="struct_f_color.html#a42c7e340b701ea423678fd60b7bdfe79">FColor::ReinterpretAsLinear</a></div><div class="ttdeci">FORCEINLINE FLinearColor ReinterpretAsLinear() const noexcept</div><div class="ttdef"><b>Definition:</b> Color.h:476</div></div>
-<div class="ttc" id="astruct_f_color_html_a496c37ed0aaf253971c4a9fffc0639a2"><div class="ttname"><a href="struct_f_color.html#a496c37ed0aaf253971c4a9fffc0639a2">FColor::MakeFromColorTemperature</a></div><div class="ttdeci">static FColor MakeFromColorTemperature(float Temp)</div><div class="ttdef"><b>Definition:</b> Color.cpp:554</div></div>
 <div class="ttc" id="astruct_f_color_html_a5cce803b306556fd0853371434cd476c"><div class="ttname"><a href="struct_f_color.html#a5cce803b306556fd0853371434cd476c">FColor::WithAlpha</a></div><div class="ttdeci">FORCEINLINE FColor WithAlpha(uint8 Alpha) const noexcept</div><div class="ttdef"><b>Definition:</b> Color.h:466</div></div>
 <div class="ttc" id="astruct_f_color_html_a668fa2b104b057017cde0a38a266e41c"><div class="ttname"><a href="struct_f_color.html#a668fa2b104b057017cde0a38a266e41c">FColor::ToPackedRGBA</a></div><div class="ttdeci">FORCEINLINE uint32 ToPackedRGBA() const noexcept</div><div class="ttdef"><b>Definition:</b> Color.h:500</div></div>
 <div class="ttc" id="astruct_f_color_html_a77a3ffc11fba64e7be363bce92739627"><div class="ttname"><a href="struct_f_color.html#a77a3ffc11fba64e7be363bce92739627">FColor::ToPackedABGR</a></div><div class="ttdeci">FORCEINLINE uint32 ToPackedABGR() const noexcept</div><div class="ttdef"><b>Definition:</b> Color.h:492</div></div>
 <div class="ttc" id="astruct_f_color_html_a944d8c1aa8a1c785c58ec2646146bed5"><div class="ttname"><a href="struct_f_color.html#a944d8c1aa8a1c785c58ec2646146bed5">FColor::White</a></div><div class="ttdeci">static const FColor White</div><div class="ttdef"><b>Definition:</b> Color.h:538</div></div>
 <div class="ttc" id="astruct_f_color_html_a9594508f154f5ea15f48ea01a0811801"><div class="ttname"><a href="struct_f_color.html#a9594508f154f5ea15f48ea01a0811801">FColor::ToPackedBGRA</a></div><div class="ttdeci">FORCEINLINE uint32 ToPackedBGRA() const noexcept</div><div class="ttdef"><b>Definition:</b> Color.h:508</div></div>
-<div class="ttc" id="astruct_f_color_html_aa8c4d5f5cfec508fcb2ad544f5dfeb77"><div class="ttname"><a href="struct_f_color.html#aa8c4d5f5cfec508fcb2ad544f5dfeb77">FColor::MakeRedToGreenColorFromScalar</a></div><div class="ttdeci">static FColor MakeRedToGreenColorFromScalar(float Scalar)</div><div class="ttdef"><b>Definition:</b> Color.cpp:544</div></div>
+<div class="ttc" id="astruct_f_color_html_a9b802630e6016f5c2d03882d0d832eff"><div class="ttname"><a href="struct_f_color.html#a9b802630e6016f5c2d03882d0d832eff">FColor::MakeRedToGreenColorFromScalar</a></div><div class="ttdeci">static FColor MakeRedToGreenColorFromScalar(float Scalar)</div></div>
+<div class="ttc" id="astruct_f_color_html_ae8d70fb8c7b6c3ea9b1c8be60c93c013"><div class="ttname"><a href="struct_f_color.html#ae8d70fb8c7b6c3ea9b1c8be60c93c013">FColor::MakeRandomColor</a></div><div class="ttdeci">static FColor MakeRandomColor()</div></div>
 <div class="ttc" id="astruct_f_linear_color_html"><div class="ttname"><a href="struct_f_linear_color.html">FLinearColor</a></div><div class="ttdef"><b>Definition:</b> Color.h:36</div></div>
-<div class="ttc" id="astruct_f_linear_color_html_a0ba1f47efc69ecac7124a3b30afbcdd9"><div class="ttname"><a href="struct_f_linear_color.html#a0ba1f47efc69ecac7124a3b30afbcdd9">FLinearColor::QuantizeRound</a></div><div class="ttdeci">FColor QuantizeRound() const noexcept</div><div class="ttdef"><b>Definition:</b> Color.cpp:246</div></div>
-<div class="ttc" id="astruct_f_linear_color_html_a1b790e5e5ffb2c9575f601705628d92b"><div class="ttname"><a href="struct_f_linear_color.html#a1b790e5e5ffb2c9575f601705628d92b">FLinearColor::Quantize</a></div><div class="ttdeci">FColor Quantize() const noexcept</div><div class="ttdef"><b>Definition:</b> Color.cpp:235</div></div>
-<div class="ttc" id="astruct_f_linear_color_html_a1f33373cb3edeeaad0aaf5ffc0e11090"><div class="ttname"><a href="struct_f_linear_color.html#a1f33373cb3edeeaad0aaf5ffc0e11090">FLinearColor::FromPow22Color</a></div><div class="ttdeci">static FLinearColor FromPow22Color(const FColor &amp;Color)</div><div class="ttdef"><b>Definition:</b> Color.cpp:410</div></div>
+<div class="ttc" id="astruct_f_linear_color_html_a0a2d7b82482f4573cd30b6d5537eb660"><div class="ttname"><a href="struct_f_linear_color.html#a0a2d7b82482f4573cd30b6d5537eb660">FLinearColor::sRGBToLinearTable</a></div><div class="ttdeci">static float sRGBToLinearTable[256]</div><div class="ttdef"><b>Definition:</b> Color.h:365</div></div>
+<div class="ttc" id="astruct_f_linear_color_html_a0ba1f47efc69ecac7124a3b30afbcdd9"><div class="ttname"><a href="struct_f_linear_color.html#a0ba1f47efc69ecac7124a3b30afbcdd9">FLinearColor::QuantizeRound</a></div><div class="ttdeci">FColor QuantizeRound() const noexcept</div></div>
+<div class="ttc" id="astruct_f_linear_color_html_a1026f3827865642a48b21f505dedcff0"><div class="ttname"><a href="struct_f_linear_color.html#a1026f3827865642a48b21f505dedcff0">FLinearColor::LerpUsingHSV</a></div><div class="ttdeci">static FLinearColor LerpUsingHSV(const FLinearColor &amp;From, const FLinearColor &amp;To, const float Progress)</div></div>
+<div class="ttc" id="astruct_f_linear_color_html_a16e6eebcb59516316a7be1b8296abbd7"><div class="ttname"><a href="struct_f_linear_color.html#a16e6eebcb59516316a7be1b8296abbd7">FLinearColor::FromPow22Color</a></div><div class="ttdeci">static FLinearColor FromPow22Color(const FColor &amp;Color)</div></div>
+<div class="ttc" id="astruct_f_linear_color_html_a1b790e5e5ffb2c9575f601705628d92b"><div class="ttname"><a href="struct_f_linear_color.html#a1b790e5e5ffb2c9575f601705628d92b">FLinearColor::Quantize</a></div><div class="ttdeci">FColor Quantize() const noexcept</div></div>
 <div class="ttc" id="astruct_f_linear_color_html_a2d242231d7ec56bfd8eb8e6621976912"><div class="ttname"><a href="struct_f_linear_color.html#a2d242231d7ec56bfd8eb8e6621976912">FLinearColor::Desaturate</a></div><div class="ttdeci">FORCEINLINE FLinearColor Desaturate(float Desaturation) const noexcept</div><div class="ttdef"><b>Definition:</b> Color.h:223</div></div>
-<div class="ttc" id="astruct_f_linear_color_html_a341e83b077f26502cadda15c9e0c6752"><div class="ttname"><a href="struct_f_linear_color.html#a341e83b077f26502cadda15c9e0c6752">FLinearColor::sRGBToLinearTable</a></div><div class="ttdeci">static float sRGBToLinearTable[256]</div><div class="ttdef"><b>Definition:</b> Color.h:365</div></div>
 <div class="ttc" id="astruct_f_linear_color_html_a3b1a345855f9d58c1004b52abcb769bd"><div class="ttname"><a href="struct_f_linear_color.html#a3b1a345855f9d58c1004b52abcb769bd">FLinearColor::GetMin</a></div><div class="ttdeci">FORCEINLINE float GetMin() const noexcept</div><div class="ttdef"><b>Definition:</b> Color.h:256</div></div>
-<div class="ttc" id="astruct_f_linear_color_html_a4941b1a4de8018545fa188f5228e1227"><div class="ttname"><a href="struct_f_linear_color.html#a4941b1a4de8018545fa188f5228e1227">FLinearColor::LinearRGBToHSV</a></div><div class="ttdeci">FLinearColor LinearRGBToHSV() const noexcept</div><div class="ttdef"><b>Definition:</b> Color.cpp:183</div></div>
-<div class="ttc" id="astruct_f_linear_color_html_a4fe216bd7df0d10fd1d1bc96adcdbc0e"><div class="ttname"><a href="struct_f_linear_color.html#a4fe216bd7df0d10fd1d1bc96adcdbc0e">FLinearColor::HSVToLinearRGB</a></div><div class="ttdeci">FLinearColor HSVToLinearRGB() const noexcept</div><div class="ttdef"><b>Definition:</b> Color.cpp:202</div></div>
+<div class="ttc" id="astruct_f_linear_color_html_a4941b1a4de8018545fa188f5228e1227"><div class="ttname"><a href="struct_f_linear_color.html#a4941b1a4de8018545fa188f5228e1227">FLinearColor::LinearRGBToHSV</a></div><div class="ttdeci">FLinearColor LinearRGBToHSV() const noexcept</div></div>
+<div class="ttc" id="astruct_f_linear_color_html_a49fa628320f859b0f1d574a328885fbe"><div class="ttname"><a href="struct_f_linear_color.html#a49fa628320f859b0f1d574a328885fbe">FLinearColor::FLinearColor</a></div><div class="ttdeci">FLinearColor(const FColor &amp;Color) noexcept</div></div>
+<div class="ttc" id="astruct_f_linear_color_html_a4df50c5a1feb64bdeb5fb16a732fc984"><div class="ttname"><a href="struct_f_linear_color.html#a4df50c5a1feb64bdeb5fb16a732fc984">FLinearColor::MakeRandomColor</a></div><div class="ttdeci">static FLinearColor MakeRandomColor()</div></div>
+<div class="ttc" id="astruct_f_linear_color_html_a4fe216bd7df0d10fd1d1bc96adcdbc0e"><div class="ttname"><a href="struct_f_linear_color.html#a4fe216bd7df0d10fd1d1bc96adcdbc0e">FLinearColor::HSVToLinearRGB</a></div><div class="ttdeci">FLinearColor HSVToLinearRGB() const noexcept</div></div>
 <div class="ttc" id="astruct_f_linear_color_html_a50c2adada43069945d42e6cf0315bfe8"><div class="ttname"><a href="struct_f_linear_color.html#a50c2adada43069945d42e6cf0315bfe8">FLinearColor::Dist</a></div><div class="ttdeci">static FORCEINLINE float Dist(const FLinearColor &amp;V1, const FLinearColor &amp;V2)</div><div class="ttdef"><b>Definition:</b> Color.h:307</div></div>
 <div class="ttc" id="astruct_f_linear_color_html_a53bdd15e62f966428e7311984e3410bc"><div class="ttname"><a href="struct_f_linear_color.html#a53bdd15e62f966428e7311984e3410bc">FLinearColor::IsAlmostBlack</a></div><div class="ttdeci">FORCEINLINE bool IsAlmostBlack() const noexcept</div><div class="ttdef"><b>Definition:</b> Color.h:246</div></div>
 <div class="ttc" id="astruct_f_linear_color_html_a5d894a5d7f1b2d061315f2b6c08ae0a9"><div class="ttname"><a href="struct_f_linear_color.html#a5d894a5d7f1b2d061315f2b6c08ae0a9">FLinearColor::MakeFromHSV8</a></div><div class="ttdeci">static FORCEINLINE FLinearColor MakeFromHSV8(uint8 H, uint8 S, uint8 V)</div><div class="ttdef"><b>Definition:</b> Color.h:296</div></div>
-<div class="ttc" id="astruct_f_linear_color_html_a6bfc2ac2c827fc5a780ee33cd5e24d3a"><div class="ttname"><a href="struct_f_linear_color.html#a6bfc2ac2c827fc5a780ee33cd5e24d3a">FLinearColor::EvaluateBezier</a></div><div class="ttdeci">static float EvaluateBezier(const FLinearColor *ControlPoints, int32 NumPoints, TArray&lt; FLinearColor &gt; &amp;OutPoints)</div><div class="ttdef"><b>Definition:</b> Color.cpp:309</div></div>
-<div class="ttc" id="astruct_f_linear_color_html_a75e0114bc80d9eb2d2d86708bc197c6c"><div class="ttname"><a href="struct_f_linear_color.html#a75e0114bc80d9eb2d2d86708bc197c6c">FLinearColor::ToFColor</a></div><div class="ttdeci">FColor ToFColor(const bool bSRGB) const noexcept</div><div class="ttdef"><b>Definition:</b> Color.cpp:257</div></div>
-<div class="ttc" id="astruct_f_linear_color_html_a7b1722f5d4ec4623b35a7027c906221a"><div class="ttname"><a href="struct_f_linear_color.html#a7b1722f5d4ec4623b35a7027c906221a">FLinearColor::FromSRGBColor</a></div><div class="ttdeci">static FLinearColor FromSRGBColor(const FColor &amp;Color)</div><div class="ttdef"><b>Definition:</b> Color.cpp:399</div></div>
+<div class="ttc" id="astruct_f_linear_color_html_a664b69ef45fe3ac6a9bc26debbcf1087"><div class="ttname"><a href="struct_f_linear_color.html#a664b69ef45fe3ac6a9bc26debbcf1087">FLinearColor::MakeFromColorTemperature</a></div><div class="ttdeci">static FLinearColor MakeFromColorTemperature(float Temp)</div></div>
+<div class="ttc" id="astruct_f_linear_color_html_a75e0114bc80d9eb2d2d86708bc197c6c"><div class="ttname"><a href="struct_f_linear_color.html#a75e0114bc80d9eb2d2d86708bc197c6c">FLinearColor::ToFColor</a></div><div class="ttdeci">FColor ToFColor(const bool bSRGB) const noexcept</div></div>
+<div class="ttc" id="astruct_f_linear_color_html_a76d127d251f94de025b876b54a94d13c"><div class="ttname"><a href="struct_f_linear_color.html#a76d127d251f94de025b876b54a94d13c">FLinearColor::FromSRGBColor</a></div><div class="ttdeci">static FLinearColor FromSRGBColor(const FColor &amp;Color)</div></div>
 <div class="ttc" id="astruct_f_linear_color_html_a7ecd182adaec6de337eb6f62449f3b54"><div class="ttname"><a href="struct_f_linear_color.html#a7ecd182adaec6de337eb6f62449f3b54">FLinearColor::operator==</a></div><div class="ttdeci">FORCEINLINE bool operator==(const FLinearColor &amp;ColorB) const</div><div class="ttdef"><b>Definition:</b> Color.h:178</div></div>
 <div class="ttc" id="astruct_f_linear_color_html_a85e075324be18e3ae6863e01087ac40b"><div class="ttname"><a href="struct_f_linear_color.html#a85e075324be18e3ae6863e01087ac40b">FLinearColor::ComputeLuminance</a></div><div class="ttdeci">FORCEINLINE float ComputeLuminance() const noexcept</div><div class="ttdef"><b>Definition:</b> Color.h:230</div></div>
-<div class="ttc" id="astruct_f_linear_color_html_aafa22d9455ce051b262e94ed913d32a9"><div class="ttname"><a href="struct_f_linear_color.html#aafa22d9455ce051b262e94ed913d32a9">FLinearColor::MakeFromColorTemperature</a></div><div class="ttdeci">static FLinearColor MakeFromColorTemperature(float Temp)</div><div class="ttdef"><b>Definition:</b> Color.cpp:285</div></div>
-<div class="ttc" id="astruct_f_linear_color_html_ab2bcc28862d5fccb2811af9a731160e8"><div class="ttname"><a href="struct_f_linear_color.html#ab2bcc28862d5fccb2811af9a731160e8">FLinearColor::MakeRandomColor</a></div><div class="ttdeci">static FLinearColor MakeRandomColor()</div><div class="ttdef"><b>Definition:</b> Color.cpp:422</div></div>
+<div class="ttc" id="astruct_f_linear_color_html_ab4c519f7b4006764ed6e848c896bf83d"><div class="ttname"><a href="struct_f_linear_color.html#ab4c519f7b4006764ed6e848c896bf83d">FLinearColor::Pow22OneOver255Table</a></div><div class="ttdeci">static float Pow22OneOver255Table[256]</div><div class="ttdef"><b>Definition:</b> Color.h:362</div></div>
 <div class="ttc" id="astruct_f_linear_color_html_aca1ce1b03f51ce2f794f9cf9ed50ba9d"><div class="ttname"><a href="struct_f_linear_color.html#aca1ce1b03f51ce2f794f9cf9ed50ba9d">FLinearColor::GetMax</a></div><div class="ttdeci">FORCEINLINE float GetMax() const noexcept</div><div class="ttdef"><b>Definition:</b> Color.h:240</div></div>
-<div class="ttc" id="astruct_f_linear_color_html_aea10f584abf2169e160e1e967c37de3d"><div class="ttname"><a href="struct_f_linear_color.html#aea10f584abf2169e160e1e967c37de3d">FLinearColor::LerpUsingHSV</a></div><div class="ttdeci">static FLinearColor LerpUsingHSV(const FLinearColor &amp;From, const FLinearColor &amp;To, const float Progress)</div><div class="ttdef"><b>Definition:</b> Color.cpp:360</div></div>
-<div class="ttc" id="astruct_f_linear_color_html_af1a3237200f1ff917716c28ee018f4e9"><div class="ttname"><a href="struct_f_linear_color.html#af1a3237200f1ff917716c28ee018f4e9">FLinearColor::Pow22OneOver255Table</a></div><div class="ttdeci">static float Pow22OneOver255Table[256]</div><div class="ttdef"><b>Definition:</b> Color.h:362</div></div>
+<div class="ttc" id="astruct_f_linear_color_html_af696a9a4f3704730c56548314685db4c"><div class="ttname"><a href="struct_f_linear_color.html#af696a9a4f3704730c56548314685db4c">FLinearColor::EvaluateBezier</a></div><div class="ttdeci">static float EvaluateBezier(const FLinearColor *ControlPoints, int32 NumPoints, TArray&lt; FLinearColor &gt; &amp;OutPoints)</div></div>
 <div class="ttc" id="astruct_f_vector3_d_html"><div class="ttname"><a href="struct_f_vector3_d.html">FVector3D</a></div><div class="ttdef"><b>Definition:</b> Vector3D.h:23</div></div>
 </div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a class="el" href="dir_bf80161b754576c0dd9219a87171c0e7.html">NordEngine</a></li><li class="navelem"><a class="el" href="dir_2c8cd888bb4f162346ac26a4f85cc21e.html">Core</a></li><li class="navelem"><a class="el" href="dir_e15d7e6d16bcde3206aa16a7311782e9.html">Containers</a></li><li class="navelem"><a class="el" href="dir_48d1e3fbe98f89fc27e111a8b8658ac7.html">Public</a></li><li class="navelem"><b>Color.h</b></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
+  </ul>
+</div>
 </body>
 </html>

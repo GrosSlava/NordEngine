@@ -9,9 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,9 +30,21 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NordEngine
+   <div id="projectname">NordEngine<span id="projectnumber">&#160;0.1.0</span>
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -35,17 +56,23 @@
 var searchBox = new SearchBox("searchBox", "search/",'.html');
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search');
-  $(document).ready(function() { init_search(); });
-});
+$(document).ready(function(){initNavTree('class_f_s_f_m_l_adapter2_d_builder.html',''); initResizable(); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -67,7 +94,6 @@ $(function() {
 </div>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -87,15 +113,15 @@ Inheritance diagram for FSFMLAdapter2DBuilder:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:adc1b4418e250d423ab65dfe43a0c6c74"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_i_device_resources_adapter.html">IDeviceResourcesAdapter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s_f_m_l_adapter2_d_builder.html#adc1b4418e250d423ab65dfe43a0c6c74">ConstructDeviceResourcesAdapter</a> () override</td></tr>
-<tr class="separator:adc1b4418e250d423ab65dfe43a0c6c74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9826bff305576287f482f55da47b042c"><td class="memItemLeft" align="right" valign="top"><a id="a9826bff305576287f482f55da47b042c" name="a9826bff305576287f482f55da47b042c"></a>
+<tr class="memitem:a12cd91c6482695cd98ba74917540e828"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_i_device_resources_adapter.html">IDeviceResourcesAdapter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_s_f_m_l_adapter2_d_builder.html#a12cd91c6482695cd98ba74917540e828">ConstructDeviceResourcesAdapter</a> () override</td></tr>
+<tr class="separator:a12cd91c6482695cd98ba74917540e828"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5e8cf9cba57044277b4dd7236ed0344"><td class="memItemLeft" align="right" valign="top"><a id="ae5e8cf9cba57044277b4dd7236ed0344" name="ae5e8cf9cba57044277b4dd7236ed0344"></a>
 virtual <a class="el" href="class_i_device_resources_adapter.html">IDeviceResourcesAdapter</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ConstructDeviceResourcesAdapter</b> ()</td></tr>
-<tr class="separator:a9826bff305576287f482f55da47b042c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ae5e8cf9cba57044277b4dd7236ed0344"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="adc1b4418e250d423ab65dfe43a0c6c74" name="adc1b4418e250d423ab65dfe43a0c6c74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc1b4418e250d423ab65dfe43a0c6c74">&#9670;&#160;</a></span>ConstructDeviceResourcesAdapter()</h2>
+<a id="a12cd91c6482695cd98ba74917540e828" name="a12cd91c6482695cd98ba74917540e828"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12cd91c6482695cd98ba74917540e828">&#9670;&#160;</a></span>ConstructDeviceResourcesAdapter()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -104,7 +130,7 @@ virtual <a class="el" href="class_i_device_resources_adapter.html">IDeviceResour
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_i_device_resources_adapter.html">IDeviceResourcesAdapter</a> * FSFMLAdapter2DBuilder::ConstructDeviceResourcesAdapter </td>
+          <td class="memname">virtual <a class="el" href="class_i_device_resources_adapter.html">IDeviceResourcesAdapter</a> * FSFMLAdapter2DBuilder::ConstructDeviceResourcesAdapter </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -121,14 +147,17 @@ virtual <a class="el" href="class_i_device_resources_adapter.html">IDeviceResour
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>Source/NordEngine/Engine/SubEngines/Public/GraphicsEngine/DeviceAdapters/<a class="el" href="_s_f_m_l_adapter_8h_source.html">SFMLAdapter.h</a></li>
-<li>Source/NordEngine/Engine/SubEngines/Private/GraphicsEngine/DeviceAdapters/SFMLAdapter.cpp</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_f_s_f_m_l_adapter2_d_builder.html">FSFMLAdapter2DBuilder</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
+  </ul>
+</div>
 </body>
 </html>

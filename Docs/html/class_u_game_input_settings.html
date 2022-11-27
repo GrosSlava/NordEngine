@@ -9,9 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,9 +30,21 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NordEngine
+   <div id="projectname">NordEngine<span id="projectnumber">&#160;0.1.0</span>
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -35,17 +56,23 @@
 var searchBox = new SearchBox("searchBox", "search/",'.html');
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search');
-  $(document).ready(function() { init_search(); });
-});
+$(document).ready(function(){initNavTree('class_u_game_input_settings.html',''); initResizable(); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -67,7 +94,6 @@ $(function() {
 </div>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -79,12 +105,12 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8917711209f264982a546087b76bff66"><td class="memItemLeft" align="right" valign="top"><a id="a8917711209f264982a546087b76bff66" name="a8917711209f264982a546087b76bff66"></a>
+<tr class="memitem:acc6f69db4ef86ea430e6bc30b573fed3"><td class="memItemLeft" align="right" valign="top"><a id="acc6f69db4ef86ea430e6bc30b573fed3" name="acc6f69db4ef86ea430e6bc30b573fed3"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LoadSettings</b> ()</td></tr>
-<tr class="separator:a8917711209f264982a546087b76bff66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adad8911535054a5bce45eced20cdfa7e"><td class="memItemLeft" align="right" valign="top"><a id="adad8911535054a5bce45eced20cdfa7e" name="adad8911535054a5bce45eced20cdfa7e"></a>
+<tr class="separator:acc6f69db4ef86ea430e6bc30b573fed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94bbb0ef4b366e1097211bf9189b32ad"><td class="memItemLeft" align="right" valign="top"><a id="a94bbb0ef4b366e1097211bf9189b32ad" name="a94bbb0ef4b366e1097211bf9189b32ad"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>SaveInputSettings</b> ()</td></tr>
-<tr class="separator:adad8911535054a5bce45eced20cdfa7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a94bbb0ef4b366e1097211bf9189b32ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e73e660ae08c7cb2c2dc363e2be58a8"><td class="memItemLeft" align="right" valign="top"><a id="a7e73e660ae08c7cb2c2dc363e2be58a8" name="a7e73e660ae08c7cb2c2dc363e2be58a8"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>HasAction</b> (const std::string &amp;ActionName) const</td></tr>
 <tr class="separator:a7e73e660ae08c7cb2c2dc363e2be58a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -101,14 +127,17 @@ Protected Attributes</h2></td></tr>
 std::map&lt; std::string, <a class="el" href="struct_f_key.html">FKey</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ActionsMap</b></td></tr>
 <tr class="separator:a36ddf42b980c6e5d85bfa439b64d9420"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>Source/NordEngine/Engine/CoreGame/Public/GameSettings/<a class="el" href="_game_input_settings_8h_source.html">GameInputSettings.h</a></li>
-<li>Source/NordEngine/Engine/CoreGame/Private/GameSettings/GameInputSettings.cpp</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_u_game_input_settings.html">UGameInputSettings</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
+  </ul>
+</div>
 </body>
 </html>

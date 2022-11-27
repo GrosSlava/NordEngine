@@ -60,34 +60,7 @@ def InitNewProject(ProjectPath: str, EnginePath: str, ProjectName: str):
 	LFilePath = os.path.join(ProjectPath, "Doxyfile")
 	if not os.path.exists(LFilePath):
 		subprocess.run(["doxygen", "-g"])
-		if os.path.exists(LFilePath):
-			NewFileS = ""
-			with open(LFilePath, 'r') as f:
-				for LLine in f:
-					if len(LLine) == 0 or LLine[0] == '#':
-						NewFileS += LLine
-						continue
-					S = LLine.split("=")
-					if len(S) != 2:
-						NewFileS += LLine
-						continue
-					LKey = S[0].strip()
-					if LKey == "PROJECT_NAME":
-						NewFileS += S[0] + "= \"" + ProjectName + "\""
-					elif LKey == "OUTPUT_DIRECTORY":
-						NewFileS += S[0] + "= Docs"
-					elif LKey == "INPUT":
-						NewFileS += S[0] + "= Source README.md"
-					elif LKey == "RECURSIVE":
-						NewFileS += S[0] + "= YES"
-					elif LKey == "USE_MDFILE_AS_MAINPAGE":
-						NewFileS += S[0] + "= README.md"
-					elif LKey == "GENERATE_LATEX":
-						NewFileS += S[0] + "= NO"
-					else:
-						NewFileS += LLine
-			with open(LFilePath, 'w') as f:
-				f.write(NewFileS)
+		ProjectDefaultFiles.Fixup_Doxyfile(LFilePath, ProjectName)
 #------------------------------------------------------#
 
 

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['g_0',['g',['../classsf_1_1_color.html#a591daf9c3c55dea830c76c962d6ba1a5',1,'sf::Color']]],
-  ['green_1',['Green',['../classsf_1_1_color.html#a95629b30de8c6856aa7d3afed12eb865',1,'sf::Color']]]
+  ['pitch_0',['Pitch',['../struct_f_rotator.html#a1f03e2f7482b096ef225610df9ba37aa',1,'FRotator']]],
+  ['pow22oneover255table_1',['Pow22OneOver255Table',['../struct_f_linear_color.html#ab4c519f7b4006764ed6e848c896bf83d',1,'FLinearColor']]]
 ];

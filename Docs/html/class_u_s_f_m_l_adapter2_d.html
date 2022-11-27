@@ -9,9 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,9 +30,21 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NordEngine
+   <div id="projectname">NordEngine<span id="projectnumber">&#160;0.1.0</span>
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -35,17 +56,23 @@
 var searchBox = new SearchBox("searchBox", "search/",'.html');
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search');
-  $(document).ready(function() { init_search(); });
-});
+$(document).ready(function(){initNavTree('class_u_s_f_m_l_adapter2_d.html',''); initResizable(); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -67,7 +94,6 @@ $(function() {
 </div>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -90,54 +116,54 @@ Inheritance diagram for USFMLAdapter2D:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7b502ef777009010eca0cdaa7c8b6a9b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a7b502ef777009010eca0cdaa7c8b6a9b">OnActivated</a> () override</td></tr>
-<tr class="separator:a7b502ef777009010eca0cdaa7c8b6a9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9ab30dc335a865e6f6df1546220a049"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#ac9ab30dc335a865e6f6df1546220a049">OnDeactivated</a> () override</td></tr>
-<tr class="separator:ac9ab30dc335a865e6f6df1546220a049"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bf3eeaddee2f7ce382499981a3118f6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a9bf3eeaddee2f7ce382499981a3118f6">OnSuspending</a> () override</td></tr>
-<tr class="separator:a9bf3eeaddee2f7ce382499981a3118f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d2c9b909527b043c5c57030adc2d2d8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a1d2c9b909527b043c5c57030adc2d2d8">OnResuming</a> () override</td></tr>
-<tr class="separator:a1d2c9b909527b043c5c57030adc2d2d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af049133b9211ab7dc266d0b573dbf52e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#af049133b9211ab7dc266d0b573dbf52e">OnWindowMoved</a> () override</td></tr>
-<tr class="separator:af049133b9211ab7dc266d0b573dbf52e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0af447688c7f30549e0cc041aaafe16"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#ab0af447688c7f30549e0cc041aaafe16">OnWindowSizeChanged</a> () override</td></tr>
-<tr class="separator:ab0af447688c7f30549e0cc041aaafe16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f4d133a8161d9b97153900c739f8941"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a6f4d133a8161d9b97153900c739f8941">OnWindowTitleChanged</a> () override</td></tr>
-<tr class="separator:a6f4d133a8161d9b97153900c739f8941"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a891642f02c6752ac88d7f59e51383fa8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a891642f02c6752ac88d7f59e51383fa8">OnWindowIconChanged</a> () override</td></tr>
-<tr class="separator:a891642f02c6752ac88d7f59e51383fa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae46aaab3821cf2cc5711f5430fde4c64"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#ae46aaab3821cf2cc5711f5430fde4c64">OnWindowCursorChanged</a> () override</td></tr>
-<tr class="separator:ae46aaab3821cf2cc5711f5430fde4c64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a433497a54f960cfabefb38f7e69284bd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a433497a54f960cfabefb38f7e69284bd">OnWindowMouseCursorVisibilityChanged</a> () override</td></tr>
-<tr class="separator:a433497a54f960cfabefb38f7e69284bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b8985b7fabf13dbfb4432a2635c6e76"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a5b8985b7fabf13dbfb4432a2635c6e76">OnWindowMouseCursorGrabbingChanged</a> () override</td></tr>
-<tr class="separator:a5b8985b7fabf13dbfb4432a2635c6e76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06cd9a03010bfc08d69127f4951900db"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a06cd9a03010bfc08d69127f4951900db">BroadcastEvents</a> () override</td></tr>
-<tr class="separator:a06cd9a03010bfc08d69127f4951900db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33f114642f08b85ff424fff09a5ad8fe"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a33f114642f08b85ff424fff09a5ad8fe">BeginGameLogicSection</a> () override</td></tr>
-<tr class="separator:a33f114642f08b85ff424fff09a5ad8fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1d8349ee0155510203865019c0de25b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#ad1d8349ee0155510203865019c0de25b">EndGameLogicSection</a> () override</td></tr>
-<tr class="separator:ad1d8349ee0155510203865019c0de25b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0ad43b06544565ff2890be43e16e60f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#af0ad43b06544565ff2890be43e16e60f">InitAdapter</a> (<a class="el" href="class_g_base_window.html">GBaseWindow</a> *Window) override</td></tr>
-<tr class="separator:af0ad43b06544565ff2890be43e16e60f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12ca004302f468a692e50793670d5b37"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a12ca004302f468a692e50793670d5b37">Render</a> (const <a class="el" href="struct_f_scene_view.html">FSceneView</a> &amp;SceneView) override</td></tr>
-<tr class="separator:a12ca004302f468a692e50793670d5b37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7420a8e6c174c8d23a54a37664238af3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a7420a8e6c174c8d23a54a37664238af3">OnGameStart</a> () override</td></tr>
-<tr class="separator:a7420a8e6c174c8d23a54a37664238af3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a725cb3d51f979cfbb700fa9042ff83d6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a725cb3d51f979cfbb700fa9042ff83d6">PreGameDestroy</a> () override</td></tr>
-<tr class="separator:a725cb3d51f979cfbb700fa9042ff83d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abae910993cf328f4d20b5f858205f368"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#abae910993cf328f4d20b5f858205f368">OnDeviceLost</a> () override</td></tr>
-<tr class="separator:abae910993cf328f4d20b5f858205f368"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82813a57cfb659edbb44bbf14674a7a5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a82813a57cfb659edbb44bbf14674a7a5">OnDeviceRestored</a> () override</td></tr>
-<tr class="separator:a82813a57cfb659edbb44bbf14674a7a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4338f295ac56edfd6754b1b11178ff26"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a4338f295ac56edfd6754b1b11178ff26">SetVSyncEnabled</a> (bool Enable) override</td></tr>
-<tr class="separator:a4338f295ac56edfd6754b1b11178ff26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65b68f77cff45cb3e9255e45a07d377d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a65b68f77cff45cb3e9255e45a07d377d">SetCameraFOV</a> (float VerticalFovInRadians) override</td></tr>
-<tr class="separator:a65b68f77cff45cb3e9255e45a07d377d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a687f67bc8005543bb5895c34ddd384ad"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a687f67bc8005543bb5895c34ddd384ad">SetCameraLocation</a> (const <a class="el" href="struct_f_vector2_d.html">FVector2D</a> &amp;NewLocation) override</td></tr>
-<tr class="separator:a687f67bc8005543bb5895c34ddd384ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c78c5af5febb9a6d72407762a2d31f2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a2c78c5af5febb9a6d72407762a2d31f2">SetCameraRotation</a> (float NewRotation) override</td></tr>
-<tr class="separator:a2c78c5af5febb9a6d72407762a2d31f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62cb65dcc1c60671205ee52f0e705e93"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a62cb65dcc1c60671205ee52f0e705e93">OnActivated</a> () override</td></tr>
+<tr class="separator:a62cb65dcc1c60671205ee52f0e705e93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab57e884d00b75950994382892233c066"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#ab57e884d00b75950994382892233c066">OnDeactivated</a> () override</td></tr>
+<tr class="separator:ab57e884d00b75950994382892233c066"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bc0b38a7c1d1bac8329ae10cec531d4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a1bc0b38a7c1d1bac8329ae10cec531d4">OnSuspending</a> () override</td></tr>
+<tr class="separator:a1bc0b38a7c1d1bac8329ae10cec531d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac830a1df615deb3b6f8ec7301b54a9e0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#ac830a1df615deb3b6f8ec7301b54a9e0">OnResuming</a> () override</td></tr>
+<tr class="separator:ac830a1df615deb3b6f8ec7301b54a9e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ac25c6d7d4ff9a0b98c4f038df8c411"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a7ac25c6d7d4ff9a0b98c4f038df8c411">OnWindowMoved</a> () override</td></tr>
+<tr class="separator:a7ac25c6d7d4ff9a0b98c4f038df8c411"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a886981f77c691d2a3081c9bf02bbc338"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a886981f77c691d2a3081c9bf02bbc338">OnWindowSizeChanged</a> () override</td></tr>
+<tr class="separator:a886981f77c691d2a3081c9bf02bbc338"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41a6a35aa75cce95682654bd536a334f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a41a6a35aa75cce95682654bd536a334f">OnWindowTitleChanged</a> () override</td></tr>
+<tr class="separator:a41a6a35aa75cce95682654bd536a334f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a480967e531c538c61f4726463a4b705d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a480967e531c538c61f4726463a4b705d">OnWindowIconChanged</a> () override</td></tr>
+<tr class="separator:a480967e531c538c61f4726463a4b705d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f8ae87d946ab2ba46c68b0d46ddd39b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a2f8ae87d946ab2ba46c68b0d46ddd39b">OnWindowCursorChanged</a> () override</td></tr>
+<tr class="separator:a2f8ae87d946ab2ba46c68b0d46ddd39b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49560f0dd363af02b833aaab97a937db"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a49560f0dd363af02b833aaab97a937db">OnWindowMouseCursorVisibilityChanged</a> () override</td></tr>
+<tr class="separator:a49560f0dd363af02b833aaab97a937db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af80e11785179c7de3445c65e791a019c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#af80e11785179c7de3445c65e791a019c">OnWindowMouseCursorGrabbingChanged</a> () override</td></tr>
+<tr class="separator:af80e11785179c7de3445c65e791a019c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d3830f99253521de9fc55206411134e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a3d3830f99253521de9fc55206411134e">BroadcastEvents</a> () override</td></tr>
+<tr class="separator:a3d3830f99253521de9fc55206411134e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad83e78bc8c9d835c19986469ccf0d984"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#ad83e78bc8c9d835c19986469ccf0d984">BeginGameLogicSection</a> () override</td></tr>
+<tr class="separator:ad83e78bc8c9d835c19986469ccf0d984"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c20b4dc7797b17d9197aee79787cdd1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a4c20b4dc7797b17d9197aee79787cdd1">EndGameLogicSection</a> () override</td></tr>
+<tr class="separator:a4c20b4dc7797b17d9197aee79787cdd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4d4658b4db3e05d6e70e0cbad0c2ad0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#ab4d4658b4db3e05d6e70e0cbad0c2ad0">InitAdapter</a> (<a class="el" href="class_g_base_window.html">GBaseWindow</a> *Window) override</td></tr>
+<tr class="separator:ab4d4658b4db3e05d6e70e0cbad0c2ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adebbc83cad06be63537c1df25a82f2e0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#adebbc83cad06be63537c1df25a82f2e0">Render</a> (const <a class="el" href="struct_f_scene_view.html">FSceneView</a> &amp;SceneView) override</td></tr>
+<tr class="separator:adebbc83cad06be63537c1df25a82f2e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01690af667d34d6550ab675f3a7d6385"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a01690af667d34d6550ab675f3a7d6385">OnGameStart</a> () override</td></tr>
+<tr class="separator:a01690af667d34d6550ab675f3a7d6385"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e2a446118dd413f602305e2eb1a644a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a1e2a446118dd413f602305e2eb1a644a">PreGameDestroy</a> () override</td></tr>
+<tr class="separator:a1e2a446118dd413f602305e2eb1a644a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad577718f6139f88c723281e8f7026d62"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#ad577718f6139f88c723281e8f7026d62">OnDeviceLost</a> () override</td></tr>
+<tr class="separator:ad577718f6139f88c723281e8f7026d62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d02491fadc1fc7c96c0be7d1e0d68e8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a7d02491fadc1fc7c96c0be7d1e0d68e8">OnDeviceRestored</a> () override</td></tr>
+<tr class="separator:a7d02491fadc1fc7c96c0be7d1e0d68e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b6fe95961fd55325ce0193ff78eb981"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a9b6fe95961fd55325ce0193ff78eb981">SetVSyncEnabled</a> (bool Enable) override</td></tr>
+<tr class="separator:a9b6fe95961fd55325ce0193ff78eb981"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4622c3efa690a600c8eeedcaa474e5e2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a4622c3efa690a600c8eeedcaa474e5e2">SetCameraFOV</a> (float VerticalFovInRadians) override</td></tr>
+<tr class="separator:a4622c3efa690a600c8eeedcaa474e5e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4eab8225c66e2cfa57befdc29f414579"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a4eab8225c66e2cfa57befdc29f414579">SetCameraLocation</a> (const <a class="el" href="struct_f_vector2_d.html">FVector2D</a> &amp;NewLocation) override</td></tr>
+<tr class="separator:a4eab8225c66e2cfa57befdc29f414579"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3da23c7be20fea702147fc29fd7d6902"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_u_s_f_m_l_adapter2_d.html#a3da23c7be20fea702147fc29fd7d6902">SetCameraRotation</a> (float NewRotation) override</td></tr>
+<tr class="separator:a3da23c7be20fea702147fc29fd7d6902"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb31f22f6613b2452ee360b6838a163b"><td class="memItemLeft" align="right" valign="top"><a id="abb31f22f6613b2452ee360b6838a163b" name="abb31f22f6613b2452ee360b6838a163b"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>SetCameraLocation</b> (const <a class="el" href="struct_f_vector2_d.html">FVector2D</a> &amp;NewLocation)=0</td></tr>
 <tr class="separator:abb31f22f6613b2452ee360b6838a163b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -212,8 +238,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 <tr class="separator:afebcc073b97d51d4a090a597da6cceb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a33f114642f08b85ff424fff09a5ad8fe" name="a33f114642f08b85ff424fff09a5ad8fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a33f114642f08b85ff424fff09a5ad8fe">&#9670;&#160;</a></span>BeginGameLogicSection()</h2>
+<a id="ad83e78bc8c9d835c19986469ccf0d984" name="ad83e78bc8c9d835c19986469ccf0d984"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad83e78bc8c9d835c19986469ccf0d984">&#9670;&#160;</a></span>BeginGameLogicSection()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -222,7 +248,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::BeginGameLogicSection </td>
+          <td class="memname">virtual void USFMLAdapter2D::BeginGameLogicSection </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -239,8 +265,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="a06cd9a03010bfc08d69127f4951900db" name="a06cd9a03010bfc08d69127f4951900db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06cd9a03010bfc08d69127f4951900db">&#9670;&#160;</a></span>BroadcastEvents()</h2>
+<a id="a3d3830f99253521de9fc55206411134e" name="a3d3830f99253521de9fc55206411134e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d3830f99253521de9fc55206411134e">&#9670;&#160;</a></span>BroadcastEvents()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -249,7 +275,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::BroadcastEvents </td>
+          <td class="memname">virtual void USFMLAdapter2D::BroadcastEvents </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -266,8 +292,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="ad1d8349ee0155510203865019c0de25b" name="ad1d8349ee0155510203865019c0de25b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad1d8349ee0155510203865019c0de25b">&#9670;&#160;</a></span>EndGameLogicSection()</h2>
+<a id="a4c20b4dc7797b17d9197aee79787cdd1" name="a4c20b4dc7797b17d9197aee79787cdd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c20b4dc7797b17d9197aee79787cdd1">&#9670;&#160;</a></span>EndGameLogicSection()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -276,7 +302,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::EndGameLogicSection </td>
+          <td class="memname">virtual void USFMLAdapter2D::EndGameLogicSection </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -293,8 +319,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="af0ad43b06544565ff2890be43e16e60f" name="af0ad43b06544565ff2890be43e16e60f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0ad43b06544565ff2890be43e16e60f">&#9670;&#160;</a></span>InitAdapter()</h2>
+<a id="ab4d4658b4db3e05d6e70e0cbad0c2ad0" name="ab4d4658b4db3e05d6e70e0cbad0c2ad0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4d4658b4db3e05d6e70e0cbad0c2ad0">&#9670;&#160;</a></span>InitAdapter()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -303,7 +329,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::InitAdapter </td>
+          <td class="memname">virtual void USFMLAdapter2D::InitAdapter </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_g_base_window.html">GBaseWindow</a> *&#160;</td>
           <td class="paramname"><em>Window</em></td><td>)</td>
@@ -321,8 +347,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="a7b502ef777009010eca0cdaa7c8b6a9b" name="a7b502ef777009010eca0cdaa7c8b6a9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b502ef777009010eca0cdaa7c8b6a9b">&#9670;&#160;</a></span>OnActivated()</h2>
+<a id="a62cb65dcc1c60671205ee52f0e705e93" name="a62cb65dcc1c60671205ee52f0e705e93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62cb65dcc1c60671205ee52f0e705e93">&#9670;&#160;</a></span>OnActivated()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -331,7 +357,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::OnActivated </td>
+          <td class="memname">virtual void USFMLAdapter2D::OnActivated </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -348,8 +374,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="ac9ab30dc335a865e6f6df1546220a049" name="ac9ab30dc335a865e6f6df1546220a049"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac9ab30dc335a865e6f6df1546220a049">&#9670;&#160;</a></span>OnDeactivated()</h2>
+<a id="ab57e884d00b75950994382892233c066" name="ab57e884d00b75950994382892233c066"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab57e884d00b75950994382892233c066">&#9670;&#160;</a></span>OnDeactivated()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -358,7 +384,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::OnDeactivated </td>
+          <td class="memname">virtual void USFMLAdapter2D::OnDeactivated </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -375,8 +401,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="abae910993cf328f4d20b5f858205f368" name="abae910993cf328f4d20b5f858205f368"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abae910993cf328f4d20b5f858205f368">&#9670;&#160;</a></span>OnDeviceLost()</h2>
+<a id="ad577718f6139f88c723281e8f7026d62" name="ad577718f6139f88c723281e8f7026d62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad577718f6139f88c723281e8f7026d62">&#9670;&#160;</a></span>OnDeviceLost()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -385,7 +411,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::OnDeviceLost </td>
+          <td class="memname">virtual void USFMLAdapter2D::OnDeviceLost </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -402,8 +428,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="a82813a57cfb659edbb44bbf14674a7a5" name="a82813a57cfb659edbb44bbf14674a7a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82813a57cfb659edbb44bbf14674a7a5">&#9670;&#160;</a></span>OnDeviceRestored()</h2>
+<a id="a7d02491fadc1fc7c96c0be7d1e0d68e8" name="a7d02491fadc1fc7c96c0be7d1e0d68e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d02491fadc1fc7c96c0be7d1e0d68e8">&#9670;&#160;</a></span>OnDeviceRestored()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -412,7 +438,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::OnDeviceRestored </td>
+          <td class="memname">virtual void USFMLAdapter2D::OnDeviceRestored </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -429,8 +455,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="a7420a8e6c174c8d23a54a37664238af3" name="a7420a8e6c174c8d23a54a37664238af3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7420a8e6c174c8d23a54a37664238af3">&#9670;&#160;</a></span>OnGameStart()</h2>
+<a id="a01690af667d34d6550ab675f3a7d6385" name="a01690af667d34d6550ab675f3a7d6385"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01690af667d34d6550ab675f3a7d6385">&#9670;&#160;</a></span>OnGameStart()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -439,7 +465,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::OnGameStart </td>
+          <td class="memname">virtual void USFMLAdapter2D::OnGameStart </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -456,8 +482,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="a1d2c9b909527b043c5c57030adc2d2d8" name="a1d2c9b909527b043c5c57030adc2d2d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d2c9b909527b043c5c57030adc2d2d8">&#9670;&#160;</a></span>OnResuming()</h2>
+<a id="ac830a1df615deb3b6f8ec7301b54a9e0" name="ac830a1df615deb3b6f8ec7301b54a9e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac830a1df615deb3b6f8ec7301b54a9e0">&#9670;&#160;</a></span>OnResuming()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -466,7 +492,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::OnResuming </td>
+          <td class="memname">virtual void USFMLAdapter2D::OnResuming </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -483,8 +509,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="a9bf3eeaddee2f7ce382499981a3118f6" name="a9bf3eeaddee2f7ce382499981a3118f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bf3eeaddee2f7ce382499981a3118f6">&#9670;&#160;</a></span>OnSuspending()</h2>
+<a id="a1bc0b38a7c1d1bac8329ae10cec531d4" name="a1bc0b38a7c1d1bac8329ae10cec531d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1bc0b38a7c1d1bac8329ae10cec531d4">&#9670;&#160;</a></span>OnSuspending()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -493,7 +519,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::OnSuspending </td>
+          <td class="memname">virtual void USFMLAdapter2D::OnSuspending </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -510,8 +536,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="ae46aaab3821cf2cc5711f5430fde4c64" name="ae46aaab3821cf2cc5711f5430fde4c64"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae46aaab3821cf2cc5711f5430fde4c64">&#9670;&#160;</a></span>OnWindowCursorChanged()</h2>
+<a id="a2f8ae87d946ab2ba46c68b0d46ddd39b" name="a2f8ae87d946ab2ba46c68b0d46ddd39b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f8ae87d946ab2ba46c68b0d46ddd39b">&#9670;&#160;</a></span>OnWindowCursorChanged()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -520,7 +546,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::OnWindowCursorChanged </td>
+          <td class="memname">virtual void USFMLAdapter2D::OnWindowCursorChanged </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -537,8 +563,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="a891642f02c6752ac88d7f59e51383fa8" name="a891642f02c6752ac88d7f59e51383fa8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a891642f02c6752ac88d7f59e51383fa8">&#9670;&#160;</a></span>OnWindowIconChanged()</h2>
+<a id="a480967e531c538c61f4726463a4b705d" name="a480967e531c538c61f4726463a4b705d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a480967e531c538c61f4726463a4b705d">&#9670;&#160;</a></span>OnWindowIconChanged()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -547,7 +573,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::OnWindowIconChanged </td>
+          <td class="memname">virtual void USFMLAdapter2D::OnWindowIconChanged </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -564,8 +590,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="a5b8985b7fabf13dbfb4432a2635c6e76" name="a5b8985b7fabf13dbfb4432a2635c6e76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b8985b7fabf13dbfb4432a2635c6e76">&#9670;&#160;</a></span>OnWindowMouseCursorGrabbingChanged()</h2>
+<a id="af80e11785179c7de3445c65e791a019c" name="af80e11785179c7de3445c65e791a019c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af80e11785179c7de3445c65e791a019c">&#9670;&#160;</a></span>OnWindowMouseCursorGrabbingChanged()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -574,7 +600,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::OnWindowMouseCursorGrabbingChanged </td>
+          <td class="memname">virtual void USFMLAdapter2D::OnWindowMouseCursorGrabbingChanged </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -591,8 +617,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="a433497a54f960cfabefb38f7e69284bd" name="a433497a54f960cfabefb38f7e69284bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a433497a54f960cfabefb38f7e69284bd">&#9670;&#160;</a></span>OnWindowMouseCursorVisibilityChanged()</h2>
+<a id="a49560f0dd363af02b833aaab97a937db" name="a49560f0dd363af02b833aaab97a937db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49560f0dd363af02b833aaab97a937db">&#9670;&#160;</a></span>OnWindowMouseCursorVisibilityChanged()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -601,7 +627,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::OnWindowMouseCursorVisibilityChanged </td>
+          <td class="memname">virtual void USFMLAdapter2D::OnWindowMouseCursorVisibilityChanged </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -618,8 +644,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="af049133b9211ab7dc266d0b573dbf52e" name="af049133b9211ab7dc266d0b573dbf52e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af049133b9211ab7dc266d0b573dbf52e">&#9670;&#160;</a></span>OnWindowMoved()</h2>
+<a id="a7ac25c6d7d4ff9a0b98c4f038df8c411" name="a7ac25c6d7d4ff9a0b98c4f038df8c411"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ac25c6d7d4ff9a0b98c4f038df8c411">&#9670;&#160;</a></span>OnWindowMoved()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -628,7 +654,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::OnWindowMoved </td>
+          <td class="memname">virtual void USFMLAdapter2D::OnWindowMoved </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -645,8 +671,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="ab0af447688c7f30549e0cc041aaafe16" name="ab0af447688c7f30549e0cc041aaafe16"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0af447688c7f30549e0cc041aaafe16">&#9670;&#160;</a></span>OnWindowSizeChanged()</h2>
+<a id="a886981f77c691d2a3081c9bf02bbc338" name="a886981f77c691d2a3081c9bf02bbc338"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a886981f77c691d2a3081c9bf02bbc338">&#9670;&#160;</a></span>OnWindowSizeChanged()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -655,7 +681,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::OnWindowSizeChanged </td>
+          <td class="memname">virtual void USFMLAdapter2D::OnWindowSizeChanged </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -672,8 +698,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="a6f4d133a8161d9b97153900c739f8941" name="a6f4d133a8161d9b97153900c739f8941"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f4d133a8161d9b97153900c739f8941">&#9670;&#160;</a></span>OnWindowTitleChanged()</h2>
+<a id="a41a6a35aa75cce95682654bd536a334f" name="a41a6a35aa75cce95682654bd536a334f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41a6a35aa75cce95682654bd536a334f">&#9670;&#160;</a></span>OnWindowTitleChanged()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -682,7 +708,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::OnWindowTitleChanged </td>
+          <td class="memname">virtual void USFMLAdapter2D::OnWindowTitleChanged </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -699,8 +725,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="a725cb3d51f979cfbb700fa9042ff83d6" name="a725cb3d51f979cfbb700fa9042ff83d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a725cb3d51f979cfbb700fa9042ff83d6">&#9670;&#160;</a></span>PreGameDestroy()</h2>
+<a id="a1e2a446118dd413f602305e2eb1a644a" name="a1e2a446118dd413f602305e2eb1a644a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e2a446118dd413f602305e2eb1a644a">&#9670;&#160;</a></span>PreGameDestroy()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -709,7 +735,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::PreGameDestroy </td>
+          <td class="memname">virtual void USFMLAdapter2D::PreGameDestroy </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -726,8 +752,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="a12ca004302f468a692e50793670d5b37" name="a12ca004302f468a692e50793670d5b37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12ca004302f468a692e50793670d5b37">&#9670;&#160;</a></span>Render()</h2>
+<a id="adebbc83cad06be63537c1df25a82f2e0" name="adebbc83cad06be63537c1df25a82f2e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adebbc83cad06be63537c1df25a82f2e0">&#9670;&#160;</a></span>Render()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -736,7 +762,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::Render </td>
+          <td class="memname">virtual void USFMLAdapter2D::Render </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="struct_f_scene_view.html">FSceneView</a> &amp;&#160;</td>
           <td class="paramname"><em>SceneView</em></td><td>)</td>
@@ -754,8 +780,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="a65b68f77cff45cb3e9255e45a07d377d" name="a65b68f77cff45cb3e9255e45a07d377d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65b68f77cff45cb3e9255e45a07d377d">&#9670;&#160;</a></span>SetCameraFOV()</h2>
+<a id="a4622c3efa690a600c8eeedcaa474e5e2" name="a4622c3efa690a600c8eeedcaa474e5e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4622c3efa690a600c8eeedcaa474e5e2">&#9670;&#160;</a></span>SetCameraFOV()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -764,7 +790,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::SetCameraFOV </td>
+          <td class="memname">virtual void USFMLAdapter2D::SetCameraFOV </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>VerticalFovInRadians</em></td><td>)</td>
@@ -782,8 +808,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="a687f67bc8005543bb5895c34ddd384ad" name="a687f67bc8005543bb5895c34ddd384ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a687f67bc8005543bb5895c34ddd384ad">&#9670;&#160;</a></span>SetCameraLocation()</h2>
+<a id="a4eab8225c66e2cfa57befdc29f414579" name="a4eab8225c66e2cfa57befdc29f414579"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4eab8225c66e2cfa57befdc29f414579">&#9670;&#160;</a></span>SetCameraLocation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -792,7 +818,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::SetCameraLocation </td>
+          <td class="memname">virtual void USFMLAdapter2D::SetCameraLocation </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="struct_f_vector2_d.html">FVector2D</a> &amp;&#160;</td>
           <td class="paramname"><em>NewLocation</em></td><td>)</td>
@@ -810,8 +836,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="a2c78c5af5febb9a6d72407762a2d31f2" name="a2c78c5af5febb9a6d72407762a2d31f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c78c5af5febb9a6d72407762a2d31f2">&#9670;&#160;</a></span>SetCameraRotation()</h2>
+<a id="a3da23c7be20fea702147fc29fd7d6902" name="a3da23c7be20fea702147fc29fd7d6902"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3da23c7be20fea702147fc29fd7d6902">&#9670;&#160;</a></span>SetCameraRotation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -820,7 +846,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::SetCameraRotation </td>
+          <td class="memname">virtual void USFMLAdapter2D::SetCameraRotation </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>NewRotation</em></td><td>)</td>
@@ -838,8 +864,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<a id="a4338f295ac56edfd6754b1b11178ff26" name="a4338f295ac56edfd6754b1b11178ff26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4338f295ac56edfd6754b1b11178ff26">&#9670;&#160;</a></span>SetVSyncEnabled()</h2>
+<a id="a9b6fe95961fd55325ce0193ff78eb981" name="a9b6fe95961fd55325ce0193ff78eb981"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b6fe95961fd55325ce0193ff78eb981">&#9670;&#160;</a></span>SetVSyncEnabled()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -848,7 +874,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void USFMLAdapter2D::SetVSyncEnabled </td>
+          <td class="memname">virtual void USFMLAdapter2D::SetVSyncEnabled </td>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>Enable</em></td><td>)</td>
@@ -866,14 +892,17 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>EndGameLogicS
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>Source/NordEngine/Engine/SubEngines/Public/GraphicsEngine/DeviceAdapters/<a class="el" href="_s_f_m_l_adapter_8h_source.html">SFMLAdapter.h</a></li>
-<li>Source/NordEngine/Engine/SubEngines/Private/GraphicsEngine/DeviceAdapters/SFMLAdapter.cpp</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_u_s_f_m_l_adapter2_d.html">USFMLAdapter2D</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
+  </ul>
+</div>
 </body>
 </html>

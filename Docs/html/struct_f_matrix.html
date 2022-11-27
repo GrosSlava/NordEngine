@@ -9,9 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,9 +30,21 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NordEngine
+   <div id="projectname">NordEngine<span id="projectnumber">&#160;0.1.0</span>
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -35,17 +56,23 @@
 var searchBox = new SearchBox("searchBox", "search/",'.html');
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search');
-  $(document).ready(function() { init_search(); });
-});
+$(document).ready(function(){initNavTree('struct_f_matrix.html',''); initResizable(); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -67,7 +94,6 @@ $(function() {
 </div>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -231,7 +257,7 @@ union {</td></tr>
 <tr class="separator:ab83678cf5dbd353be7b1a1e487c2c87d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >4x4 matrix of floating point values. Matrix-matrix multiplication happens with a pre-multiple of the transpose &ndash; in other words, Res = Mat1.operator*(Mat2) means Res = Mat2^T * Mat1, as opposed to Res = Mat1 * Mat2. <a class="el" href="struct_matrix.html" title="Matrix type, used to set uniforms in GLSL.">Matrix</a> elements are accessed with M[RowIndex][ColumnIndex]. </p>
+<div class="textblock"><p >4x4 matrix of floating point values. Matrix-matrix multiplication happens with a pre-multiple of the transpose &ndash; in other words, Res = Mat1.operator*(Mat2) means Res = Mat2^T * Mat1, as opposed to Res = Mat1 * Mat2. Matrix elements are accessed with M[RowIndex][ColumnIndex]. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="acc67ac4304af393723b5ae1f6ddb9c76" name="acc67ac4304af393723b5ae1f6ddb9c76"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acc67ac4304af393723b5ae1f6ddb9c76">&#9670;&#160;</a></span>FMatrix() <span class="overload">[1/2]</span></h2>
@@ -463,15 +489,15 @@ union {</td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p >Checks whether another <a class="el" href="struct_matrix.html" title="Matrix type, used to set uniforms in GLSL.">Matrix</a> is equal to this, within specified tolerance.</p>
+<p >Checks whether another Matrix is equal to this, within specified tolerance.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">Other</td><td>The other <a class="el" href="struct_matrix.html" title="Matrix type, used to set uniforms in GLSL.">Matrix</a>. </td></tr>
+    <tr><td class="paramname">Other</td><td>The other Matrix. </td></tr>
     <tr><td class="paramname">Tolerance</td><td>Error Tolerance. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if two <a class="el" href="struct_matrix.html" title="Matrix type, used to set uniforms in GLSL.">Matrix</a> are equal, within specified tolerance, otherwise false. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if two Matrix are equal, within specified tolerance, otherwise false. </dd></dl>
 
 </div>
 </div>
@@ -1116,14 +1142,14 @@ union {</td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p >Checks whether another <a class="el" href="struct_matrix.html" title="Matrix type, used to set uniforms in GLSL.">Matrix</a> is not equal to this, within specified tolerance.</p>
+<p >Checks whether another Matrix is not equal to this, within specified tolerance.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">Other</td><td>The other <a class="el" href="struct_matrix.html" title="Matrix type, used to set uniforms in GLSL.">Matrix</a>. </td></tr>
+    <tr><td class="paramname">Other</td><td>The other Matrix. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if two <a class="el" href="struct_matrix.html" title="Matrix type, used to set uniforms in GLSL.">Matrix</a> are not equal, within specified tolerance, otherwise false. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if two Matrix are not equal, within specified tolerance, otherwise false. </dd></dl>
 
 </div>
 </div>
@@ -1150,7 +1176,7 @@ union {</td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p >Gets the result of multiplying a <a class="el" href="struct_matrix.html" title="Matrix type, used to set uniforms in GLSL.">Matrix</a> to this.</p>
+<p >Gets the result of multiplying a Matrix to this.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">Other</td><td>The matrix to multiply this by. </td></tr>
@@ -1282,7 +1308,7 @@ union {</td></tr>
 <p >Gets the result of adding a matrix to this.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">Other</td><td>The <a class="el" href="struct_matrix.html" title="Matrix type, used to set uniforms in GLSL.">Matrix</a> to add. </td></tr>
+    <tr><td class="paramname">Other</td><td>The Matrix to add. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1675,14 +1701,17 @@ union {</td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li>Source/NordEngine/Core/Containers/Public/<a class="el" href="_matrix_8h_source.html">Matrix.h</a></li>
-<li>Source/NordEngine/Core/Containers/Private/Matrix.cpp</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="struct_f_matrix.html">FMatrix</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
+  </ul>
+</div>
 </body>
 </html>

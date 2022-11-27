@@ -9,9 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,9 +30,21 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NordEngine
+   <div id="projectname">NordEngine<span id="projectnumber">&#160;0.1.0</span>
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -35,18 +56,23 @@
 var searchBox = new SearchBox("searchBox", "search/",'.html');
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search');
-  $(document).ready(function() { init_search(); });
-});
+$(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-</div><!-- top -->
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -73,23 +99,23 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p ><a class="anchor" id="md_README"></a> <img src="Logo.png" alt="NordEngine logo" width="256" height="256" class="inline"/></p>
-<h1><a class="anchor" id="autotoc_md8"></a>
+<h1><a class="anchor" id="autotoc_md0"></a>
 Nord Engine</h1>
 <p >Welcome to the <b>Nord Engine</b> source code!</p>
 <p >With the code in this repository, you can build the <b>Nord Engine</b> for your platform. Modify the code in any way you can imagine, and share your changes with others!</p>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md1"></a>
 Supported platforms</h2>
 <ul>
 <li>Windows</li>
 <li>Linux (In progress)</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md10"></a>
+<h2><a class="anchor" id="autotoc_md2"></a>
 Requirements</h2>
 <ul>
 <li>Python3</li>
 <li>doxygen</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md11"></a>
+<h2><a class="anchor" id="autotoc_md3"></a>
 State of Development</h2>
 <p >We publish source for the engine in several branches:</p>
 <ul>
@@ -98,7 +124,7 @@ State of Development</h2>
 <li>Branches whose names contain <code>dev</code>, <code>staging</code>, and <code>test</code> are typically for internal processes, and are rarely useful for end users.</li>
 </ul>
 <p >Other short-lived branches may pop-up from time to time as we stabilize new releases or hotfixes.</p>
-<h2><a class="anchor" id="autotoc_md12"></a>
+<h2><a class="anchor" id="autotoc_md4"></a>
 Learn</h2>
 <p >There are several places to learn <b>Nord Engine</b>:</p>
 <ul>
@@ -106,37 +132,40 @@ Learn</h2>
 <li>The <a href="https://www.nordengine.ru/Documentation/API"><code>online API documentation</code></a></li>
 <li>The <code>offline documentation</code> in folder <code>Docs</code></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md13"></a>
+<h2><a class="anchor" id="autotoc_md5"></a>
 Download</h2>
 <ul>
 <li>You can get the latest official release on <a href="https://www.nordengine.ru/Download">NordEngine website</a>.</li>
 <li>You can also get the source code of the current version from the repository.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md14"></a>
+<h2><a class="anchor" id="autotoc_md6"></a>
 Install</h2>
 <p >Follow the instructions of the <a href="https://www.nordengine.ru/Documentation/Tutorials/">tutorials</a> or <code>offline documentation</code> in folder <code>Docs</code>.</p>
-<h2><a class="anchor" id="autotoc_md15"></a>
+<h2><a class="anchor" id="autotoc_md7"></a>
 Contribute</h2>
 <p >We welcome contributions to <b>Nord Engine</b> development through <code>pull requests</code>.</p>
 <p >We prefer to take pull requests in our active development branches, particularly for new features. Please make sure that all new code adheres to the <a href="https://www.nordengine.ru/Documentation/CodingStandard"><code>coding standards</code></a>.</p>
 <p >For more information on the process and expectations, see <a href="https://www.nordengine.ru/Documentation/Contributing/"><code>the documentation</code></a>.</p>
 <p >All contributions are governed by the terms of your EULA.</p>
-<h2><a class="anchor" id="autotoc_md16"></a>
+<h2><a class="anchor" id="autotoc_md8"></a>
 Community</h2>
 <p >Here are some useful community links:</p>
 <ul>
 <li><a href="https://discord.gg/uRUxBGZwYN">Discord</a></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md17"></a>
+<h2><a class="anchor" id="autotoc_md9"></a>
 License</h2>
 <p >Your access to and use of <b>Nord Engine</b> on GitHub is governed by an End User License Agreement (EULA).</p>
 <p >For a comparison and links to FAQs, see the <a href="https://www.nordengine.ru">NordEngine page</a>.</p>
 <p >If you don't agree to the terms in your chosen EULA, as amended from time to time, you are not permitted to access or use <b>Nord Engine</b>. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
+  </ul>
+</div>
 </body>
 </html>

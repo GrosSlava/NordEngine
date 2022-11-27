@@ -9,9 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,9 +30,21 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NordEngine
+   <div id="projectname">NordEngine<span id="projectnumber">&#160;0.1.0</span>
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -35,17 +56,23 @@
 var searchBox = new SearchBox("searchBox", "search/",'.html');
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search');
-  $(document).ready(function() { init_search(); });
-});
+$(document).ready(function(){initNavTree('struct_f_vector3_d.html',''); initResizable(); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -67,7 +94,6 @@ $(function() {
 </div>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="headertitle"><div class="title">FVector3D Member List</div></div>
 </div><!--header-->
@@ -87,7 +113,7 @@ $(function() {
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a6f0de4ccb521669bb6c13cad051b6df0">ContainsNaN</a>() const noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a4f66530c10dbf4154aa4ef1491c61d91">Coplanar</a>(const FVector3D &amp;Base1, const FVector3D &amp;Normal1, const FVector3D &amp;Base2, const FVector3D &amp;Normal2, float ParallelCosineThreshold=THRESH_NORMALS_ARE_PARALLEL) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a7ede1fb63ba41de08ae46736a467d9ef">CosineAngle2D</a>(FVector3D B) const noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#aed0d2fd8f884322345f2b692d581804b">CreateOrthonormalBasis</a>(FVector3D &amp;XAxis, FVector3D &amp;YAxis, FVector3D &amp;ZAxis) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a7a17871cb4118766a16c95a6cab6da16">CreateOrthonormalBasis</a>(FVector3D &amp;XAxis, FVector3D &amp;YAxis, FVector3D &amp;ZAxis) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#ac0347607a2c404f479eb511b85293b7b">CrossProduct</a>(const FVector3D &amp;A, const FVector3D &amp;B) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#acf2f19218a0980c1bbd5e2773e908d75">DegreesToRadians</a>(const FVector3D &amp;DegVector) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a9ef57db64102d9a2120defdcde423bf6">Dist</a>(const FVector3D &amp;V1, const FVector3D &amp;V2) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
@@ -99,7 +125,7 @@ $(function() {
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#ae7fb5aed72d1818071fbba38ce3453d1">DotProduct</a>(const FVector3D &amp;A, const FVector3D &amp;B) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a78608b2c6103a107af6ada89703fbcd6">DownVector</a></td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#aee591357fcd9e9ca4afd66b0f9328388">Equals</a>(const FVector3D &amp;V, float Tolerance=KINDA_SMALL_NUMBER) const noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a1fa6a5a7ad89e4c07f2c95d61ee6b90f">EvaluateBezier</a>(const FVector3D *ControlPoints, int32 NumPoints, TArray&lt; FVector3D &gt; &amp;OutPoints) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a2d3fb87fcb32981cac9fcdfd2d782329">EvaluateBezier</a>(const FVector3D *ControlPoints, int32 NumPoints, TArray&lt; FVector3D &gt; &amp;OutPoints) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a232c3ed6ca8e67b4464a13f28a1f7a32">FindBestAxisVectors</a>(FVector3D &amp;Axis1, FVector3D &amp;Axis2) const noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#aeeec03e3a3573303e94ba0d18f10b320">ForwardVector</a></td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>FVector3D</b>() noexcept (defined in <a class="el" href="struct_f_vector3_d.html">FVector3D</a>)</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
@@ -107,7 +133,7 @@ $(function() {
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>FVector3D</b>(float InX, float InY, float InZ) noexcept (defined in <a class="el" href="struct_f_vector3_d.html">FVector3D</a>)</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>FVector3D</b>(const FVector3D &amp;V) noexcept (defined in <a class="el" href="struct_f_vector3_d.html">FVector3D</a>)</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#adfb0f4ed5cc81d077b06014ad0fd7004">FVector3D</a>(const FVector4D &amp;V) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a778ab214e52afb1adcdcff67c7209b13">GenerateClusterCenters</a>(TArray&lt; FVector3D &gt; &amp;Clusters, const TArray&lt; FVector3D &gt; &amp;Points, int32 NumIterations, int32 NumConnectionsToBeValid) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#ad4ed3f9ac763dd1a2a35df1c5e6c86a6">GenerateClusterCenters</a>(TArray&lt; FVector3D &gt; &amp;Clusters, const TArray&lt; FVector3D &gt; &amp;Points, int32 NumIterations, int32 NumConnectionsToBeValid) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#ae52bb30e65d9b3cb45bad8ca1f90994e">GetAbs</a>() const noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#ad63a5164ea277989d60774027553721c">GetAbsMax</a>() const noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a4bdf6489c39d4ffc165f6cc80eab4bd4">GetAbsMin</a>() const noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
@@ -161,9 +187,9 @@ $(function() {
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#ac0b06afa1488303ec53baf62d6d5c1e4">Orthogonal</a>(const FVector3D &amp;Normal1, const FVector3D &amp;Normal2, float OrthogonalCosineThreshold=THRESH_NORMALS_ARE_ORTHOGONAL) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a98baad8dacc8d5ec1e157e5fad3a5435">Parallel</a>(const FVector3D &amp;Normal1, const FVector3D &amp;Normal2, float ParallelCosineThreshold=THRESH_NORMALS_ARE_PARALLEL) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a0f0061dce39d86ac91a234a47df2db02">PointPlaneDist</a>(const FVector3D &amp;Point, const FVector3D &amp;PlaneBase, const FVector3D &amp;PlaneNormal) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a19ba918d5762f90ad6c1aba2af0b2950">PointPlaneProject</a>(const FVector3D &amp;Point, const FPlane &amp;Plane) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a0d7db9047068be616816ee9e2b8b7f0d">PointPlaneProject</a>(const FVector3D &amp;Point, const FVector3D &amp;A, const FVector3D &amp;B, const FVector3D &amp;C) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a9c3bbaec3eb60c6a438ba33b529d7d04">PointPlaneProject</a>(const FVector3D &amp;Point, const FVector3D &amp;PlaneBase, const FVector3D &amp;PlaneNormal) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#af39a4d611658117df419cfd3238f7aa3">PointPlaneProject</a>(const FVector3D &amp;Point, const FPlane &amp;Plane) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a2f90e128146fce3149b2d6e67b43cb39">PointPlaneProject</a>(const FVector3D &amp;Point, const FVector3D &amp;A, const FVector3D &amp;B, const FVector3D &amp;C) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a0e84f844a7a0b61696cb1debb045bb1b">PointPlaneProject</a>(const FVector3D &amp;Point, const FVector3D &amp;PlaneBase, const FVector3D &amp;PlaneNormal) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a363694241b445f5f22125cddef42bc58">PointsAreNear</a>(const FVector3D &amp;Point1, const FVector3D &amp;Point2, float Dist) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a3cb465b45edd7c1618d9e99bd4c1bfb7">PointsAreSame</a>(const FVector3D &amp;P, const FVector3D &amp;Q) noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a3f9b2a00ef01dd8306be627e3ebcd64f">Projection</a>() const noexcept</td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
@@ -196,9 +222,12 @@ $(function() {
   <tr class="even"><td class="entry"><a class="el" href="struct_f_vector3_d.html#ac35f64360ca59dee588c8f7ab8431bea">ZAxisVector</a></td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="struct_f_vector3_d.html#a9f5eaac8ed7c4dda7e9f9417a642c3c6">ZeroVector</a></td><td class="entry"><a class="el" href="struct_f_vector3_d.html">FVector3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
+  </ul>
+</div>
 </body>
 </html>

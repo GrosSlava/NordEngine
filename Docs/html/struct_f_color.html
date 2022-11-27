@@ -9,9 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,9 +30,21 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NordEngine
+   <div id="projectname">NordEngine<span id="projectnumber">&#160;0.1.0</span>
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -35,17 +56,23 @@
 var searchBox = new SearchBox("searchBox", "search/",'.html');
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search');
-  $(document).ready(function() { init_search(); });
-});
+$(document).ready(function(){initNavTree('struct_f_color.html',''); initResizable(); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -67,7 +94,6 @@ $(function() {
 </div>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -123,12 +149,12 @@ FORCEINLINE <a class="el" href="struct_f_linear_color.html">FLinearColor</a>&#16
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a15a6cc72709b79118e18c1acfec4b339"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_f_color.html">FColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_f_color.html#a15a6cc72709b79118e18c1acfec4b339">MakeRandomColor</a> ()</td></tr>
-<tr class="separator:a15a6cc72709b79118e18c1acfec4b339"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8c4d5f5cfec508fcb2ad544f5dfeb77"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_f_color.html">FColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_f_color.html#aa8c4d5f5cfec508fcb2ad544f5dfeb77">MakeRedToGreenColorFromScalar</a> (float Scalar)</td></tr>
-<tr class="separator:aa8c4d5f5cfec508fcb2ad544f5dfeb77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a496c37ed0aaf253971c4a9fffc0639a2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_f_color.html">FColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_f_color.html#a496c37ed0aaf253971c4a9fffc0639a2">MakeFromColorTemperature</a> (float Temp)</td></tr>
-<tr class="separator:a496c37ed0aaf253971c4a9fffc0639a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8d70fb8c7b6c3ea9b1c8be60c93c013"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_f_color.html">FColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_f_color.html#ae8d70fb8c7b6c3ea9b1c8be60c93c013">MakeRandomColor</a> ()</td></tr>
+<tr class="separator:ae8d70fb8c7b6c3ea9b1c8be60c93c013"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b802630e6016f5c2d03882d0d832eff"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_f_color.html">FColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_f_color.html#a9b802630e6016f5c2d03882d0d832eff">MakeRedToGreenColorFromScalar</a> (float Scalar)</td></tr>
+<tr class="separator:a9b802630e6016f5c2d03882d0d832eff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3204fd1b4c30517ca131033df33dd735"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_f_color.html">FColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_f_color.html#a3204fd1b4c30517ca131033df33dd735">MakeFromColorTemperature</a> (float Temp)</td></tr>
+<tr class="separator:a3204fd1b4c30517ca131033df33dd735"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -456,8 +482,8 @@ static const <a class="el" href="struct_f_color.html">FColor</a>&#160;</td><td c
 <tr class="separator:a454c0f7ecd1ae1fdf5a5570bfee03154"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a496c37ed0aaf253971c4a9fffc0639a2" name="a496c37ed0aaf253971c4a9fffc0639a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a496c37ed0aaf253971c4a9fffc0639a2">&#9670;&#160;</a></span>MakeFromColorTemperature()</h2>
+<a id="a3204fd1b4c30517ca131033df33dd735" name="a3204fd1b4c30517ca131033df33dd735"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3204fd1b4c30517ca131033df33dd735">&#9670;&#160;</a></span>MakeFromColorTemperature()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -466,7 +492,7 @@ static const <a class="el" href="struct_f_color.html">FColor</a>&#160;</td><td c
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_f_color.html">FColor</a> FColor::MakeFromColorTemperature </td>
+          <td class="memname">static <a class="el" href="struct_f_color.html">FColor</a> FColor::MakeFromColorTemperature </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>Temp</em></td><td>)</td>
@@ -483,8 +509,8 @@ static const <a class="el" href="struct_f_color.html">FColor</a>&#160;</td><td c
 
 </div>
 </div>
-<a id="a15a6cc72709b79118e18c1acfec4b339" name="a15a6cc72709b79118e18c1acfec4b339"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15a6cc72709b79118e18c1acfec4b339">&#9670;&#160;</a></span>MakeRandomColor()</h2>
+<a id="ae8d70fb8c7b6c3ea9b1c8be60c93c013" name="ae8d70fb8c7b6c3ea9b1c8be60c93c013"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8d70fb8c7b6c3ea9b1c8be60c93c013">&#9670;&#160;</a></span>MakeRandomColor()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -493,7 +519,7 @@ static const <a class="el" href="struct_f_color.html">FColor</a>&#160;</td><td c
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_f_color.html">FColor</a> FColor::MakeRandomColor </td>
+          <td class="memname">static <a class="el" href="struct_f_color.html">FColor</a> FColor::MakeRandomColor </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -509,8 +535,8 @@ static const <a class="el" href="struct_f_color.html">FColor</a>&#160;</td><td c
 
 </div>
 </div>
-<a id="aa8c4d5f5cfec508fcb2ad544f5dfeb77" name="aa8c4d5f5cfec508fcb2ad544f5dfeb77"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8c4d5f5cfec508fcb2ad544f5dfeb77">&#9670;&#160;</a></span>MakeRedToGreenColorFromScalar()</h2>
+<a id="a9b802630e6016f5c2d03882d0d832eff" name="a9b802630e6016f5c2d03882d0d832eff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b802630e6016f5c2d03882d0d832eff">&#9670;&#160;</a></span>MakeRedToGreenColorFromScalar()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -519,7 +545,7 @@ static const <a class="el" href="struct_f_color.html">FColor</a>&#160;</td><td c
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_f_color.html">FColor</a> FColor::MakeRedToGreenColorFromScalar </td>
+          <td class="memname">static <a class="el" href="struct_f_color.html">FColor</a> FColor::MakeRedToGreenColorFromScalar </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>Scalar</em></td><td>)</td>
@@ -718,14 +744,17 @@ static const <a class="el" href="struct_f_color.html">FColor</a>&#160;</td><td c
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li>Source/NordEngine/Core/Containers/Public/<a class="el" href="_color_8h_source.html">Color.h</a></li>
-<li>Source/NordEngine/Core/Containers/Private/Color.cpp</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="struct_f_color.html">FColor</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
+  </ul>
+</div>
 </body>
 </html>

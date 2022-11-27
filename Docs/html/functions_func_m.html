@@ -9,9 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,9 +30,21 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NordEngine
+   <div id="projectname">NordEngine<span id="projectnumber">&#160;0.1.0</span>
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -35,18 +56,23 @@
 var searchBox = new SearchBox("searchBox", "search/",'.html');
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search');
-  $(document).ready(function() { init_search(); });
-});
+$(document).ready(function(){initNavTree('functions_func_m.html',''); initResizable(); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-</div><!-- top -->
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -73,8 +99,8 @@ $(function() {
 
 <h3><a id="index_m" name="index_m"></a>- m -</h3><ul>
 <li>Make()&#160;:&#160;<a class="el" href="class_f_quat_rotation_matrix.html#ac7cefe2c297318fe9d73f30c686af3c9">FQuatRotationMatrix</a>, <a class="el" href="class_f_quat_rotation_translation_matrix.html#a27951b8ead70d4c967eccdd73f2a02ea">FQuatRotationTranslationMatrix</a>, <a class="el" href="class_f_rotation_matrix.html#a34b5a711ef82602bbbfc3928636ded85">FRotationMatrix</a>, <a class="el" href="struct_f_rotation_translation_matrix.html#afb6c5c68fd8c71d0b3395930f9014b8d">FRotationTranslationMatrix</a></li>
-<li>MakeFromColorTemperature()&#160;:&#160;<a class="el" href="struct_f_color.html#a496c37ed0aaf253971c4a9fffc0639a2">FColor</a>, <a class="el" href="struct_f_linear_color.html#aafa22d9455ce051b262e94ed913d32a9">FLinearColor</a></li>
-<li>MakeFromEuler()&#160;:&#160;<a class="el" href="struct_f_rotator.html#a9659de3996a7f8222a7f239a7d7af12e">FRotator</a></li>
+<li>MakeFromColorTemperature()&#160;:&#160;<a class="el" href="struct_f_color.html#a3204fd1b4c30517ca131033df33dd735">FColor</a>, <a class="el" href="struct_f_linear_color.html#a664b69ef45fe3ac6a9bc26debbcf1087">FLinearColor</a></li>
+<li>MakeFromEuler()&#160;:&#160;<a class="el" href="struct_f_rotator.html#a8a3c5e0289259052345dd764edc1e7fe">FRotator</a></li>
 <li>MakeFromHSV8()&#160;:&#160;<a class="el" href="struct_f_linear_color.html#a5d894a5d7f1b2d061315f2b6c08ae0a9">FLinearColor</a></li>
 <li>MakeFromX()&#160;:&#160;<a class="el" href="class_f_rotation_matrix.html#ad065b80aaf20c775a45f757cf53e5ae7">FRotationMatrix</a></li>
 <li>MakeFromXY()&#160;:&#160;<a class="el" href="class_f_rotation_matrix.html#abbbb2784cce926f3c4703393578c7334">FRotationMatrix</a></li>
@@ -85,27 +111,21 @@ $(function() {
 <li>MakeFromZ()&#160;:&#160;<a class="el" href="class_f_rotation_matrix.html#aa0710ac38d39000e99176e0edd874997">FRotationMatrix</a></li>
 <li>MakeFromZX()&#160;:&#160;<a class="el" href="class_f_rotation_matrix.html#a1adbf5a2eab47c5c2e64687389351bdb">FRotationMatrix</a></li>
 <li>MakeFromZY()&#160;:&#160;<a class="el" href="class_f_rotation_matrix.html#aa1f87bf76b0241b3f4071b090737d306">FRotationMatrix</a></li>
-<li>MakeRandomColor()&#160;:&#160;<a class="el" href="struct_f_color.html#a15a6cc72709b79118e18c1acfec4b339">FColor</a>, <a class="el" href="struct_f_linear_color.html#ab2bcc28862d5fccb2811af9a731160e8">FLinearColor</a></li>
-<li>MakeRedToGreenColorFromScalar()&#160;:&#160;<a class="el" href="struct_f_color.html#aa8c4d5f5cfec508fcb2ad544f5dfeb77">FColor</a></li>
-<li>mapCoordsToPixel()&#160;:&#160;<a class="el" href="classsf_1_1_render_target.html#ad92a9f0283aa5f3f67e473c1105b68cf">sf::RenderTarget</a></li>
-<li>mapPixelToCoords()&#160;:&#160;<a class="el" href="classsf_1_1_render_target.html#a0103ebebafa43a97e6e6414f8560d5e3">sf::RenderTarget</a></li>
-<li>Matrix()&#160;:&#160;<a class="el" href="struct_matrix.html#ad40da72f526bcd6854d83496d2f62e01">Matrix&lt; Columns, Rows &gt;</a></li>
+<li>MakeRandomColor()&#160;:&#160;<a class="el" href="struct_f_color.html#ae8d70fb8c7b6c3ea9b1c8be60c93c013">FColor</a>, <a class="el" href="struct_f_linear_color.html#a4df50c5a1feb64bdeb5fb16a732fc984">FLinearColor</a></li>
+<li>MakeRedToGreenColorFromScalar()&#160;:&#160;<a class="el" href="struct_f_color.html#a9b802630e6016f5c2d03882d0d832eff">FColor</a></li>
 <li>Max()&#160;:&#160;<a class="el" href="struct_f_math.html#a4f9a017218c5b9b38d33ee434b13e454">FMath</a></li>
-<li>MemoryInputStream()&#160;:&#160;<a class="el" href="classsf_1_1_memory_input_stream.html#a2d78851a69a8956a79872be41bcdfe0e">sf::MemoryInputStream</a></li>
-<li>microseconds()&#160;:&#160;<a class="el" href="classsf_1_1_time.html#a951fd7219641f1e8191887f5dfe0dc31">sf::Time</a></li>
-<li>milliseconds()&#160;:&#160;<a class="el" href="classsf_1_1_time.html#ae379d420bc07170668f51522023957b9">sf::Time</a></li>
 <li>Min()&#160;:&#160;<a class="el" href="struct_f_math.html#ac0191067136535109b0f3aa374ed74e5">FMath</a></li>
 <li>Mirror()&#160;:&#160;<a class="el" href="struct_f_matrix.html#a9bf4d39f7e6b1b5cf7bd0733990635e7">FMatrix</a></li>
 <li>MirrorByPlane()&#160;:&#160;<a class="el" href="struct_f_vector3_d.html#af93ed75e450eab7a8a8c8c80484865d2">FVector3D</a></li>
 <li>MirrorByVector()&#160;:&#160;<a class="el" href="struct_f_vector3_d.html#a64a75091b3b418c2379ab3d6f1c879f1">FVector3D</a></li>
-<li>move()&#160;:&#160;<a class="el" href="classsf_1_1_transformable.html#a86b461d6a941ad390c2ad8b6a4a20391">sf::Transformable</a>, <a class="el" href="classsf_1_1_view.html#a0c82144b837caf812f7cb25a43d80c41">sf::View</a></li>
-<li>Music()&#160;:&#160;<a class="el" href="classsf_1_1_music.html#a0bc787d8e022b3a9b89cf2c28befd42e">sf::Music</a></li>
-<li>Mutex()&#160;:&#160;<a class="el" href="classsf_1_1_mutex.html#a9bd52a48320fd7b6db8a78037aad276e">sf::Mutex</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
+  </ul>
+</div>
 </body>
 </html>
