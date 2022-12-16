@@ -1,26 +1,61 @@
 
 //..................Intermediate folders...................//
 
+# Engine intermediate folders
 **Build
 **Intermediate
+
+# Python intermediate folders
+**.env
+**.venv
+**env
 **venv
-**.vs
+**ENV
+**env.bak
+**venv.bak
 **__pycache__
+
+**.vs
+**.Trash-*
 
 //.........................................................//
 
 //..................Intermediate files.....................//
 
+# Generated files
 *.user
 *.generated*
 *.gen
-*.obj
-*.o
+*.lnk
 
+# Generated batch/shell scripts in root
 /BuildProjectWindows.bat
 /ClearIntermediate.bat
 /GenerateWindowsProject.bat
 /GenerateDocs.bat
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Executables
+*.exe
+*.out
+*.app
+*.ipa
+
+# Linker output
+*.ilk
+*.map
+*.exp
 
 //.........................................................//
 
