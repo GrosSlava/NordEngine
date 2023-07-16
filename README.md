@@ -19,8 +19,9 @@ Modify the code in any way you can imagine, and share your changes with others!
 
 ## Requirements
 
-- Python3
-- doxygen
+- [Python3](https://www.python.org/downloads/)
+- [CMake 3.10+](https://cmake.org/download/)
+- Doxygen
 
 
 

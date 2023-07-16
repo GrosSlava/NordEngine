@@ -1,43 +1,60 @@
 
-//..................Intermediate folders...................//
-
+# Project intermediate folders
 **Build
 **Intermediate
+**cmake-build-*
+
+# Python intermediate folders
+**.env
+**.venv
+**env
 **venv
-**.vs
+**ENV
+**env.bak
+**venv.bak
 **__pycache__
 
-//.........................................................//
-
-//..................Intermediate files.....................//
-
-*.user
-*.generated*
-*.gen
-*.obj
-*.o
-
-/BuildProjectWindows.bat
-/ClearIntermediate.bat
-/GenerateWindowsProject.bat
-/GenerateDocs.bat
-
-//.........................................................//
-
-//...................Visual Studio......................//
-
-*.vscode
-*.code-workspace
-*.vs
+# IDE intermediate folders
+**.vs
+*.VC.db
 *.vcxproj
 *.sln
-*.idea
-*.VC.db
+**.idea
+*.vscode
+*.code-workspace
 *.opensdf
 *.opendb
 *.sdf
 *.suo
 *.xcodeproj
 *.xcworkspace
+**.Trash-*
 
-//......................................................//	
+# Generated files
+*.user
+*.generated*
+*.gen
+*.lnk
+
+# Compiled object files
+*.slo
+*.lo
+*.obj
+*.o
+*.ko
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Executables
+*.exe
+*.out
+*.app
+*.ipa
+
+# Linker output
+*.ilk
+*.map
+*.exp

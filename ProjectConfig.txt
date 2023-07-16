@@ -1,4 +1,0 @@
-PathToEngine = .
-ProjectName = NordEngine
-ShowConsole = true
-Modules = NordEngine
