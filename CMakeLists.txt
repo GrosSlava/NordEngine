@@ -22,11 +22,9 @@ if(MSVC)
 	add_definitions(/MP)
 	add_compile_definitions(WIN32)
 	add_compile_definitions(WIN64)
-	add_compile_definitions(WINDOWS_PLATFORM)
 elseif(UNIX AND NOT APPLE)
 	add_compile_definitions(LINUX)
 	add_compile_definitions(__linux)
-	add_compile_definitions(LINUX_PLATFORM)
 else()
 	message(FATAL_ERROR "Unsupported platform!")
 endif()
@@ -47,42 +45,19 @@ else()
 	message(FATAL_ERROR "Build type is not selected!")
 endif()
 add_compile_definitions(ENGINE)
+add_compile_definitions(UNICODE)
 
 
 
 # Engine
 add_subdirectory(Source/NordEngine)
+set_target_properties(NordEngineCore NordEngineLib PROPERTIES FOLDER NordEngine)
 
 # Tools
 add_subdirectory(Source/Tools/ReflectionGen)
+set_target_properties(CppReflectionGen PROPERTIES FOLDER Tools)
 
 
-
-# Group all source files
-file(GLOB_RECURSE AllSources "${PROJECT_SOURCE_DIR}/Source/*.h" "${PROJECT_SOURCE_DIR}/Source/*.hpp" "${PROJECT_SOURCE_DIR}/Source/*.cpp" "${PROJECT_SOURCE_DIR}/Source/*.c")
-foreach(LSource IN LISTS AllSources)
-	#convert source file to absolute
-	get_filename_component(SourceAbsPath "${LSource}" ABSOLUTE)
-	# Get the directory of the absolute source file
-	get_filename_component(GroupDir "${SourceAbsPath}" DIRECTORY)
-	# Remove common directory prefix to make the group
-	string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${GroupDir}")
-	# Make sure we are using windows slashes
-	string(REPLACE "/" "\\" GROUP2 "${GROUP}")
-	source_group("${GROUP2}" FILES "${LSource}")
-endforeach()
-
-# Hide targets
-set_target_properties(CppReflectionGen NordEngineCore NordEngineLib PROPERTIES FOLDER HiddenTargets)
-
-# All target
-add_custom_target(${PROJECT_NAME} SOURCES ${AllSources} DEPENDS 
-	# Tools
-	CppReflectionGen
-	# Engine
-	NordEngineCore
-	NordEngineLib
-)
 
 # Install ThirdParty
 if(MSVC)

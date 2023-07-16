@@ -28,6 +28,9 @@ PRAGMA_PUSH_PLATFORM_DEFAULT_PACKING
 #ifndef _WINNT_
 	#undef TEXT
 #endif
+#if !defined(_WINNT_) && !defined(_INC_TCHAR)
+	#define _TCHAR_DEFINED
+#endif
 
 // Disable all normal third party headers
 THIRD_PARTY_INCLUDES_START

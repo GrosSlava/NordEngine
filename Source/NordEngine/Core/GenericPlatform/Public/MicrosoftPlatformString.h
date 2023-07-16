@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <tchar.h>
+//#include <tchar.h>
 
 
 
@@ -24,7 +24,7 @@ struct ENGINE_API FMicrosoftPlatformString : public FGenericPlatformString
 
 
 	//........................... Wide character implementation..............................//
-
+	/*
 	static FORCEINLINE WIDECHAR* Strcpy(WIDECHAR* Dest, const WIDECHAR* Src) noexcept
 	{
 		return (WIDECHAR*)_tcscpy(Dest, Src);
@@ -139,7 +139,7 @@ struct ENGINE_API FMicrosoftPlatformString : public FGenericPlatformString
 		va_end(ArgPtr);
 		return Result;
 	}
-
+	*/
 	//.......................................................................................//
 
 
@@ -265,7 +265,7 @@ struct ENGINE_API FMicrosoftPlatformString : public FGenericPlatformString
 
 	//.......UCS2CHAR implementation - this is identical to WIDECHAR for Windows platforms...//
 	
-	static FORCEINLINE int32 Strlen(const UCS2CHAR* String) noexcept
+	/*static FORCEINLINE int32 Strlen(const UCS2CHAR* String) noexcept
 	{
 		return (int32)(_tcslen((const WIDECHAR*)String));
 	}
@@ -273,7 +273,7 @@ struct ENGINE_API FMicrosoftPlatformString : public FGenericPlatformString
 	static FORCEINLINE int32 Strnlen(const UCS2CHAR* String, size_t StringSize) noexcept
 	{
 		return (int32)(_tcsnlen((const WIDECHAR*)String, StringSize));
-	}
+	}*/
 
 	//.......................................................................................//
 }; 

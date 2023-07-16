@@ -11,10 +11,16 @@ endif()
 # Core
 file(GLOB_RECURSE CoreHeades "${PROJECT_SOURCE_DIR}/Core/*.h")
 file(GLOB_RECURSE CoreCpp "${PROJECT_SOURCE_DIR}/Core/*.cpp")
+foreach(LSource IN LISTS CoreHeades CoreCpp)
+	get_filename_component(SourceAbsPath "${LSource}" ABSOLUTE)
+	get_filename_component(GroupDir "${SourceAbsPath}" DIRECTORY)
+	string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${GroupDir}")
+	string(REPLACE "/" "\\" GROUP2 "${GROUP}")
+	source_group("${GROUP2}" FILES "${LSource}")
+endforeach()
 
 add_library(NordEngineCore STATIC ${CoreHeades} ${CoreCpp})
 target_include_directories(NordEngineCore 
-	PUBLIC "${CMAKE_SOURCE_DIR}/Source/Tools/ReflectionGen/Framework"
 	PUBLIC "${PROJECT_SOURCE_DIR}/Core/Containers/Public"
 	PUBLIC "${PROJECT_SOURCE_DIR}/Core/Delegate/Public"
 	PUBLIC "${PROJECT_SOURCE_DIR}/Core/Files/Public"
@@ -33,6 +39,13 @@ target_include_directories(NordEngineCore
 file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/Gen")
 file(GLOB_RECURSE EngineHeades "${PROJECT_SOURCE_DIR}/Engine/*.h")
 file(GLOB_RECURSE EngineCpp "${PROJECT_SOURCE_DIR}/Engine/*.h")
+foreach(LSource IN LISTS EngineHeades EngineCpp)
+	get_filename_component(SourceAbsPath "${LSource}" ABSOLUTE)
+	get_filename_component(GroupDir "${SourceAbsPath}" DIRECTORY)
+	string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${GroupDir}")
+	string(REPLACE "/" "\\" GROUP2 "${GROUP}")
+	source_group("${GROUP2}" FILES "${LSource}")
+endforeach()
 
 set(EngineGenH )
 set(EngineGenCpp )
@@ -41,11 +54,15 @@ foreach(LSourceH ${EngineHeades})
 	list(APPEND EngineGenH "${PROJECT_BINARY_DIR}/Gen/${__LFileName}.generated.h")
 	list(APPEND EngineGenCpp "${PROJECT_BINARY_DIR}/Gen/${__LFileName}.generated.cpp")
 endforeach()
+foreach(LSource IN LISTS EngineGenH EngineGenCpp)
+	source_group("Generated" FILES "${LSource}")
+endforeach()
 
 add_library(NordEngineLib STATIC ${EngineHeades} ${EngineCpp} ${EngineGenH} ${EngineGenCpp})
 
 target_include_directories(NordEngineLib 
 	PUBLIC "${PROJECT_BINARY_DIR}/Gen"
+	PUBLIC "${CMAKE_SOURCE_DIR}/Source/Tools/ReflectionGen/Framework"
 	PUBLIC "${PROJECT_SOURCE_DIR}/Engine/CoreGame/Public"
 	PUBLIC "${PROJECT_SOURCE_DIR}/Engine/Platforms/Public"
 	PUBLIC "${PROJECT_SOURCE_DIR}/Engine/SubEngines/Public"

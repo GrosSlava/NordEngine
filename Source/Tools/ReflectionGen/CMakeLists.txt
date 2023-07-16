@@ -9,6 +9,13 @@ endif()
 
 
 file(GLOB_RECURSE Sources "${PROJECT_SOURCE_DIR}/*.h" "${PROJECT_SOURCE_DIR}/*.cpp")
+foreach(LSource IN LISTS Sources)
+	get_filename_component(SourceAbsPath "${LSource}" ABSOLUTE)
+	get_filename_component(GroupDir "${SourceAbsPath}" DIRECTORY)
+	string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${GroupDir}")
+	string(REPLACE "/" "\\" GROUP2 "${GROUP}")
+	source_group("${GROUP2}" FILES "${LSource}")
+endforeach()
 
 add_executable(CppReflectionGen ${Sources})
 
