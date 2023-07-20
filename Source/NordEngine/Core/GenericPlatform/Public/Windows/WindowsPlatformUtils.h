@@ -59,4 +59,3 @@
 
 
 #define MS_ALIGN(n) __declspec(align(n))
-#define MSVC_PRAGMA(Pragma) __pragma(Pragma)

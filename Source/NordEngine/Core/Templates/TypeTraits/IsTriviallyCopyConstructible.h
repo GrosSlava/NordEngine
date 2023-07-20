@@ -1,10 +1,10 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 
 
 
-/*
+/**
 	Traits class which tests if a type has a trivial copy constructor.
 */
 template<typename T>

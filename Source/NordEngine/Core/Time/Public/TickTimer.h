@@ -15,7 +15,7 @@
 */
 class ENGINE_API FTickTimer
 {
-	GENERATED_BODY(FTickTimer)
+	using Self = FTickTimer;
 
 public:
 

@@ -1,10 +1,10 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 
 
 
-/*
+/**
 	Tests is a type is a function.
 */
 template<typename T>

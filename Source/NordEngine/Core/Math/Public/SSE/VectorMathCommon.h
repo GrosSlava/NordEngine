@@ -1,3 +1,4 @@
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 #include "SSE/MathSSE.h"
@@ -10,9 +11,45 @@ FORCEINLINE bool VectorIsAligned(const void* Ptr)
 {
 	return !(PTRINT(Ptr) & (SIMD_ALIGNMENT - 1));
 }
+/**
+	Returns non-zero if any element in Vec1 is lesser than the corresponding element in Vec2, otherwise 0.
+ 
+	@param Vec1 - 1st source vector.
+	@param Vec2 - 2nd source vector.
+	@return Non-zero integer if (Vec1.x < Vec2.x) || (Vec1.y < Vec2.y) || (Vec1.z < Vec2.z) || (Vec1.w < Vec2.w).
+*/
+FORCEINLINE uint32 VectorAnyLesserThan(VectorRegister Vec1, VectorRegister Vec2)
+{
+	return VectorAnyGreaterThan(Vec2, Vec1);
+}
+/**
+	Returns non-zero if all elements in Vec1 are greater than the corresponding elements in Vec2, otherwise 0.
+ 
+	@param Vec1 - 1st source vector.
+	@param Vec2 - 2nd source vector.
+	@return Non-zero integer if (Vec1.x > Vec2.x) && (Vec1.y > Vec2.y) && (Vec1.z > Vec2.z) && (Vec1.w > Vec2.w).
+*/
+FORCEINLINE uint32 VectorAllGreaterThan(VectorRegister Vec1, VectorRegister Vec2)
+{
+	return !VectorAnyGreaterThan(Vec2, Vec1);
+}
+/**
+	Returns non-zero if all elements in Vec1 are lesser than the corresponding elements in Vec2, otherwise 0.
+ 
+	@param Vec1 - 1st source vector.
+	@param Vec2 - 2nd source vector.
+	@return Non-zero integer if (Vec1.x < Vec2.x) && (Vec1.y < Vec2.y) && (Vec1.z < Vec2.z) && (Vec1.w < Vec2.w).
+*/
+FORCEINLINE uint32 VectorAllLesserThan(VectorRegister Vec1, VectorRegister Vec2)
+{
+	return !VectorAnyGreaterThan(Vec1, Vec2);
+}
 
-// Returns a normalized 4 vector = Vector / |Vector|.
-// There is no handling of zero length vectors, use VectorNormalizeSafe if this is a possible input.
+
+/**
+	There is no handling of zero length vectors, use VectorNormalizeSafe if this is a possible input.
+	@return a normalized 4 vector = Vector / |Vector|.
+*/
 FORCEINLINE VectorRegister VectorNormalizeAccurate(const VectorRegister& Vector)
 {
 	const VectorRegister SquareSum = VectorDot4(Vector, Vector);
@@ -20,9 +57,10 @@ FORCEINLINE VectorRegister VectorNormalizeAccurate(const VectorRegister& Vector)
 	const VectorRegister NormalizedVector = VectorMultiply(InvLength, Vector);
 	return NormalizedVector;
 }
-
-// Returns ((Vector dot Vector) >= 1e-8) ? (Vector / |Vector|) : DefaultValue
-// Uses accurate 1/sqrt, not the estimate
+/**
+	Uses accurate 1/sqrt, not the estimate.
+	@return ((Vector dot Vector) >= 1e-8) ? (Vector / |Vector|) : DefaultValue
+*/
 FORCEINLINE VectorRegister VectorNormalizeSafe(const VectorRegister& Vector, const VectorRegister& DefaultValue)
 {
 	const VectorRegister SquareSum = VectorDot4(Vector, Vector);
@@ -31,45 +69,35 @@ FORCEINLINE VectorRegister VectorNormalizeSafe(const VectorRegister& Vector, con
 	const VectorRegister NormalizedVector = VectorMultiply(InvLength, Vector);
 	return VectorSelect(NonZeroMask, NormalizedVector, DefaultValue);
 }
-
-/**
- * Returns non-zero if any element in Vec1 is lesser than the corresponding element in Vec2, otherwise 0.
- *
- * @param Vec1			1st source vector
- * @param Vec2			2nd source vector
- * @return				Non-zero integer if (Vec1.x < Vec2.x) || (Vec1.y < Vec2.y) || (Vec1.z < Vec2.z) || (Vec1.w < Vec2.w)
- */
-FORCEINLINE uint32 VectorAnyLesserThan(VectorRegister Vec1, VectorRegister Vec2)
+/** 
+	Normalize quaternion ( result = (Q.Q >= 1e-8) ? (Q / |Q|) : (0,0,0,1) )
+*/
+FORCEINLINE VectorRegister VectorNormalizeQuaternion(const VectorRegister& UnnormalizedQuat)
 {
-	return VectorAnyGreaterThan(Vec2, Vec1);
+	return VectorNormalizeSafe(UnnormalizedQuat, GlobalVectorConstants::Float0001);
 }
-
 /**
- * Returns non-zero if all elements in Vec1 are greater than the corresponding elements in Vec2, otherwise 0.
- *
- * @param Vec1			1st source vector
- * @param Vec2			2nd source vector
- * @return				Non-zero integer if (Vec1.x > Vec2.x) && (Vec1.y > Vec2.y) && (Vec1.z > Vec2.z) && (Vec1.w > Vec2.w)
- */
-FORCEINLINE uint32 VectorAllGreaterThan(VectorRegister Vec1, VectorRegister Vec2)
+	Normalize Rotator
+*/
+FORCEINLINE VectorRegister VectorNormalizeRotator(const VectorRegister& UnnormalizedRotator)
 {
-	return !VectorAnyGreaterThan(Vec2, Vec1);
-}
+	// shift in the range [-360,360]
+	VectorRegister V0 = VectorMod(UnnormalizedRotator, GlobalVectorConstants::Float360);
+	VectorRegister V1 = VectorAdd(V0, GlobalVectorConstants::Float360);
+	VectorRegister V2 = VectorSelect(VectorCompareGE(V0, VectorZero()), V0, V1);
 
-/**
- * Returns non-zero if all elements in Vec1 are lesser than the corresponding elements in Vec2, otherwise 0.
- *
- * @param Vec1			1st source vector
- * @param Vec2			2nd source vector
- * @return				Non-zero integer if (Vec1.x < Vec2.x) && (Vec1.y < Vec2.y) && (Vec1.z < Vec2.z) && (Vec1.w < Vec2.w)
- */
-FORCEINLINE uint32 VectorAllLesserThan(VectorRegister Vec1, VectorRegister Vec2)
-{
-	return !VectorAnyGreaterThan(Vec1, Vec2);
+	// shift to [-180,180]
+	VectorRegister V3 = VectorSubtract(V2, GlobalVectorConstants::Float360);
+	VectorRegister V4 = VectorSelect(VectorCompareGT(V2, GlobalVectorConstants::Float180), V3, V2);
+
+	return V4;
 }
 
 
-// A and B are quaternions.  The result is A + (|A.B| >= 0 ? 1 : -1) * B
+/**
+	A and B are quaternions.  
+	The result is A + (|A.B| >= 0 ? 1 : -1) * B
+*/
 FORCEINLINE VectorRegister VectorAccumulateQuaternionShortestPath(const VectorRegister& A, const VectorRegister& B)
 {
 	// Blend rotation
@@ -84,31 +112,11 @@ FORCEINLINE VectorRegister VectorAccumulateQuaternionShortestPath(const VectorRe
 	return VectorAdd(A, BiasTimesB);
 }
 
-// Normalize quaternion ( result = (Q.Q >= 1e-8) ? (Q / |Q|) : (0,0,0,1) )
-FORCEINLINE VectorRegister VectorNormalizeQuaternion(const VectorRegister& UnnormalizedQuat)
-{
-	return VectorNormalizeSafe(UnnormalizedQuat, GlobalVectorConstants::Float0001);
-}
-
-// Normalize Rotator
-FORCEINLINE VectorRegister VectorNormalizeRotator(const VectorRegister& UnnormalizedRotator)
-{
-	// shift in the range [-360,360]
-	VectorRegister V0 = VectorMod(UnnormalizedRotator, GlobalVectorConstants::Float360);
-	VectorRegister V1 = VectorAdd(V0, GlobalVectorConstants::Float360);
-	VectorRegister V2 = VectorSelect(VectorCompareGE(V0, VectorZero()), V0, V1);
-
-	// shift to [-180,180]
-	VectorRegister V3 = VectorSubtract(V2, GlobalVectorConstants::Float360);
-	VectorRegister V4 = VectorSelect(VectorCompareGT(V2, GlobalVectorConstants::Float180), V3, V2);
-
-	return  V4;
-}
 
 /**
- * Fast Linear Quaternion Interpolation for quaternions stored in VectorRegisters.
- * Result is NOT normalized.
- */
+	Fast Linear Quaternion Interpolation for quaternions stored in VectorRegisters.
+	Result is NOT normalized.
+*/
 FORCEINLINE VectorRegister VectorLerpQuat(const VectorRegister& A, const VectorRegister& B, const VectorRegister& Alpha)
 {
 	// Blend rotation
@@ -128,34 +136,23 @@ FORCEINLINE VectorRegister VectorLerpQuat(const VectorRegister& A, const VectorR
 
 	return UnnormalizedResult;
 }
-
 /**
- * Bi-Linear Quaternion interpolation for quaternions stored in VectorRegisters.
- * Result is NOT normalized.
- */
+	Bi-Linear Quaternion interpolation for quaternions stored in VectorRegisters.
+	Result is NOT normalized.
+*/
 FORCEINLINE VectorRegister VectorBiLerpQuat(const VectorRegister& P00, const VectorRegister& P10, const VectorRegister& P01, const VectorRegister& P11, const VectorRegister& FracX, const VectorRegister& FracY)
 {
-	return VectorLerpQuat(
-		VectorLerpQuat(P00, P10, FracX),
-		VectorLerpQuat(P01, P11, FracX),
-		FracY);
+	return VectorLerpQuat(VectorLerpQuat(P00, P10, FracX), VectorLerpQuat(P01, P11, FracX), FracY);
 }
 
-/**
- * Inverse quaternion ( -X, -Y, -Z, W)
- */
-FORCEINLINE VectorRegister VectorQuaternionInverse(const VectorRegister& NormalizedQuat)
-{
-	return VectorMultiply(GlobalVectorConstants::QINV_SIGN_MASK, NormalizedQuat);
-}
 
 /**
- * Rotate a vector using a unit Quaternion.
- *
- * @param Quat Unit Quaternion to use for rotation.
- * @param VectorW0 Vector to rotate. W component must be zero.
- * @return Vector after rotation by Quat.
- */
+	Rotate a vector using a unit Quaternion.
+
+	@param Quat - Unit Quaternion to use for rotation.
+	@param VectorW0 - Vector to rotate. W component must be zero.
+	@return Vector after rotation by Quat.
+*/
 FORCEINLINE VectorRegister VectorQuaternionRotateVector(const VectorRegister& Quat, const VectorRegister& VectorW0)
 {
 	// Q * V * Q.Inverse
@@ -179,14 +176,32 @@ FORCEINLINE VectorRegister VectorQuaternionRotateVector(const VectorRegister& Qu
 	const VectorRegister Rotated = VectorAdd(VTemp0, VTemp1);
 	return Rotated;
 }
+/**
+	Rotate a vector using a pointer to a unit Quaternion.
+
+	@param Result - Pointer to where the result should be stored.
+	@param Quat - Pointer to the unit quaternion (must not be the destination).
+	@param VectorW0 - Pointer to the vector (must not be the destination). W component must be zero.
+*/
+FORCEINLINE void VectorQuaternionRotateVectorPtr(void* RESTRICT Result, const void* RESTRICT Quat, const void* RESTRICT VectorW0)
+{
+	*((VectorRegister*)Result) = VectorQuaternionRotateVector(*((const VectorRegister*)Quat), *((const VectorRegister*)VectorW0));
+}
 
 /**
- * Rotate a vector using the inverse of a unit Quaternion (rotation in the opposite direction).
- *
- * @param Quat Unit Quaternion to use for rotation.
- * @param VectorW0 Vector to rotate. W component must be zero.
- * @return Vector after rotation by the inverse of Quat.
- */
+	Inverse quaternion ( -X, -Y, -Z, W)
+*/
+FORCEINLINE VectorRegister VectorQuaternionInverse(const VectorRegister& NormalizedQuat)
+{
+	return VectorMultiply(GlobalVectorConstants::QINV_SIGN_MASK, NormalizedQuat);
+}
+/**
+	Rotate a vector using the inverse of a unit Quaternion (rotation in the opposite direction).
+ 
+	@param Quat - Unit Quaternion to use for rotation.
+	@param VectorW0 - Vector to rotate. W component must be zero.
+	@return Vector after rotation by the inverse of Quat.
+*/
 FORCEINLINE VectorRegister VectorQuaternionInverseRotateVector(const VectorRegister& Quat, const VectorRegister& VectorW0)
 {
 	// Q.Inverse * V * Q
@@ -197,25 +212,12 @@ FORCEINLINE VectorRegister VectorQuaternionInverseRotateVector(const VectorRegis
 	const VectorRegister QInv = VectorQuaternionInverse(Quat);
 	return VectorQuaternionRotateVector(QInv, VectorW0);
 }
-
 /**
-* Rotate a vector using a pointer to a unit Quaternion.
-*
-* @param Result		Pointer to where the result should be stored
-* @param Quat		Pointer to the unit quaternion (must not be the destination)
-* @param VectorW0	Pointer to the vector (must not be the destination). W component must be zero.
-*/
-FORCEINLINE void VectorQuaternionRotateVectorPtr(void* RESTRICT Result, const void* RESTRICT Quat, const void* RESTRICT VectorW0)
-{
-	*((VectorRegister*)Result) = VectorQuaternionRotateVector(*((const VectorRegister*)Quat), *((const VectorRegister*)VectorW0));
-}
+	Rotate a vector using the inverse of a unit Quaternion (rotation in the opposite direction).
 
-/**
-* Rotate a vector using the inverse of a unit Quaternion (rotation in the opposite direction).
-*
-* @param Result		Pointer to where the result should be stored
-* @param Quat		Pointer to the unit quaternion (must not be the destination)
-* @param VectorW0	Pointer to the vector (must not be the destination). W component must be zero.
+	@param Result - Pointer to where the result should be stored.
+	@param Quat - Pointer to the unit quaternion (must not be the destination).
+	@param VectorW0 - Pointer to the vector (must not be the destination). W component must be zero.
 */
 FORCEINLINE void VectorQuaternionInverseRotateVectorPtr(void* RESTRICT Result, const void* RESTRICT Quat, const void* RESTRICT VectorW0)
 {
@@ -225,63 +227,27 @@ FORCEINLINE void VectorQuaternionInverseRotateVectorPtr(void* RESTRICT Result, c
 
 
 
-
 /**
- * Counts the number of trailing zeros in the bit representation of the value,
- * counting from least-significant bit to most.
- *
- * @param Value the value to determine the number of leading zeros for
- * @return the number of zeros before the first "on" bit
- */
-#if defined(_MSC_VER)
-#pragma intrinsic( _BitScanForward )
-FORCEINLINE uint32 appCountTrailingZeros(uint32 Value)
-{
-	if (Value == 0)
-	{
-		return 32;
-	}
-	unsigned long BitIndex;	// 0-based, where the LSB is 0 and MSB is 31
-	_BitScanForward(&BitIndex, Value);	// Scans from LSB to MSB
-	return BitIndex;
-}
-#else // !defined(_MSC_VER)
-FORCEINLINE uint32 appCountTrailingZeros(uint32 Value)
-{
-	if (Value == 0)
-	{
-		return 32;
-	}
-	return __builtin_ffs(Value) - 1;
-}
-#endif // _MSC_VER
-
-
-
-
-
-
-
-
-
-/*----------------------------------------------------------------------------
-	VectorRegister specialization of templates.
-----------------------------------------------------------------------------*/
-
-/** Returns the smaller of the two values (operates on each component individually) */
-template<> FORCEINLINE VectorRegister FMath::Min(const VectorRegister A, const VectorRegister B)
+	@return the smaller of the two values (operates on each component individually).
+*/
+template<>
+FORCEINLINE VectorRegister FMath::Min(const VectorRegister A, const VectorRegister B)
 {
 	return VectorMin(A, B);
 }
-
-/** Returns the larger of the two values (operates on each component individually) */
-template<> FORCEINLINE VectorRegister FMath::Max(const VectorRegister A, const VectorRegister B)
+/** 
+	@return the larger of the two values (operates on each component individually).
+*/
+template<>
+FORCEINLINE VectorRegister FMath::Max(const VectorRegister A, const VectorRegister B)
 {
 	return VectorMax(A, B);
 }
-
-// Specialization of Lerp template that works with vector registers
-template<> FORCEINLINE VectorRegister FMath::Lerp(const VectorRegister& A, const VectorRegister& B, const VectorRegister& Alpha)
+/**
+	Specialization of Lerp template that works with vector registers.
+*/
+template<>
+FORCEINLINE VectorRegister FMath::Lerp(const VectorRegister& A, const VectorRegister& B, const VectorRegister& Alpha)
 {
 	const VectorRegister Delta = VectorSubtract(B, A);
 	return VectorMultiplyAdd(Alpha, Delta, A);

@@ -1,3 +1,4 @@
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 #include "GenericPlatform.h"
@@ -35,30 +36,26 @@
 
 /* Numeric type traits */
 
-/*
+/**
 	Helper class to map a numeric type to its limits.
 */
 template<typename NumericType>
 struct TNumericLimits;
-
-
-/*
+/**
 	Numeric limits for const types.
 */
 template<typename NumericType>
 struct TNumericLimits<const NumericType> : public TNumericLimits<NumericType>
 {
 };
-
-/*
+/**
 	Numeric limits for volatile types.
 */
 template<typename NumericType>
 struct TNumericLimits<volatile NumericType> : public TNumericLimits<NumericType>
 {
 };
-
-/*
+/**
 	Numeric limits for const volatile types.
 */
 template<typename NumericType>
@@ -66,123 +63,93 @@ struct TNumericLimits<const volatile NumericType> : public TNumericLimits<Numeri
 {
 };
 
-
 template<>
 struct TNumericLimits<uint8>
 {
 	typedef uint8 NumericType;
 
-	static constexpr NumericType Min() { return MIN_uint8; }
-
-	static constexpr NumericType Max() { return MAX_uint8; }
-
-	static constexpr NumericType Lowest() { return Min(); }
+	static FORCEINLINE constexpr NumericType Min() { return MIN_uint8; }
+	static FORCEINLINE constexpr NumericType Max() { return MAX_uint8; }
+	static FORCEINLINE constexpr NumericType Lowest() noexcept { return Min(); }
 };
-
 template<>
 struct TNumericLimits<uint16>
 {
 	typedef uint16 NumericType;
 
-	static constexpr NumericType Min() { return MIN_uint16; }
-
-	static constexpr NumericType Max() { return MAX_uint16; }
-
-	static constexpr NumericType Lowest() { return Min(); }
+	static FORCEINLINE constexpr NumericType Min() { return MIN_uint16; }
+	static FORCEINLINE constexpr NumericType Max() { return MAX_uint16; }
+	static FORCEINLINE constexpr NumericType Lowest() noexcept { return Min(); }
 };
-
 template<>
 struct TNumericLimits<uint32>
 {
 	typedef uint32 NumericType;
 
-	static constexpr NumericType Min() { return MIN_uint32; }
-
-	static constexpr NumericType Max() { return MAX_uint32; }
-
-	static constexpr NumericType Lowest() { return Min(); }
+	static FORCEINLINE constexpr NumericType Min() { return MIN_uint32; }
+	static FORCEINLINE constexpr NumericType Max() { return MAX_uint32; }
+	static FORCEINLINE constexpr NumericType Lowest() noexcept { return Min(); }
 };
-
 template<>
 struct TNumericLimits<uint64>
 {
 	typedef uint64 NumericType;
 
-	static constexpr NumericType Min() { return MIN_uint64; }
-
-	static constexpr NumericType Max() { return MAX_uint64; }
-
-	static constexpr NumericType Lowest() { return Min(); }
+	static FORCEINLINE constexpr NumericType Min() { return MIN_uint64; }
+	static FORCEINLINE constexpr NumericType Max() { return MAX_uint64; }
+	static FORCEINLINE constexpr NumericType Lowest() noexcept { return Min(); }
 };
-
 template<>
 struct TNumericLimits<int8>
 {
 	typedef int8 NumericType;
 
-	static constexpr NumericType Min() { return MIN_int8; }
-
-	static constexpr NumericType Max() { return MAX_int8; }
-
-	static constexpr NumericType Lowest() { return Min(); }
+	static FORCEINLINE constexpr NumericType Min() { return MIN_int8; }
+	static FORCEINLINE constexpr NumericType Max() { return MAX_int8; }
+	static FORCEINLINE constexpr NumericType Lowest() noexcept { return Min(); }
 };
-
 template<>
 struct TNumericLimits<int16>
 {
 	typedef int16 NumericType;
 
-	static constexpr NumericType Min() { return MIN_int16; }
-
-	static constexpr NumericType Max() { return MAX_int16; }
-
-	static constexpr NumericType Lowest() { return Min(); }
+	static FORCEINLINE constexpr NumericType Min() { return MIN_int16; }
+	static FORCEINLINE constexpr NumericType Max() { return MAX_int16; }
+	static FORCEINLINE constexpr NumericType Lowest() noexcept { return Min(); }
 };
-
 template<>
 struct TNumericLimits<int32>
 {
 	typedef int32 NumericType;
 
-	static constexpr NumericType Min() { return MIN_int32; }
-
-	static constexpr NumericType Max() { return MAX_int32; }
-
-	static constexpr NumericType Lowest() { return Min(); }
+	static FORCEINLINE constexpr NumericType Min() noexcept { return MIN_int32; }
+	static FORCEINLINE constexpr NumericType Max() noexcept { return MAX_int32; }
+	static FORCEINLINE constexpr NumericType Lowest() noexcept { return Min(); }
 };
-
 template<>
 struct TNumericLimits<int64>
 {
 	typedef int64 NumericType;
 
-	static constexpr NumericType Min() { return MIN_int64; }
-
-	static constexpr NumericType Max() { return MAX_int64; }
-
-	static constexpr NumericType Lowest() { return Min(); }
+	static FORCEINLINE constexpr NumericType Min() noexcept { return MIN_int64; }
+	static FORCEINLINE constexpr NumericType Max() noexcept { return MAX_int64; }
+	static FORCEINLINE constexpr NumericType Lowest() noexcept { return Min(); }
 };
-
 template<>
 struct TNumericLimits<float>
 {
 	typedef float NumericType;
 
-	static constexpr NumericType Min() { return MIN_flt; }
-
-	static constexpr NumericType Max() { return MAX_flt; }
-
-	static constexpr NumericType Lowest() { return -Max(); }
+	static FORCEINLINE constexpr NumericType Min() noexcept { return MIN_flt; }
+	static FORCEINLINE constexpr NumericType Max() noexcept { return MAX_flt; }
+	static FORCEINLINE constexpr NumericType Lowest() noexcept { return -Max(); }
 };
-
 template<>
 struct TNumericLimits<double>
 {
 	typedef double NumericType;
 
-	static constexpr NumericType Min() { return MIN_dbl; }
-
-	static constexpr NumericType Max() { return MAX_dbl; }
-
-	static constexpr NumericType Lowest() { return -Max(); }
+	static FORCEINLINE constexpr NumericType Min() noexcept { return MIN_dbl; }
+	static FORCEINLINE constexpr NumericType Max() noexcept { return MAX_dbl; }
+	static FORCEINLINE constexpr NumericType Lowest() noexcept { return -Max(); }
 };

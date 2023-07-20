@@ -1,9 +1,8 @@
-﻿
+﻿// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 #include "GenericPlatform.h"
 
-#include "TypeTraits/IsArithmetic.h"
 #include "TypeTraits/IsSigned.h"
 
 #include <ctype.h>
@@ -12,7 +11,7 @@
 
 
 
-/*
+/**
 	Templated literal struct to allow selection of wide or ansi string literals
 	based on the character type provided, and not on compiler switches.
 */
@@ -31,7 +30,6 @@ struct TLiteral<WIDECHAR>
 };
 
 #define LITERAL(CharType, StringLiteral) TLiteral<CharType>::Select(StringLiteral, TEXT(StringLiteral))
-
 
 
 
@@ -61,49 +59,40 @@ struct TCharBase<CharType, 1>
 	static bool IsLinebreak(CharType Char) { return ((uint32(Char) - LineFeed) <= uint32(CarriageReturn - LineFeed)); }
 };
 
-
-
-
-
-/*
-	TChar
-	Set of utility functions operating on a single character. The functions
-	are specialized for ANSICHAR and TCHAR character types. You can use the
-	typedefs FChar and FCharAnsi for convenience.
+/**
+	Set of utility functions operating on a single character. 
+	The functions are specialized for ANSICHAR and TCHAR character types. 
+	You can use the	typedefs FChar and FCharAnsi for convenience.
 */
 template<typename CharType>
 struct TChar : TCharBase<CharType, sizeof(CharType)>
 {
-	/*
+	/**
 		Only converts ASCII characters, same as CRT to[w]upper() with standard C locale
 	*/
-	static CharType ToUpper(CharType Char) { return (CharType)(ToUnsigned(Char) - ((uint32(Char) - 'a' < 26u) << 5)); }
-
-	/*
+	static FORCEINLINE CharType ToUpper(CharType Char) noexcept { return (CharType)(ToUnsigned(Char) - ((uint32(Char) - 'a' < 26u) << 5)); }
+	/**
 		Only converts ASCII characters, same as CRT to[w]upper() with standard C locale
 	*/
-	static CharType ToLower(CharType Char) { return (CharType)(ToUnsigned(Char) + ((uint32(Char) - 'A' < 26u) << 5)); }
+	static FORCEINLINE CharType ToLower(CharType Char) noexcept { return (CharType)(ToUnsigned(Char) + ((uint32(Char) - 'A' < 26u) << 5)); }
 
-	static bool IsUpper(CharType Char);
-	static bool IsLower(CharType Char);
-	static bool IsAlpha(CharType Char);
-	static bool IsGraph(CharType Char);
-	static bool IsPrint(CharType Char);
-	static bool IsPunct(CharType Char);
-	static bool IsAlnum(CharType Char);
-	static bool IsDigit(CharType Char);
-	static bool IsHexDigit(CharType Char);
-	static bool IsWhitespace(CharType Char);
+	static FORCEINLINE int32 ConvertCharDigitToInt(CharType Char) noexcept { return static_cast<int32>(Char) - static_cast<int32>('0'); }
+	static FORCEINLINE bool IsOctDigit(CharType Char) noexcept { return uint32(Char) - '0' < 8u; }
+	static FORCEINLINE bool IsIdentifier(CharType Char) noexcept { return IsAlnum(Char) || IsUnderscore(Char); }
+	static FORCEINLINE bool IsUnderscore(CharType Char) noexcept { return Char == LITERAL(CharType, '_'); }
 
-	static bool IsOctDigit(CharType Char) { return uint32(Char) - '0' < 8u; }
+	static bool IsUpper(CharType Char) noexcept;
+	static bool IsLower(CharType Char) noexcept;
+	static bool IsAlpha(CharType Char) noexcept;
+	static bool IsGraph(CharType Char) noexcept;
+	static bool IsPrint(CharType Char) noexcept;
+	static bool IsPunct(CharType Char) noexcept;
+	static bool IsAlnum(CharType Char) noexcept;
+	static bool IsDigit(CharType Char) noexcept;
+	static bool IsHexDigit(CharType Char) noexcept;
+	static bool IsWhitespace(CharType Char) noexcept;
 
-	static int32 ConvertCharDigitToInt(CharType Char) { return static_cast<int32>(Char) - static_cast<int32>('0'); }
-
-	static bool IsIdentifier(CharType Char) { return IsAlnum(Char) || IsUnderscore(Char); }
-
-	static bool IsUnderscore(CharType Char) { return Char == LITERAL(CharType, '_'); }
-
-	/*
+	/**
 		Avoid sign extension problems with signed characters smaller than int
 	
 		E.g. 'Ö' - 'A' is negative since the char 'Ö' (0xD6) is negative and gets
@@ -111,123 +100,117 @@ struct TChar : TCharBase<CharType, sizeof(CharType)>
 	
 		Mainly needed for subtraction and addition.
 	*/
-	static constexpr FORCEINLINE uint32 ToUnsigned(CharType Char) { return (typename TUnsignedIntType<sizeof(CharType)>::Type)Char; }
+	static constexpr FORCEINLINE uint32 ToUnsigned(CharType Char) noexcept { return (typename TUnsignedIntType<sizeof(CharType)>::Type)Char; }
 };
 
-typedef TChar<TCHAR> FChar;
-typedef TChar<WIDECHAR> FCharWide;
-typedef TChar<ANSICHAR> FCharAnsi;
+using FChar = TChar<TCHAR>;
+using FCharWide = TChar<WIDECHAR>;
+using FCharAnsi = TChar<ANSICHAR>;
 
 
 
 
-
-/*-----------------------------------------------------------------------------
-	WIDECHAR specialized functions
------------------------------------------------------------------------------*/
+// WIDECHAR specialized functions
 template<>
-inline bool TChar<WIDECHAR>::IsUpper(WIDECHAR Char)
+inline bool TChar<WIDECHAR>::IsUpper(WIDECHAR Char) noexcept
 {
 	return iswupper(Char) != 0;
 }
 template<>
-inline bool TChar<WIDECHAR>::IsLower(WIDECHAR Char)
+inline bool TChar<WIDECHAR>::IsLower(WIDECHAR Char) noexcept
 {
 	return iswlower(Char) != 0;
 }
 template<>
-inline bool TChar<WIDECHAR>::IsAlpha(WIDECHAR Char)
+inline bool TChar<WIDECHAR>::IsAlpha(WIDECHAR Char) noexcept
 {
 	return iswalpha(Char) != 0;
 }
 template<>
-inline bool TChar<WIDECHAR>::IsGraph(WIDECHAR Char)
+inline bool TChar<WIDECHAR>::IsGraph(WIDECHAR Char) noexcept
 {
 	return iswgraph(Char) != 0;
 }
 template<>
-inline bool TChar<WIDECHAR>::IsPrint(WIDECHAR Char)
+inline bool TChar<WIDECHAR>::IsPrint(WIDECHAR Char) noexcept
 {
 	return iswprint(Char) != 0;
 }
 template<>
-inline bool TChar<WIDECHAR>::IsPunct(WIDECHAR Char)
+inline bool TChar<WIDECHAR>::IsPunct(WIDECHAR Char) noexcept
 {
 	return iswpunct(Char) != 0;
 }
 template<>
-inline bool TChar<WIDECHAR>::IsAlnum(WIDECHAR Char)
+inline bool TChar<WIDECHAR>::IsAlnum(WIDECHAR Char) noexcept
 {
 	return iswalnum(Char) != 0;
 }
 template<>
-inline bool TChar<WIDECHAR>::IsDigit(WIDECHAR Char)
+inline bool TChar<WIDECHAR>::IsDigit(WIDECHAR Char) noexcept
 {
 	return iswdigit(Char) != 0;
 }
 template<>
-inline bool TChar<WIDECHAR>::IsHexDigit(WIDECHAR Char)
+inline bool TChar<WIDECHAR>::IsHexDigit(WIDECHAR Char) noexcept
 {
 	return iswxdigit(Char) != 0;
 }
 template<>
-inline bool TChar<WIDECHAR>::IsWhitespace(WIDECHAR Char)
+inline bool TChar<WIDECHAR>::IsWhitespace(WIDECHAR Char) noexcept
 {
 	return iswspace(Char) != 0;
 }
 
 
-
-/*-----------------------------------------------------------------------------
-	ANSICHAR specialized functions
------------------------------------------------------------------------------*/
+// ANSICHAR specialized functions
 template<>
-inline bool TChar<ANSICHAR>::IsUpper(ANSICHAR Char)
+inline bool TChar<ANSICHAR>::IsUpper(ANSICHAR Char) noexcept
 {
-	return isupper((unsigned char)Char) != 0;
+	return isupper(static_cast<int>(Char)) != 0;
 }
 template<>
-inline bool TChar<ANSICHAR>::IsLower(ANSICHAR Char)
+inline bool TChar<ANSICHAR>::IsLower(ANSICHAR Char) noexcept
 {
-	return islower((unsigned char)Char) != 0;
+	return islower(static_cast<int>(Char)) != 0;
 }
 template<>
-inline bool TChar<ANSICHAR>::IsAlpha(ANSICHAR Char)
+inline bool TChar<ANSICHAR>::IsAlpha(ANSICHAR Char) noexcept
 {
-	return isalpha((unsigned char)Char) != 0;
+	return isalpha(static_cast<int>(Char)) != 0;
 }
 template<>
-inline bool TChar<ANSICHAR>::IsGraph(ANSICHAR Char)
+inline bool TChar<ANSICHAR>::IsGraph(ANSICHAR Char) noexcept
 {
-	return isgraph((unsigned char)Char) != 0;
+	return isgraph(static_cast<int>(Char)) != 0;
 }
 template<>
-inline bool TChar<ANSICHAR>::IsPrint(ANSICHAR Char)
+inline bool TChar<ANSICHAR>::IsPrint(ANSICHAR Char) noexcept
 {
-	return isprint((unsigned char)Char) != 0;
+	return isprint(static_cast<int>(Char)) != 0;
 }
 template<>
-inline bool TChar<ANSICHAR>::IsPunct(ANSICHAR Char)
+inline bool TChar<ANSICHAR>::IsPunct(ANSICHAR Char) noexcept
 {
-	return ispunct((unsigned char)Char) != 0;
+	return ispunct(static_cast<int>(Char)) != 0;
 }
 template<>
-inline bool TChar<ANSICHAR>::IsAlnum(ANSICHAR Char)
+inline bool TChar<ANSICHAR>::IsAlnum(ANSICHAR Char) noexcept
 {
-	return isalnum((unsigned char)Char) != 0;
+	return isalnum(static_cast<int>(Char)) != 0;
 }
 template<>
-inline bool TChar<ANSICHAR>::IsDigit(ANSICHAR Char)
+inline bool TChar<ANSICHAR>::IsDigit(ANSICHAR Char) noexcept
 {
-	return isdigit((unsigned char)Char) != 0;
+	return isdigit(static_cast<int>(Char)) != 0;
 }
 template<>
-inline bool TChar<ANSICHAR>::IsHexDigit(ANSICHAR Char)
+inline bool TChar<ANSICHAR>::IsHexDigit(ANSICHAR Char) noexcept
 {
-	return isxdigit((unsigned char)Char) != 0;
+	return isxdigit(static_cast<int>(Char)) != 0;
 }
 template<>
-inline bool TChar<ANSICHAR>::IsWhitespace(ANSICHAR Char)
+inline bool TChar<ANSICHAR>::IsWhitespace(ANSICHAR Char) noexcept
 {
-	return isspace((unsigned char)Char) != 0;
+	return isspace(static_cast<int>(Char)) != 0;
 }

@@ -1,10 +1,10 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 
 
 
-/*
+/**
 	Determines if T is a struct/class type.
 */
 template<typename T>
@@ -12,8 +12,10 @@ struct TIsClass
 {
 private:
 
-	template<typename U> static uint16 Func(int U::*);
-	template<typename U> static uint8 Func(...);
+	template<typename U>
+	static uint16 Func(int U::*);
+	template<typename U>
+	static uint8 Func(...);
 
 public:
 
@@ -25,7 +27,7 @@ public:
 
 
 
-/*
+/**
 	Chooses between two different classes based on a boolean.
 */
 template<bool Predicate, typename TrueClass, typename FalseClass>

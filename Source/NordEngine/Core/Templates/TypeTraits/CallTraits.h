@@ -1,4 +1,4 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 #include "TypeTraits/AndOrNot.h"
@@ -8,7 +8,7 @@
 
 
 
-/*
+/**
 	Call traits helpers.
 */
 template<typename T, bool TypeIsSmall>
@@ -45,7 +45,7 @@ struct TCallTraitsParamTypeHelper<T*, true>
 	Has a small-value optimization when a type is a POD type and as small as a pointer.
 -----------------------------------------------------------------------------*/
 
-/*
+/**
 	Base class for call traits. Used to more easily refine portions when specializing.
 */
 template<typename T>
@@ -56,7 +56,9 @@ private:
 	enum
 	{
 		//(sizeof(T) <= sizeof(void*) and IsPODType) or IsArithmetic
-		PassByValue = TOr<TAndValue<(sizeof(T) <= sizeof(void*)), TIsPODType<T>>, TIsArithmetic<T>>::Value
+		PassByValue = TOr < TAndValue < (sizeof(T) <= sizeof(void*)),
+		TIsPODType < T >>,
+		TIsArithmetic < T >> ::Value
 	};
 
 public:
@@ -68,7 +70,7 @@ public:
 	typedef typename TCallTraitsParamTypeHelper<T, PassByValue>::ConstParamType ConstPointerType;
 };
 
-/*
+/**
 	TCallTraits.
 */
 template<typename T>
@@ -87,8 +89,6 @@ struct TCallTraits<T&>
 	typedef T& ConstPointerType;
 };
 
-
-
 // Array types
 template<typename T, size_t N>
 struct TCallTraits<T[N]>
@@ -105,7 +105,6 @@ public:
 	typedef const T* const ParamType;
 	typedef const T* const ConstPointerType;
 };
-
 
 // const array types
 template<typename T, size_t N>

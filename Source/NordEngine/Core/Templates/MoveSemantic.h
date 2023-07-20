@@ -1,17 +1,16 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 #include "GenericPlatform.h"
 
-#include "TypeTraits/TypeTraits.h"
-#include "TypeTraits/TypeSpecifier.h"
-#include "TypeTraits/IsEnum.h"
-#include "TypeTraits/AndOrNot.h"
-#include "TypeTraits/EnableIf.h"
-#include "TypeTraits/IsArithmetic.h"
 #include "TypeTraits/CallTraits.h"
+#include "TypeTraits/TypeSpecifier.h"
+#include "TypeTraits/EnableIf.h"
+#include "TypeTraits/AndOrNot.h"
+#include "TypeTraits/IsEnum.h"
+#include "TypeTraits/IsArithmetic.h"
+#include "TypeTraits/AreTypesEqual.h"
 #include "TypeCompatibleBytes.h"
-
 #include "EngineMemory.h"
 
 
@@ -33,7 +32,7 @@ struct TMoveSupportTraitsBase<T, const T&>
 	typedef T&& Move;
 };
 
-/*
+/**
 	This traits class is intended to be used in pairs to allow efficient and correct move-aware overloads for generic types.
 	For example:
  
@@ -60,10 +59,7 @@ struct TMoveSupportTraits : TMoveSupportTraitsBase<T, typename TCallTraits<T>::P
 
 
 
-
-
-
-/*
+/**
 	MoveTemp will cast a reference to an rvalue reference.
 	This is equivalent of std::move except that it will not compile when passed an rvalue or
 	const object, because we would prefer to be informed when MoveTemp will have no effect.
@@ -79,8 +75,7 @@ FORCEINLINE typename TRemoveReference<T>::Type&& MoveTemp(T&& Obj)
 
 	return (CastType &&) Obj;
 }
-
-/*
+/**
 	MoveTemp will cast a reference to an rvalue reference.
 	This is equivalent of std::move.  It doesn't static assert like MoveTemp, because it is useful in
 	templates or macros where it's not obvious what the argument is, but you want to take advantage of move semantics
@@ -94,10 +89,7 @@ FORCEINLINE typename TRemoveReference<T>::Type&& MoveTempIfPossible(T&& Obj)
 }
 
 
-
-
-
-/*
+/**
 	CopyTemp will enforce the creation of an rvalue which can bind to rvalue reference parameters.
 	Unlike MoveTemp, the source object will never be modifed. (i.e. a copy will be made)
 	There is no std:: equivalent.
@@ -107,13 +99,11 @@ FORCEINLINE T CopyTemp(T& Val)
 {
 	return const_cast<const T&>(Val);
 }
-
 template<typename T>
 FORCEINLINE T CopyTemp(const T& Val)
 {
 	return Val;
 }
-
 template<typename T>
 FORCEINLINE T&& CopyTemp(T&& Val)
 {
@@ -122,10 +112,7 @@ FORCEINLINE T&& CopyTemp(T&& Val)
 }
 
 
-
-
-
-/*
+/**
 	This is used to provide type specific behavior for a copy which cannot change the value of B.
 */
 template<typename T>
@@ -137,8 +124,7 @@ FORCEINLINE void Move(T& A, typename TMoveSupportTraits<T>::Copy B)
 	// Use placement new and a copy constructor so types with const members will work.
 	new(&A) T(B);
 }
-
-/*
+/**
 	This is used to provide type specific behavior for a move which may change the value of B. 
 */
 template<typename T>
@@ -152,12 +138,7 @@ FORCEINLINE void Move(T& A, typename TMoveSupportTraits<T>::Move B)
 }
 
 
-
-
-
-
-
-/*
+/**
 	A traits class which specifies whether a Swap of a given type should swap the bits or use a traditional value-based swap.
 */
 template<typename T>
@@ -166,13 +147,13 @@ struct TUseBitwiseSwap
 	// We don't use bitwise swapping for 'register' types because this will force them into memory and be slower.
 	enum
 	{
-		Value = !TOrValue<TIsEnum<T>, TIsPointer<T>, TIsArithmetic<T>> ::Value
+		// clang-format off
+		Value = !TOrValue<TIsEnum<T>, TIsPointer<T>, TIsArithmetic<T>>::Value
+		// clang-format on
 	};
 };
-
-
-/*
-	Swap two values.  Assumes the types are trivially relocatable.
+/**
+	Swap two values. Assumes the types are trivially relocatable.
 */
 template<typename T>
 FORCEINLINE typename TEnableIf<TUseBitwiseSwap<T>::Value>::Type Swap(T& A, T& B)
@@ -180,12 +161,11 @@ FORCEINLINE typename TEnableIf<TUseBitwiseSwap<T>::Value>::Type Swap(T& A, T& B)
 	if( LIKELY(&A != &B) )
 	{
 		TTypeCompatibleBytes<T> Temp;
-		FMemory::Memcpy(&Temp, &A, sizeof(T));
-		FMemory::Memcpy(&A, &B, sizeof(T));
-		FMemory::Memcpy(&B, &Temp, sizeof(T));
+		FMemory::MemCpy(&Temp, &A, sizeof(T));
+		FMemory::MemCpy(&A, &B, sizeof(T));
+		FMemory::MemCpy(&B, &Temp, sizeof(T));
 	}
 }
-
 template<typename T>
 FORCEINLINE typename TEnableIf<!TUseBitwiseSwap<T>::Value>::Type Swap(T& A, T& B)
 {
@@ -193,7 +173,6 @@ FORCEINLINE typename TEnableIf<!TUseBitwiseSwap<T>::Value>::Type Swap(T& A, T& B
 	A = MoveTemp(B);
 	B = MoveTemp(Temp);
 }
-
 template<typename T>
 FORCEINLINE void Exchange(T& A, T& B)
 {
@@ -201,10 +180,7 @@ FORCEINLINE void Exchange(T& A, T& B)
 }
 
 
-
-
-
-/*
+/**
 	Forward will cast a reference to an rvalue reference.
 	This is equivalent of std::forward.
 */
@@ -213,7 +189,6 @@ FORCEINLINE T&& Forward(typename TRemoveReference<T>::Type& Obj)
 {
 	return (T &&) Obj;
 }
-
 template<typename T>
 FORCEINLINE T&& Forward(typename TRemoveReference<T>::Type&& Obj)
 {

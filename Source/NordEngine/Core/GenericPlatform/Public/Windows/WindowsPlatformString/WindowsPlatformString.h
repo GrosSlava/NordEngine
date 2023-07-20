@@ -8,7 +8,7 @@
 #endif
 
 #include "GenericPlatformString.h"
-#include "MicrosoftPlatformString.h"
+#include "StandardPlatformString.h"
 
 
 
@@ -16,7 +16,7 @@
 /*	
 	Windows string implementation.
 */ 
-struct ENGINE_API FWindowsPlatformString : public FMicrosoftPlatformString
+struct ENGINE_API FWindowsPlatformString : public FStandardPlatformString
 {
 	
 };

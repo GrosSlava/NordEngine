@@ -1,12 +1,12 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 
 
 
-#define ENGINE_MAJOR_VERSION	0
-#define ENGINE_MINOR_VERSION	1
-#define ENGINE_PATCH_VERSION	0
+#define ENGINE_MAJOR_VERSION 0
+#define ENGINE_MINOR_VERSION 1
+#define ENGINE_PATCH_VERSION 0
 
 // Various strings used for engine resources
 #define COMPANY_NAME "NordEngine"

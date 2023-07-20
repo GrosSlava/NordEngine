@@ -90,7 +90,7 @@ public:
 
 	FORCEINLINE bool IsKeyPressed(EKey KeyCode) const noexcept { return KeyBinds[static_cast<uint16>(KeyCode)].GetIsActive(); }
 	FORCEINLINE bool IsKeyPressed(const FKey& Key) const noexcept { return IsKeyPressed(Key.Key); }
-	FORCEINLINE bool IsMouseKeyPressed(EMouseKey MouseKey) const noexcept { return MouseButtonBind[static_cast<uint16>(MouseKey)].GetIsActive(); }
+	//FORCEINLINE bool IsMouseKeyPressed(EMouseKey MouseKey) const noexcept { return MouseButtonBind[static_cast<uint16>(MouseKey)].GetIsActive(); }
 
 public:
 
@@ -133,22 +133,22 @@ public:
 		Hardcode bind mouse key with method
 		NOTE: call unbind on your object destructor
 	*/
-	template<class TObject>
+	/*template<class TObject>
 	FORCEINLINE void BindMouseKey(EMouseKey MouseKey, EMouseKeyBindType MouseKeyBindType, EInputMode InputMode, EInputCallType InputCallType, TObject* Object, void (TObject::*Method)(uint16, uint16))
 	{
 		if( MouseKeyBindType == EMouseKeyBindType::Count ) return;
 		MouseButtonBind[static_cast<uint16>(MouseKey)].BindKey(MouseKeyBindType, InputMode, InputCallType, Object, Method);
-	}
+	}*/
 
 	/*
 		Hardcode unbind mouse key from method.
 	*/
-	template<class TObject>
+	/*template<class TObject>
 	FORCEINLINE void UnbindMouseKey(EMouseKey MouseKey, EMouseKeyBindType MouseKeyBindType, TObject* Object, void (TObject::*Method)(uint16, uint16))
 	{
 		if( MouseKeyBindType == EMouseKeyBindType::Count ) return;
 		MouseButtonBind[static_cast<uint16>(MouseKey)].UnbindKey(MouseKeyBindType, Object, Method);
-	}
+	}*/
 
 
 
@@ -232,7 +232,7 @@ private:
 
 	FKeyInputInfo KeyBinds[static_cast<uint16>(EKey::KeyCount)];
 
-	FMouseKeyInputInfo MouseButtonBind[static_cast<uint16>(EMouseKey::ButtonCount)];
+	//FMouseKeyInputInfo MouseButtonBind[static_cast<uint16>(EMouseKey::ButtonCount)];
 
 	TDelegate<uint16, uint16> MouseMovingBind;
 	TDelegate<int> MouseWheelScrolledBind;

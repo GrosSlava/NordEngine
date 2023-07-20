@@ -1,4 +1,4 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 #include "GenericPlatform.h"
@@ -6,7 +6,7 @@
 
 
 
-/*
+/**
 	Finds the maximum sizeof the supplied types.
 */
 template<typename...>

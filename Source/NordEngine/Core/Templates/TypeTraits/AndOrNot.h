@@ -1,10 +1,10 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 
 
 
-/*
+/**
 	Does a boolean AND of the ::Value static members of each type, but short-circuits if any Type::Value == false.
 */
 template<typename... Types>
@@ -36,7 +36,8 @@ struct TAnd<>
 
 
 
-/*
+
+/**
 	Does a boolean OR of the ::Value static members of each type, but short-circuits if any Type::Value == true.
 */
 template<typename... Types>
@@ -69,7 +70,7 @@ struct TOr<>
 
 
 
-/*
+/**
 	Does a boolean NOT of the ::Value static members of the type.
 */
 template<typename Type>

@@ -1,10 +1,10 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 
 
 
-/*
+/**
 	Includes a function in an overload set if the predicate is true.  It should be used similarly to this:
  
 	// This function will only be instantiated if SomeTrait<T>::Value is true for a particular T
@@ -36,7 +36,7 @@ class TEnableIf<false, Result>
 
 
 
-/*
+/**
 	This is a variant of the above that will determine the return type 'lazily', i.e. only if the function is enabled.
 	This is useful when the return type isn't necessarily legal code unless the enabling condition is true.
  

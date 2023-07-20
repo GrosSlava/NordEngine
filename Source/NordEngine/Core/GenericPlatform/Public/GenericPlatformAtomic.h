@@ -1,4 +1,4 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 #include <atomic>

@@ -1,30 +1,35 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 
 
 
-/*
+// clang-format off
+
+/**
 	@param VERSION The release number in which the feature was marked deprecated.
 	@param MESSAGE A message containing upgrade notes.
 */
 #define DEPRECATED(Version, Message) [[deprecated(Message " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")]]
-
-/* Hints compiler that expression is likely to be true, allows (penalized by worse performance) expression to be false */
-#if( defined(__clang__) || defined(__GNUC__) ) && (PLATFORM_UNIX)
+/**
+	Hints compiler that expression is likely to be true, allows (penalized by worse performance) expression to be false .
+*/
+#if defined(__clang__) || defined(__GNUC__)
 	#define LIKELY(x) __builtin_expect(!!(x), 1)
 #else
 	#define LIKELY(x) (x)
 #endif
-
-/* Hints compiler that expression is unlikely to be true, allows (penalized by worse performance) expression to be true */
-#if( defined(__clang__) || defined(__GNUC__) ) && (PLATFORM_UNIX)
+/**
+	Hints compiler that expression is unlikely to be true, allows (penalized by worse performance) expression to be true.
+*/
+#if defined(__clang__) || defined(__GNUC__)
 	#define UNLIKELY(x) __builtin_expect(!!(x), 0)
 #else
 	#define UNLIKELY(x) (x)
 #endif
-
-// If we don't have a platform-specific define for the TEXT macro, define it now.
+/**
+	If we don't have a platform-specific define for the TEXT macro, define it now.
+*/
 #ifndef TEXT
 #if _UNICODE
 	#define TEXT_PASTE(x) L##x
@@ -43,7 +48,9 @@
 
 
 
-
+#if defined(__clang__) || defined(__GNUC__)
+	//TODO
+#else
 #define PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 			__pragma (warning(push)) \
 			__pragma (warning(disable: 4995)) /* 'function': name was marked as #pragma deprecated */ \
@@ -51,9 +58,11 @@
 
 #define PRAGMA_ENABLE_DEPRECATION_WARNINGS \
 			__pragma (warning(pop))
+#endif
 
-
-
+#if defined(__clang__) || defined(__GNUC__)
+	//TODO
+#else
 #define PRAGMA_DISABLE_SHADOW_VARIABLE_WARNINGS \
 			__pragma (warning(push)) \
 			__pragma (warning(disable: 4456)) /* declaration of 'LocalVariable' hides previous local declaration */ \
@@ -64,57 +73,66 @@
 
 #define PRAGMA_ENABLE_SHADOW_VARIABLE_WARNINGS \
 			__pragma(warning(pop))
+#endif
 
-
-
+#if defined(__clang__) || defined(__GNUC__)
+	//TODO
+#else
 #define PRAGMA_DISABLE_UNSAFE_TYPECAST_WARNINGS \
 			__pragma (warning(push)) \
 			__pragma (warning(disable: 4244)) /* 'argument': conversion from 'type1' to 'type2', possible loss of data */
 
 #define PRAGMA_ENABLE_UNSAFE_TYPECAST_WARNINGS \
 			__pragma(warning(pop))
+#endif
 
-
-
+#if defined(__clang__) || defined(__GNUC__)
+	//TODO
+#else
 #define PRAGMA_DISABLE_UNDEFINED_IDENTIFIER_WARNINGS \
 			__pragma(warning(push)) \
 			__pragma(warning(disable: 4668)) /* 'symbol' is not defined as a preprocessor macro, replacing with '0' for 'directives' */
 
 #define PRAGMA_ENABLE_UNDEFINED_IDENTIFIER_WARNINGS \
 			__pragma(warning(pop))
+#endif
 
-
-
+#if defined(__clang__) || defined(__GNUC__)
+	//TODO
+#else
 #define PRAGMA_DISABLE_MISSING_VIRTUAL_DESTRUCTOR_WARNINGS \
 			__pragma(warning(push)) \
 			__pragma(warning(disable: 4265)) /* class' : class has virtual functions, but destructor is not virtual */
 
 #define PRAGMA_ENABLE_MISSING_VIRTUAL_DESTRUCTOR_WARNINGS \
 			__pragma(warning(pop))
+#endif
 
-
-
+#if defined(__clang__) || defined(__GNUC__)
+	//TODO
+#else
 #define PRAGMA_DISABLE_REORDER_WARNINGS \
 			__pragma(warning(push)) \
 			__pragma(warning(disable: 5038)) /* data member 'member1' will be initialized after data member 'member2' data member 'member' will be initialized after base class 'base_class' */
 
 #define PRAGMA_ENABLE_REORDER_WARNINGS \
 			__pragma(warning(pop))
+#endif
 
-
-
+#if defined(__clang__) || defined(__GNUC__)
+	//TODO
+#else
 #define PRAGMA_DISABLE_REGISTER_WARNINGS \
 			__pragma(warning(push)) \
 			__pragma(warning(disable: 5033)) /* 'register' is no longer a supported storage class */
 
 #define PRAGMA_ENABLE_REGISTER_WARNINGS \
 			__pragma(warning(pop))
+#endif
 
-
-
-
-
-// Disable common CA warnings around SDK includes
+#if defined(__clang__) || defined(__GNUC__)
+	//TODO
+#else
 #define THIRD_PARTY_INCLUDES_START \
 			__pragma(warning(push)) \
 			__pragma(warning(disable: 4510))  /* '<class>': default constructor could not be generated. */ \
@@ -141,7 +159,6 @@
 			PRAGMA_DISABLE_MISSING_VIRTUAL_DESTRUCTOR_WARNINGS \
 			PRAGMA_DISABLE_DEPRECATION_WARNINGS
 
-
 #define THIRD_PARTY_INCLUDES_END \
 			PRAGMA_ENABLE_DEPRECATION_WARNINGS \
 			PRAGMA_ENABLE_MISSING_VIRTUAL_DESTRUCTOR_WARNINGS \
@@ -149,8 +166,7 @@
 			PRAGMA_ENABLE_UNDEFINED_IDENTIFIER_WARNINGS \
 			PRAGMA_ENABLE_REORDER_WARNINGS \
 			__pragma(warning(pop))
-
-
+#endif
 
 
 
@@ -169,10 +185,6 @@
 	#error PRAGMA_PUSH_PLATFORM_DEFAULT_PACKING should be defined for current platform!
 #endif
 
-
-
-
-
 #ifndef PLATFORM_BREAK
 	#define PLATFORM_BREAK()
 #endif
@@ -186,6 +198,11 @@
 #endif
 #ifndef DLLIMPORT
 	#define DLLIMPORT
+#endif
+#ifdef ENGINE
+	#define ENGINE_API DLLEXPORT
+#else
+	#define ENGINE_API DLLIMPORT
 #endif
 
 #ifndef VARARGS
@@ -226,7 +243,5 @@
 #ifndef MS_ALIGN
 	#define MS_ALIGN(n)
 #endif
-#ifndef MSVC_PRAGMA
-	#define MSVC_PRAGMA(Pragma)
-#endif
 
+// clang-format on

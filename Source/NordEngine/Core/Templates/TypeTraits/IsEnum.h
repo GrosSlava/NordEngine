@@ -1,4 +1,4 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 #include "TypeTraits/AndOrNot.h"
@@ -16,8 +16,6 @@ struct TIsEnum
 };
 
 
-
-
 namespace IsEnumClass_Private
 {
 template<typename T>
@@ -33,7 +31,7 @@ struct TIsEnumConvertibleToInt
 };
 } // namespace IsEnumClass_Private
 
-/*
+/**
 	Traits class which tests if a type is arithmetic.
 */
 template<typename T>
@@ -41,6 +39,7 @@ struct TIsEnumClass
 {
 	enum
 	{
-		Value = TAndValue< __is_enum(T), TNot<IsEnumClass_Private::TIsEnumConvertibleToInt<T>> >::Value
+		Value = TAndValue < __is_enum(T),
+		TNot<IsEnumClass_Private::TIsEnumConvertibleToInt<T>> > ::Value
 	};
 };

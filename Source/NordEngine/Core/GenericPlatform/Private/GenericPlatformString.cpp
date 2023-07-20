@@ -1,4 +1,4 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #include "GenericPlatformString.h"
 #include "Char.h"
 
@@ -6,6 +6,7 @@
 
 
 
+// clang-format off
 static constexpr uint8 LowerAscii[128] = 
 {
 	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
@@ -17,13 +18,13 @@ static constexpr uint8 LowerAscii[128] =
 	0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F,
 	0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F
 };
-
+// clang-format on
 
 
 template<typename CharType1, typename CharType2>
 FORCEINLINE bool BothAscii(CharType1 C1, CharType2 C2)
 {
-	return (((uint32)C1 | (uint32)C2) & 0xffffff80) == 0;
+	return ((static_cast<uint32>(C1) | static_cast<uint32>(C2)) & 0xffffff80) == 0;
 }
 
 template<typename CharType1, typename CharType2>
@@ -45,8 +46,7 @@ int32 StricmpImpl(const CharType1* String1, const CharType2* String2)
 
 			return 0;
 		}
-		else
-		if( BothAscii(C1, C2) )
+		else if( BothAscii(C1, C2) )
 		{
 			if( int32 Diff = LowerAscii[TChar<CharType1>::ToUnsigned(C1)] - LowerAscii[TChar<CharType2>::ToUnsigned(C2)] )
 			{
@@ -70,17 +70,16 @@ int32 StrnicmpImpl(const CharType1* String1, const CharType2* String2, SIZE_T Co
 
 		// Quickly move on if characters are identical but
 		// return equals if we found two null terminators
-		if (C1 == C2)
+		if( C1 == C2 )
 		{
-			if (C1)
+			if( C1 )
 			{
 				continue;
 			}
 
 			return 0;
 		}
-		else
-		if( BothAscii(C1, C2) )
+		else if( BothAscii(C1, C2) )
 		{
 			if( int32 Diff = LowerAscii[TChar<CharType1>::ToUnsigned(C1)] - LowerAscii[TChar<CharType2>::ToUnsigned(C2)] )
 			{
@@ -96,23 +95,38 @@ int32 StrnicmpImpl(const CharType1* String1, const CharType2* String2, SIZE_T Co
 	return 0;
 }
 
-int32 FGenericPlatformString::Stricmp(const ANSICHAR* Str1, const ANSICHAR* Str2) { return StricmpImpl(Str1, Str2); }
-int32 FGenericPlatformString::Stricmp(const WIDECHAR* Str1, const WIDECHAR* Str2) { return StricmpImpl(Str1, Str2); }
-int32 FGenericPlatformString::Stricmp(const UTF8CHAR* Str1, const UTF8CHAR* Str2) { return StricmpImpl(Str1, Str2); }
-int32 FGenericPlatformString::Stricmp(const UTF16CHAR* Str1, const UTF16CHAR* Str2) { return StricmpImpl(Str1, Str2); }
-int32 FGenericPlatformString::Stricmp(const UTF32CHAR* Str1, const UTF32CHAR* Str2) { return StricmpImpl(Str1, Str2); }
-int32 FGenericPlatformString::Stricmp(const ANSICHAR* Str1, const WIDECHAR* Str2) { return StricmpImpl(Str1, Str2); }
-int32 FGenericPlatformString::Stricmp(const ANSICHAR* Str1, const UTF8CHAR* Str2) { return StricmpImpl(Str1, Str2); }
-int32 FGenericPlatformString::Stricmp(const ANSICHAR* Str1, const UTF16CHAR* Str2) { return StricmpImpl(Str1, Str2); }
-int32 FGenericPlatformString::Stricmp(const ANSICHAR* Str1, const UTF32CHAR* Str2) { return StricmpImpl(Str1, Str2); }
-int32 FGenericPlatformString::Stricmp(const WIDECHAR* Str1, const ANSICHAR* Str2) { return StricmpImpl(Str1, Str2); }
-int32 FGenericPlatformString::Stricmp(const UTF8CHAR* Str1, const ANSICHAR* Str2) { return StricmpImpl(Str1, Str2); }
-int32 FGenericPlatformString::Stricmp(const UTF16CHAR* Str1, const ANSICHAR* Str2) { return StricmpImpl(Str1, Str2); }
-int32 FGenericPlatformString::Stricmp(const UTF32CHAR* Str1, const ANSICHAR* Str2) { return StricmpImpl(Str1, Str2); }
-int32 FGenericPlatformString::Strnicmp(const ANSICHAR* Str1, const ANSICHAR* Str2, SIZE_T Count) { return StrnicmpImpl(Str1, Str2, Count); }
-int32 FGenericPlatformString::Strnicmp(const WIDECHAR* Str1, const WIDECHAR* Str2, SIZE_T Count) { return StrnicmpImpl(Str1, Str2, Count); }
-int32 FGenericPlatformString::Strnicmp(const ANSICHAR* Str1, const WIDECHAR* Str2, SIZE_T Count) { return StrnicmpImpl(Str1, Str2, Count); }
-int32 FGenericPlatformString::Strnicmp(const WIDECHAR* Str1, const ANSICHAR* Str2, SIZE_T Count) { return StrnicmpImpl(Str1, Str2, Count); }
+int32 FGenericPlatformString::Stricmp(const ANSICHAR* Str1, const ANSICHAR* Str2)
+{
+	return StricmpImpl(Str1, Str2);
+}
+int32 FGenericPlatformString::Stricmp(const WIDECHAR* Str1, const WIDECHAR* Str2)
+{
+	return StricmpImpl(Str1, Str2);
+}
+int32 FGenericPlatformString::Stricmp(const ANSICHAR* Str1, const WIDECHAR* Str2)
+{
+	return StricmpImpl(Str1, Str2);
+}
+int32 FGenericPlatformString::Stricmp(const WIDECHAR* Str1, const ANSICHAR* Str2)
+{
+	return StricmpImpl(Str1, Str2);
+}
+int32 FGenericPlatformString::Strnicmp(const ANSICHAR* Str1, const ANSICHAR* Str2, SIZE_T Count)
+{
+	return StrnicmpImpl(Str1, Str2, Count);
+}
+int32 FGenericPlatformString::Strnicmp(const WIDECHAR* Str1, const WIDECHAR* Str2, SIZE_T Count)
+{
+	return StrnicmpImpl(Str1, Str2, Count);
+}
+int32 FGenericPlatformString::Strnicmp(const ANSICHAR* Str1, const WIDECHAR* Str2, SIZE_T Count)
+{
+	return StrnicmpImpl(Str1, Str2, Count);
+}
+int32 FGenericPlatformString::Strnicmp(const WIDECHAR* Str1, const ANSICHAR* Str2, SIZE_T Count)
+{
+	return StrnicmpImpl(Str1, Str2, Count);
+}
 
 
 
@@ -138,7 +152,19 @@ int32 StrncmpImpl(const CharType1* String1, const CharType2* String2, SIZE_T Cou
 	return 0;
 }
 
-int32 FGenericPlatformString::Strncmp(const ANSICHAR* Str1, const ANSICHAR* Str2, SIZE_T Count){ return StrncmpImpl(Str1, Str2, Count); }
-int32 FGenericPlatformString::Strncmp(const WIDECHAR* Str1, const WIDECHAR* Str2, SIZE_T Count){ return StrncmpImpl(Str1, Str2, Count); }
-int32 FGenericPlatformString::Strncmp(const ANSICHAR* Str1, const WIDECHAR* Str2, SIZE_T Count){ return StrncmpImpl(Str1, Str2, Count); }
-int32 FGenericPlatformString::Strncmp(const WIDECHAR* Str1, const ANSICHAR* Str2, SIZE_T Count){ return StrncmpImpl(Str1, Str2, Count); }
+int32 FGenericPlatformString::Strncmp(const ANSICHAR* Str1, const ANSICHAR* Str2, SIZE_T Count)
+{
+	return StrncmpImpl(Str1, Str2, Count);
+}
+int32 FGenericPlatformString::Strncmp(const WIDECHAR* Str1, const WIDECHAR* Str2, SIZE_T Count)
+{
+	return StrncmpImpl(Str1, Str2, Count);
+}
+int32 FGenericPlatformString::Strncmp(const ANSICHAR* Str1, const WIDECHAR* Str2, SIZE_T Count)
+{
+	return StrncmpImpl(Str1, Str2, Count);
+}
+int32 FGenericPlatformString::Strncmp(const WIDECHAR* Str1, const ANSICHAR* Str2, SIZE_T Count)
+{
+	return StrncmpImpl(Str1, Str2, Count);
+}
