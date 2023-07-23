@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include "GenericPlatform.h"
 #include "SSE/VectorMathCommon.h"
 #include "SSE/ScalarRegister.h"
 
@@ -27,7 +27,7 @@
  * Example: LocalToWorld = (DeltaRotation * LocalToWorld) will change rotation in local space by DeltaRotation.
  * Example: LocalToWorld = (LocalToWorld * DeltaRotation) will change rotation in world space by DeltaRotation.
  */
-MS_ALIGN(16) struct FTransform
+MS_ALIGN(16) struct ENGINE_API FTransform
 {
 
 	/**

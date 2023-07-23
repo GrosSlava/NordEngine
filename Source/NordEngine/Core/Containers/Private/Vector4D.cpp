@@ -1,4 +1,4 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #include "Vector4D.h"
 #include "Vector3D.h"
 #include "Vector2D.h"
@@ -8,27 +8,24 @@
 
 
 
-FVector4D::FVector4D(const FVector3D& InVector, float InW)  noexcept :
-	X(InVector.X), Y(InVector.Y), Z(InVector.Z), W(InW)
+
+
+FVector4D::FVector4D(const FVector3D& InVector, float InW) noexcept : X(InVector.X), Y(InVector.Y), Z(InVector.Z), W(InW)
 {
 }
 
-FVector4D::FVector4D(const FLinearColor& InColor) noexcept : 
-	X(InColor.R), Y(InColor.G), Z(InColor.B), W(InColor.A)
+FVector4D::FVector4D(const FLinearColor& InColor) noexcept : X(InColor.R), Y(InColor.G), Z(InColor.B), W(InColor.A)
 {
-
 }
 
-FVector4D::FVector4D(const FVector2D& InXY, const FVector2D& InZW)  noexcept :
-	X(InXY.X), Y(InXY.Y), Z(InZW.X), W(InZW.Y)
+FVector4D::FVector4D(const FVector2D& InXY, const FVector2D& InZW) noexcept : X(InXY.X), Y(InXY.Y), Z(InZW.X), W(InZW.Y)
 {
-
 }
 
 
 
 
-FRotator FVector4D::ToOrientationRotator() const
+FRotator FVector4D::ToOrientationRotator() const noexcept
 {
 	FRotator R;
 
@@ -44,7 +41,7 @@ FRotator FVector4D::ToOrientationRotator() const
 	return R;
 }
 
-FQuat FVector4D::ToOrientationQuat() const
+FQuat FVector4D::ToOrientationQuat() const noexcept
 {
 	// Essentially an optimized Vector->Rotator->Quat made possible by knowing Roll == 0, and avoiding radians->degrees->radians.
 	// This is done to avoid adding any roll (which our API states as a constraint).
@@ -66,7 +63,7 @@ FQuat FVector4D::ToOrientationQuat() const
 	return RotationQuat;
 }
 
-FRotator FVector4D::Rotation() const
+FRotator FVector4D::Rotation() const noexcept
 {
 	return ToOrientationRotator();
 }

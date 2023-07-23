@@ -61,7 +61,7 @@ enum class ESearchDir : uint8
 
 
 
-class FString
+struct ENGINE_API FString
 {
 
 //constructors

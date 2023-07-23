@@ -218,7 +218,8 @@ struct ENGINE_API FMath
 		@param F - Floating point value to convert
 		@return Truncated integer.
 	*/
-	static constexpr int TruncToInt(float F) noexcept { return static_cast<int>(F); }
+	static constexpr int32 TruncToInt(float F) noexcept { return static_cast<int32>(F); }
+	static constexpr int64 TruncToInt(double F) noexcept { return static_cast<int64>(F); }
 	/**
 		Converts a float to an integer value with truncation towards zero.
 

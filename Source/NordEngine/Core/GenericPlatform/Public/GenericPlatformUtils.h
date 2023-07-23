@@ -226,9 +226,6 @@
 #ifndef RESTRICT
 	#define RESTRICT			/* no alias hint */
 #endif
-#ifndef CONSTEXPR
-	#define CONSTEXPR 
-#endif
 #ifndef ABSTRACT
 	#define ABSTRACT
 #endif

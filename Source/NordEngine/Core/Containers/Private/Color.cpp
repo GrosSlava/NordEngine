@@ -1,19 +1,23 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #include "Color.h"
 #include "Float16Color.h"
 #include "Vector3D.h"
 #include "Vector4D.h"
+#include "EngineRandom.h"
+
+
+
 
 
 // Common colors.
-const FLinearColor FLinearColor::White(1.f, 1.f, 1.f);
+const FLinearColor FLinearColor::White(1.0f, 1.0f, 1.0f);
 const FLinearColor FLinearColor::Gray(0.5f, 0.5f, 0.5f);
 const FLinearColor FLinearColor::Black(0, 0, 0);
 const FLinearColor FLinearColor::Transparent(0, 0, 0, 0);
 const FLinearColor FLinearColor::Red(1.f, 0, 0);
-const FLinearColor FLinearColor::Green(0, 1.f, 0);
-const FLinearColor FLinearColor::Blue(0, 0, 1.f);
-const FLinearColor FLinearColor::Yellow(1.f, 1.f, 0);
+const FLinearColor FLinearColor::Green(0, 1.0f, 0);
+const FLinearColor FLinearColor::Blue(0, 0, 1.0f);
+const FLinearColor FLinearColor::Yellow(1.0f, 1.0f, 0);
 
 const FColor FColor::White(255, 255, 255, 255);
 const FColor FColor::Red(255, 0, 0, 255);
@@ -116,11 +120,11 @@ const FColor FColor::Wheat(216, 216, 191, 255);
 const FColor FColor::YellowGreen(153, 204, 50, 255);
 
 
-
 /**
-* Helper used by FColor -> FLinearColor conversion. We don't use a lookup table as unlike pow, multiplication is fast.
+	Helper used by FColor -> FLinearColor conversion. We don't use a lookup table as unlike pow, multiplication is fast.
 */
 static const float OneOver255 = 1.0f / 255.0f;
+
 
 
 
@@ -133,16 +137,12 @@ FLinearColor::FLinearColor(const FColor& Color) noexcept
 	A = float(Color.A) * OneOver255;
 }
 
-FLinearColor::FLinearColor(const FVector3D& Vector) noexcept :
-	R(Vector.X), G(Vector.Y), B(Vector.Z), A(1.0f)
+FLinearColor::FLinearColor(const FVector3D& Vector) noexcept : R(Vector.X), G(Vector.Y), B(Vector.Z), A(1.0f)
 {
-
 }
 
-FLinearColor::FLinearColor(const FVector4D& Vector) noexcept :
-	R(Vector.X), G(Vector.Y), B(Vector.Z), A(Vector.W)
+FLinearColor::FLinearColor(const FVector4D& Vector) noexcept : R(Vector.X), G(Vector.Y), B(Vector.Z), A(Vector.W)
 {
-
 }
 
 FLinearColor::FLinearColor(const FFloat16Color& C) noexcept
@@ -154,15 +154,12 @@ FLinearColor::FLinearColor(const FFloat16Color& C) noexcept
 }
 
 
-
-
-
 FColor FLinearColor::ToRGBE() const noexcept
 {
-	const float	Primary = FMath::Max3(R, G, B);
+	const float Primary = FMath::Max3(R, G, B);
 	FColor Color;
 
-	if (Primary < 1E-32f)
+	if( Primary < 1E-32f )
 	{
 		Color = FColor(0, 0, 0, 0);
 	}
@@ -187,10 +184,10 @@ FLinearColor FLinearColor::LinearRGBToHSV() const noexcept
 	const float RGBRange = RGBMax - RGBMin;
 
 	const float Hue = (RGBMax == RGBMin ? 0.0f :
-		RGBMax == R ? FMath::Fmod((((G - B) / RGBRange) * 60.0f) + 360.0f, 360.0f) :
-		RGBMax == G ? (((B - R) / RGBRange) * 60.0f) + 120.0f :
-		RGBMax == B ? (((R - G) / RGBRange) * 60.0f) + 240.0f :
-		0.0f);
+					   RGBMax == R		? FMath::Fmod((((G - B) / RGBRange) * 60.0f) + 360.0f, 360.0f) :
+					   RGBMax == G		? (((B - R) / RGBRange) * 60.0f) + 120.0f :
+					   RGBMax == B		? (((R - G) / RGBRange) * 60.0f) + 240.0f :
+										  0.0f);
 
 	const float Saturation = (RGBMax == 0.0f ? 0.0f : RGBRange / RGBMax);
 	const float Value = RGBMax;
@@ -226,32 +223,33 @@ FLinearColor FLinearColor::HSVToLinearRGB() const noexcept
 	};
 	const uint32 SwizzleIndex = ((uint32)HDiv60_Floor) % 6;
 
-	return FLinearColor(RGBValues[RGBSwizzle[SwizzleIndex][0]],
-		RGBValues[RGBSwizzle[SwizzleIndex][1]],
-		RGBValues[RGBSwizzle[SwizzleIndex][2]],
-		A);
+	return FLinearColor(RGBValues[RGBSwizzle[SwizzleIndex][0]], RGBValues[RGBSwizzle[SwizzleIndex][1]], RGBValues[RGBSwizzle[SwizzleIndex][2]], A);
 }
 
 FColor FLinearColor::Quantize() const noexcept
 {
+	// clang-format off
 	return FColor
 	(
-		(uint8)FMath::Clamp<int32>(FMath::TruncToInt(R * 255.f), 0, 255),
-		(uint8)FMath::Clamp<int32>(FMath::TruncToInt(G * 255.f), 0, 255),
+		(uint8)FMath::Clamp<int32>(FMath::TruncToInt(R * 255.f), 0, 255), 
+		(uint8)FMath::Clamp<int32>(FMath::TruncToInt(G * 255.f), 0, 255), 
 		(uint8)FMath::Clamp<int32>(FMath::TruncToInt(B * 255.f), 0, 255),
 		(uint8)FMath::Clamp<int32>(FMath::TruncToInt(A * 255.f), 0, 255)
 	);
+	// clang-format on
 }
 
 FColor FLinearColor::QuantizeRound() const noexcept
 {
+	// clang-format off
 	return FColor
 	(
 		(uint8)FMath::Clamp<int32>(FMath::RoundToInt(R * 255.f), 0, 255),
-		(uint8)FMath::Clamp<int32>(FMath::RoundToInt(G * 255.f), 0, 255),
+		(uint8)FMath::Clamp<int32>(FMath::RoundToInt(G * 255.f), 0, 255), 
 		(uint8)FMath::Clamp<int32>(FMath::RoundToInt(B * 255.f), 0, 255),
 		(uint8)FMath::Clamp<int32>(FMath::RoundToInt(A * 255.f), 0, 255)
 	);
+	// clang-format on
 }
 
 FColor FLinearColor::ToFColor(const bool bSRGB) const noexcept
@@ -261,7 +259,7 @@ FColor FLinearColor::ToFColor(const bool bSRGB) const noexcept
 	float FloatB = FMath::Clamp(B, 0.0f, 1.0f);
 	float FloatA = FMath::Clamp(A, 0.0f, 1.0f);
 
-	if (bSRGB)
+	if( bSRGB )
 	{
 		FloatR = FloatR <= 0.0031308f ? FloatR * 12.92f : FMath::Pow(FloatR, 1.0f / 2.4f) * 1.055f - 0.055f;
 		FloatG = FloatG <= 0.0031308f ? FloatG * 12.92f : FMath::Pow(FloatG, 1.0f / 2.4f) * 1.055f - 0.055f;
@@ -280,36 +278,33 @@ FColor FLinearColor::ToFColor(const bool bSRGB) const noexcept
 
 
 
-
-
-FLinearColor FLinearColor::MakeFromColorTemperature(float Temp)
+FLinearColor FLinearColor::MakeFromColorTemperature(float Temp) noexcept
 {
 	Temp = FMath::Clamp(Temp, 1000.0f, 15000.0f);
 
 	// Approximate Planckian locus in CIE 1960 UCS
-	float u = (0.860117757f + 1.54118254e-4f * Temp + 1.28641212e-7f * Temp * Temp) / (1.0f + 8.42420235e-4f * Temp + 7.08145163e-7f * Temp * Temp);
-	float v = (0.317398726f + 4.22806245e-5f * Temp + 4.20481691e-8f * Temp * Temp) / (1.0f - 2.89741816e-5f * Temp + 1.61456053e-7f * Temp * Temp);
+	const float u = (0.860117757f + 1.54118254e-4f * Temp + 1.28641212e-7f * Temp * Temp) / (1.0f + 8.42420235e-4f * Temp + 7.08145163e-7f * Temp * Temp);
+	const float v = (0.317398726f + 4.22806245e-5f * Temp + 4.20481691e-8f * Temp * Temp) / (1.0f - 2.89741816e-5f * Temp + 1.61456053e-7f * Temp * Temp);
 
-	float x = 3.0f * u / (2.0f * u - 8.0f * v + 4.0f);
-	float y = 2.0f * v / (2.0f * u - 8.0f * v + 4.0f);
-	float z = 1.0f - x - y;
+	const float x = 3.0f * u / (2.0f * u - 8.0f * v + 4.0f);
+	const float y = 2.0f * v / (2.0f * u - 8.0f * v + 4.0f);
+	const float z = 1.0f - x - y;
 
-	float Y = 1.0f;
-	float X = Y / y * x;
-	float Z = Y / y * z;
+	const float Y = 1.0f;
+	const float X = Y / y * x;
+	const float Z = Y / y * z;
 
 	// XYZ to RGB with BT.709 primaries
-	float R = 3.2404542f * X + -1.5371385f * Y + -0.4985314f * Z;
-	float G = -0.9692660f * X + 1.8760108f * Y + 0.0415560f * Z;
-	float B = 0.0556434f * X + -0.2040259f * Y + 1.0572252f * Z;
+	const float R = 3.2404542f * X + -1.5371385f * Y + -0.4985314f * Z;
+	const float G = -0.9692660f * X + 1.8760108f * Y + 0.0415560f * Z;
+	const float B = 0.0556434f * X + -0.2040259f * Y + 1.0572252f * Z;
 
 	return FLinearColor(R, G, B);
 }
 
-float FLinearColor::EvaluateBezier(const FLinearColor* ControlPoints, int32 NumPoints, TArray<FLinearColor>& OutPoints)
+float FLinearColor::EvaluateBezier(const FLinearColor* ControlPoints, int32 NumPoints, TArray<FLinearColor>& OutPoints) noexcept
 {
-	if (ControlPoints == nullptr || NumPoints < 2) return 0.0f;
-
+	if( ControlPoints == nullptr || NumPoints < 2 ) return 0.0f;
 
 	// var q is the change in t between successive evaluations.
 	const float q = 1.f / (float)(NumPoints - 1); // q is dependent on the number of GAPS = POINTS-1
@@ -327,23 +322,23 @@ float FLinearColor::EvaluateBezier(const FLinearColor* ControlPoints, int32 NumP
 	const FLinearColor d = P3 - 3 * P2 + 3 * P1 - P0;
 
 	// initial values of the poly and the 3 diffs -
-	FLinearColor S = a;						// the poly value
-	FLinearColor U = b * q + c * q * q + d * q * q * q;	// 1st order diff (quadratic)
-	FLinearColor V = 2 * c * q * q + 6 * d * q * q * q;	// 2nd order diff (linear)
-	FLinearColor W = 6 * d * q * q * q;				// 3rd order diff (constant)
+	FLinearColor S = a;									// the poly value
+	FLinearColor U = b * q + c * q * q + d * q * q * q; // 1st order diff (quadratic)
+	FLinearColor V = 2 * c * q * q + 6 * d * q * q * q; // 2nd order diff (linear)
+	FLinearColor W = 6 * d * q * q * q;					// 3rd order diff (constant)
 
 	// Path length.
 	float Length = 0.f;
 
 	FLinearColor OldPos = P0;
-	OutPoints.PushBack(P0);	// first point on the curve is always P0.
+	OutPoints.PushBack(P0); // first point on the curve is always P0.
 
-	for (int32 i = 1; i < NumPoints; ++i)
+	for( int32 i = 1; i < NumPoints; ++i )
 	{
 		// calculate the next value and update the deltas
-		S += U;			// update poly value
-		U += V;			// update 1st order diff value
-		V += W;			// update 2st order diff value
+		S += U; // update poly value
+		U += V; // update 1st order diff value
+		V += W; // update 2st order diff value
 		// 3rd order diff is constant => no update needed.
 
 		// Update Length.
@@ -357,7 +352,7 @@ float FLinearColor::EvaluateBezier(const FLinearColor* ControlPoints, int32 NumP
 	return Length;
 }
 
-FLinearColor FLinearColor::LerpUsingHSV(const FLinearColor& From, const FLinearColor& To, const float Progress)
+FLinearColor FLinearColor::LerpUsingHSV(const FLinearColor& From, const FLinearColor& To, const float Progress) noexcept
 {
 	const FLinearColor FromHSV = From.LinearRGBToHSV();
 	const FLinearColor ToHSV = To.LinearRGBToHSV();
@@ -366,9 +361,9 @@ FLinearColor FLinearColor::LerpUsingHSV(const FLinearColor& From, const FLinearC
 	float ToHue = ToHSV.R;
 
 	// Take the shortest path to the new hue
-	if (FMath::Abs(FromHue - ToHue) > 180.0f)
+	if( FMath::Abs(FromHue - ToHue) > 180.0f )
 	{
-		if (ToHue > FromHue)
+		if( ToHue > FromHue )
 		{
 			FromHue += 360.0f;
 		}
@@ -381,7 +376,7 @@ FLinearColor FLinearColor::LerpUsingHSV(const FLinearColor& From, const FLinearC
 	float NewHue = FMath::Lerp(FromHue, ToHue, Progress);
 
 	NewHue = FMath::Fmod(NewHue, 360.0f);
-	if (NewHue < 0.0f)
+	if( NewHue < 0.0f )
 	{
 		NewHue += 360.0f;
 	}
@@ -396,7 +391,7 @@ FLinearColor FLinearColor::LerpUsingHSV(const FLinearColor& From, const FLinearC
 	return Interpolated;
 }
 
-FLinearColor FLinearColor::FromSRGBColor(const FColor& Color)
+FLinearColor FLinearColor::FromSRGBColor(const FColor& Color) noexcept
 {
 	FLinearColor LinearColor;
 	LinearColor.R = sRGBToLinearTable[Color.R];
@@ -407,7 +402,7 @@ FLinearColor FLinearColor::FromSRGBColor(const FColor& Color)
 	return LinearColor;
 }
 
-FLinearColor FLinearColor::FromPow22Color(const FColor& Color)
+FLinearColor FLinearColor::FromPow22Color(const FColor& Color) noexcept
 {
 	FLinearColor LinearColor;
 	LinearColor.R = Pow22OneOver255Table[Color.R];
@@ -419,24 +414,22 @@ FLinearColor FLinearColor::FromPow22Color(const FColor& Color)
 }
 
 
-FLinearColor FLinearColor::MakeRandomColor()
+FLinearColor FLinearColor::MakeRandomColor() noexcept
 {
-	//TODO
-	return FLinearColor();
+	const uint8 Hue = static_cast<uint8>((FRandom::FRand() * 255.0f));
+	return MakeFromHSV8(Hue, 255, 255);
 }
 
 
 
 
 
-
-
+// clang-format off
 /**
- * Pow table for fast FColor -> FLinearColor conversion.
- *
- * FMath::Pow( i / 255.f, 2.2f )
- */
-float FLinearColor::Pow22OneOver255Table[256] =
+	Pow table for fast FColor -> FLinearColor conversion.
+	FMath::Pow( i / 255.f, 2.2f )
+*/
+const float FLinearColor::Pow22OneOver255Table[256] =
 {
 	0.0f, 5.07705190066176E-06f, 2.33280046660989E-05f, 5.69217657121931E-05f, 0.000107187362341244f, 0.000175123977503027f, 0.000261543754548491f, 0.000367136269815943f, 0.000492503787191433f,
 	0.000638182842167022f, 0.000804658499513058f, 0.000992374304074325f, 0.0012017395224384f, 0.00143313458967186f, 0.00168691531678928f, 0.00196341621339647f, 0.00226295316070643f,
@@ -469,13 +462,11 @@ float FLinearColor::Pow22OneOver255Table[256] =
 	0.948964938178195f, 0.957369576199527f, 0.96581465350313f, 0.974300202388861f, 0.982826255053791f, 0.99139284359294f, 1.0f
 };
 
-
 /**
-* Table for fast FColor -> FLinearColor conversion.
-*
-* Color > 0.04045 ? pow( Color * (1.0 / 1.055) + 0.0521327, 2.4 ) : Color * (1.0 / 12.92);
+	Table for fast FColor -> FLinearColor conversion.
+	Color > 0.04045 ? pow( Color * (1.0 / 1.055) + 0.0521327, 2.4 ) : Color * (1.0 / 12.92);
 */
-float FLinearColor::sRGBToLinearTable[256] =
+const float FLinearColor::sRGBToLinearTable[256] =
 {
 	0.0f,
 	0.000303526983548838f, 0.000607053967097675f, 0.000910580950646512f, 0.00121410793419535f, 0.00151763491774419f,
@@ -531,46 +522,28 @@ float FLinearColor::sRGBToLinearTable[256] =
 	0.964686244552961f, 0.973445287039244f, 0.982250546956257f, 0.991102093719252f, 1.0f
 };
 
+// clang-format on
 
 
 
 
-FColor FColor::MakeRandomColor()
+
+FColor FColor::MakeRandomColor() noexcept
 {
-	//TODO
-	return FColor();
+	return FLinearColor::MakeRandomColor().ToFColor(true);
 }
 
-FColor FColor::MakeRedToGreenColorFromScalar(float Scalar)
+FColor FColor::MakeRedToGreenColorFromScalar(float Scalar) noexcept
 {
-	const float RedSclr = FMath::Clamp<float>((1.0f - Scalar) / 0.5f, 0.f, 1.f);
-	const float GreenSclr = FMath::Clamp<float>((Scalar / 0.5f), 0.f, 1.f);
+	const float RedSclr = FMath::Clamp<float>((1.0f - Scalar) / 0.5f, 0.0f, 1.0f);
+	const float GreenSclr = FMath::Clamp<float>((Scalar / 0.5f), 0.0f, 1.0f);
 	const uint8 R = (uint8)FMath::TruncToInt(255 * RedSclr);
 	const uint8 G = (uint8)FMath::TruncToInt(255 * GreenSclr);
 	const uint8 B = 0;
 	return FColor(R, G, B);
 }
 
-FColor FColor::MakeFromColorTemperature(float Temp)
+FColor FColor::MakeFromColorTemperature(float Temp) noexcept
 {
-	Temp = FMath::Clamp(Temp, 1000.0f, 15000.0f);
-
-	// Approximate Planckian locus in CIE 1960 UCS
-	float u = (0.860117757f + 1.54118254e-4f * Temp + 1.28641212e-7f * Temp * Temp) / (1.0f + 8.42420235e-4f * Temp + 7.08145163e-7f * Temp * Temp);
-	float v = (0.317398726f + 4.22806245e-5f * Temp + 4.20481691e-8f * Temp * Temp) / (1.0f - 2.89741816e-5f * Temp + 1.61456053e-7f * Temp * Temp);
-
-	float x = 3.0f * u / (2.0f * u - 8.0f * v + 4.0f);
-	float y = 2.0f * v / (2.0f * u - 8.0f * v + 4.0f);
-	float z = 1.0f - x - y;
-
-	float Y = 1.0f;
-	float X = Y / y * x;
-	float Z = Y / y * z;
-
-	// XYZ to RGB with BT.709 primaries
-	float R = 3.2404542f * X + -1.5371385f * Y + -0.4985314f * Z;
-	float G = -0.9692660f * X + 1.8760108f * Y + 0.0415560f * Z;
-	float B = 0.0556434f * X + -0.2040259f * Y + 1.0572252f * Z;
-
-	return FColor(R, G, B);
+	return FLinearColor::MakeFromColorTemperature(Temp).ToFColor(true);
 }

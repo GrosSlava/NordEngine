@@ -50,7 +50,6 @@
 #define INLINE		inline									/* Compiler choose to inline code or not */
 #define NOINLINE	_declspec(noinline)						/* Force code to NOT be inline */
 #define RESTRICT	__restrict								/* no alias hint */
-#define CONSTEXPR	constexpr
 #define ABSTRACT	abstract
 
 

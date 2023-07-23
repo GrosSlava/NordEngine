@@ -1,10 +1,11 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #include "Vector3D.h"
 #include "Vector4D.h"
 #include "Vector2D.h"
 #include "Plane.h"
 #include "Rotator.h"
 #include "Quat.h"
+
 
 
 
@@ -27,8 +28,7 @@ const FVector3D FVector3D::ZAxisVector(0.0f, 0.0f, 1.0f);
 
 
 
-FVector3D::FVector3D(const FVector4D& V) noexcept :
-	 X(V.X), Y(V.Y), Z(V.Z)
+FVector3D::FVector3D(const FVector4D& V) noexcept : X(V.X), Y(V.Y), Z(V.Z)
 {
 }
 
@@ -61,16 +61,9 @@ FVector3D FVector3D::PointPlaneProject(const FVector3D& Point, const FVector3D& 
 
 
 
-
-
-
-
-
-
-
 float FVector3D::EvaluateBezier(const FVector3D* ControlPoints, int32 NumPoints, TArray<FVector3D>& OutPoints) noexcept
 {
-	if (ControlPoints == nullptr || NumPoints < 2) return 0.0f;
+	if( ControlPoints == nullptr || NumPoints < 2 ) return 0.0f;
 
 
 	// var q is the change in t between successive evaluations.
@@ -89,23 +82,23 @@ float FVector3D::EvaluateBezier(const FVector3D* ControlPoints, int32 NumPoints,
 	const FVector3D d = P3 - 3 * P2 + 3 * P1 - P0;
 
 	// initial values of the poly and the 3 diffs -
-	FVector3D S = a;						// the poly value
-	FVector3D U = b * q + c * q * q + d * q * q * q;	// 1st order diff (quadratic)
-	FVector3D V = 2 * c * q * q + 6 * d * q * q * q;	// 2nd order diff (linear)
-	FVector3D W = 6 * d * q * q * q;				// 3rd order diff (constant)
+	FVector3D S = a;								 // the poly value
+	FVector3D U = b * q + c * q * q + d * q * q * q; // 1st order diff (quadratic)
+	FVector3D V = 2 * c * q * q + 6 * d * q * q * q; // 2nd order diff (linear)
+	FVector3D W = 6 * d * q * q * q;				 // 3rd order diff (constant)
 
 	// Path length.
 	float Length = 0.f;
 
 	FVector3D OldPos = P0;
-	OutPoints.PushBack(P0);	// first point on the curve is always P0.
+	OutPoints.PushBack(P0); // first point on the curve is always P0.
 
-	for (int32 i = 1; i < NumPoints; ++i)
+	for( int32 i = 1; i < NumPoints; ++i )
 	{
 		// calculate the next value and update the deltas
-		S += U;			// update poly value
-		U += V;			// update 1st order diff value
-		V += W;			// update 2st order diff value
+		S += U; // update poly value
+		U += V; // update 1st order diff value
+		V += W; // update 2st order diff value
 		// 3rd order diff is constant => no update needed.
 
 		// Update Length.
@@ -131,33 +124,33 @@ struct FClusterMovedHereToMakeCompile
 void FVector3D::GenerateClusterCenters(TArray<FVector3D>& Clusters, const TArray<FVector3D>& Points, int32 NumIterations, int32 NumConnectionsToBeValid) noexcept
 {
 	// Check we have >0 points and clusters
-	if (Points.Num() == 0 || Clusters.Num() == 0) return;
-	
+	if( Points.Num() == 0 || Clusters.Num() == 0 ) return;
+
 
 	// Temp storage for each cluster that mirrors the order of the passed in Clusters array
 	TArray<FClusterMovedHereToMakeCompile> ClusterData(Clusters.Num());
 
 
 	// Then iterate
-	for (int32 ItCount = 0; ItCount < NumIterations; ++ItCount)
+	for( int32 ItCount = 0; ItCount < NumIterations; ++ItCount )
 	{
 		// Classify each point - find closest cluster center
-		for (const FVector3D& LPoint : Points)
+		for( const FVector3D& LPoint : Points )
 		{
 			// Iterate over all clusters to find closes one
 			int32 NearestClusterIndex = -1;
 			float NearestClusterDistSqr = BIG_NUMBER;
-			for (uint32 j = 0; j < Clusters.Num(); ++j)
+			for( uint32 j = 0; j < Clusters.Num(); ++j )
 			{
 				const float DistSqr = (LPoint - Clusters[j]).SizeSquared();
-				if (DistSqr < NearestClusterDistSqr)
+				if( DistSqr < NearestClusterDistSqr )
 				{
 					NearestClusterDistSqr = DistSqr;
 					NearestClusterIndex = j;
 				}
 			}
 			// Update its info with this point
-			if (NearestClusterIndex != -1)
+			if( NearestClusterIndex != -1 )
 			{
 				ClusterData[NearestClusterIndex].ClusterPosAccum += LPoint;
 				++ClusterData[NearestClusterIndex].ClusterSize;
@@ -165,9 +158,9 @@ void FVector3D::GenerateClusterCenters(TArray<FVector3D>& Clusters, const TArray
 		}
 
 		// All points classified - update cluster center as average of membership
-		for (uint32 i = 0; i < Clusters.Num(); ++i)
+		for( uint32 i = 0; i < Clusters.Num(); ++i )
 		{
-			if (ClusterData[i].ClusterSize > 0)
+			if( ClusterData[i].ClusterSize > 0 )
 			{
 				Clusters[i] = ClusterData[i].ClusterPosAccum / (float)ClusterData[i].ClusterSize;
 			}
@@ -175,15 +168,14 @@ void FVector3D::GenerateClusterCenters(TArray<FVector3D>& Clusters, const TArray
 	}
 
 	// so now after we have possible cluster centers we want to remove the ones that are outliers and not part of the main cluster
-	for (uint32 i = 0; i < ClusterData.Num(); ++i)
+	for( uint32 i = 0; i < ClusterData.Num(); ++i )
 	{
-		if (ClusterData[i].ClusterSize < NumConnectionsToBeValid)
+		if( ClusterData[i].ClusterSize < NumConnectionsToBeValid )
 		{
 			Clusters.RemoveAt(i);
 		}
 	}
 }
-
 
 void FVector3D::CreateOrthonormalBasis(FVector3D& XAxis, FVector3D& YAxis, FVector3D& ZAxis) noexcept
 {
@@ -192,13 +184,13 @@ void FVector3D::CreateOrthonormalBasis(FVector3D& XAxis, FVector3D& YAxis, FVect
 	YAxis -= (YAxis | ZAxis) / (ZAxis | ZAxis) * ZAxis;
 
 	// If the X axis was parallel to the Z axis, choose a vector which is orthogonal to the Y and Z axes.
-	if (XAxis.SizeSquared() < DELTA * DELTA)
+	if( XAxis.SizeSquared() < DELTA * DELTA )
 	{
 		XAxis = YAxis ^ ZAxis;
 	}
 
 	// If the Y axis was parallel to the Z axis, choose a vector which is orthogonal to the X and Z axes.
-	if (YAxis.SizeSquared() < DELTA * DELTA)
+	if( YAxis.SizeSquared() < DELTA * DELTA )
 	{
 		YAxis = XAxis ^ ZAxis;
 	}
@@ -211,10 +203,6 @@ void FVector3D::CreateOrthonormalBasis(FVector3D& XAxis, FVector3D& YAxis, FVect
 
 
 
-
-
-
-
 FVector3D FVector3D::MirrorByPlane(const FPlane& Plane) const noexcept
 {
 	return *this - Plane * (2.f * Plane.PlaneDot(*this));
@@ -222,16 +210,15 @@ FVector3D FVector3D::MirrorByPlane(const FPlane& Plane) const noexcept
 
 
 
-
-
-
 bool FVector3D::Normalize(float Tolerance) noexcept
 {
 	const float SquareSum = X * X + Y * Y + Z * Z;
-	if (SquareSum > Tolerance)
+	if( SquareSum > Tolerance )
 	{
 		const float Scale = FMath::InvSqrt(SquareSum);
-		X *= Scale; Y *= Scale; Z *= Scale;
+		X *= Scale;
+		Y *= Scale;
+		Z *= Scale;
 		return true;
 	}
 
@@ -243,11 +230,11 @@ FVector3D FVector3D::GetSafeNormal(float Tolerance) const noexcept
 	const float SquareSum = X * X + Y * Y + Z * Z;
 
 	// Not sure if it's safe to add tolerance in there. Might introduce too many errors
-	if (SquareSum == 1.f)
+	if( SquareSum == 1.f )
 	{
 		return *this;
 	}
-	else if (SquareSum < Tolerance)
+	else if( SquareSum < Tolerance )
 	{
 		return FVector3D::ZeroVector;
 	}
@@ -260,9 +247,9 @@ FVector3D FVector3D::GetSafeNormal2D(float Tolerance) const noexcept
 	const float SquareSum = X * X + Y * Y;
 
 	// Not sure if it's safe to add tolerance in there. Might introduce too many errors
-	if (SquareSum == 1.f)
+	if( SquareSum == 1.f )
 	{
-		if (Z == 0.f)
+		if( Z == 0.f )
 		{
 			return *this;
 		}
@@ -271,7 +258,7 @@ FVector3D FVector3D::GetSafeNormal2D(float Tolerance) const noexcept
 			return FVector3D(X, Y, 0.f);
 		}
 	}
-	else if (SquareSum < Tolerance)
+	else if( SquareSum < Tolerance )
 	{
 		return FVector3D::ZeroVector;
 	}
@@ -285,11 +272,10 @@ FVector3D FVector3D::GetSafeNormal2D(float Tolerance) const noexcept
 void FVector3D::ToDirectionAndLength(FVector3D& OutDir, float& OutLength) const noexcept
 {
 	OutLength = Size();
-	if (OutLength > SMALL_NUMBER)
+	if( OutLength > SMALL_NUMBER )
 	{
 		float OneOverLength = 1.0f / OutLength;
-		OutDir = FVector3D(X * OneOverLength, Y * OneOverLength,
-			Z * OneOverLength);
+		OutDir = FVector3D(X * OneOverLength, Y * OneOverLength, Z * OneOverLength);
 	}
 	else
 	{
@@ -319,13 +305,13 @@ FVector3D FVector3D::GetClampedToSize2D(float Min, float Max) const noexcept
 
 FVector3D FVector3D::GetClampedToMaxSize(float MaxSize) const noexcept
 {
-	if (MaxSize < KINDA_SMALL_NUMBER)
+	if( MaxSize < KINDA_SMALL_NUMBER )
 	{
 		return FVector3D::ZeroVector;
 	}
 
 	const float VSq = SizeSquared();
-	if (VSq > FMath::Square(MaxSize))
+	if( VSq > FMath::Square(MaxSize) )
 	{
 		const float Scale = MaxSize * FMath::InvSqrt(VSq);
 		return FVector3D(X * Scale, Y * Scale, Z * Scale);
@@ -338,13 +324,13 @@ FVector3D FVector3D::GetClampedToMaxSize(float MaxSize) const noexcept
 
 FVector3D FVector3D::GetClampedToMaxSize2D(float MaxSize) const noexcept
 {
-	if (MaxSize < KINDA_SMALL_NUMBER)
+	if( MaxSize < KINDA_SMALL_NUMBER )
 	{
 		return FVector3D(0.f, 0.f, Z);
 	}
 
 	const float VSq2D = SizeSquared2D();
-	if (VSq2D > FMath::Square(MaxSize))
+	if( VSq2D > FMath::Square(MaxSize) )
 	{
 		const float Scale = MaxSize * FMath::InvSqrt(VSq2D);
 		return FVector3D(X * Scale, Y * Scale, Z);
@@ -360,7 +346,7 @@ FVector3D FVector3D::GetClampedToMaxSize2D(float MaxSize) const noexcept
 FVector3D FVector3D::Reciprocal() const noexcept
 {
 	FVector3D RecVector;
-	if (X != 0.f)
+	if( X != 0.f )
 	{
 		RecVector.X = 1.f / X;
 	}
@@ -368,7 +354,7 @@ FVector3D FVector3D::Reciprocal() const noexcept
 	{
 		RecVector.X = BIG_NUMBER;
 	}
-	if (Y != 0.f)
+	if( Y != 0.f )
 	{
 		RecVector.Y = 1.f / Y;
 	}
@@ -376,7 +362,7 @@ FVector3D FVector3D::Reciprocal() const noexcept
 	{
 		RecVector.Y = BIG_NUMBER;
 	}
-	if (Z != 0.f)
+	if( Z != 0.f )
 	{
 		RecVector.Z = 1.f / Z;
 	}
@@ -387,6 +373,7 @@ FVector3D FVector3D::Reciprocal() const noexcept
 
 	return RecVector;
 }
+
 
 
 FVector3D FVector3D::RotateAngleAxis(const float AngleDeg, const FVector3D& Axis) const noexcept
@@ -408,12 +395,9 @@ FVector3D FVector3D::RotateAngleAxis(const float AngleDeg, const FVector3D& Axis
 
 	const float OMC = 1.f - C;
 
-	return FVector3D(
-		(OMC * XX + C) * X + (OMC * XY - ZS) * Y + (OMC * ZX + YS) * Z,
-		(OMC * XY + ZS) * X + (OMC * YY + C) * Y + (OMC * YZ - XS) * Z,
-		(OMC * ZX - YS) * X + (OMC * YZ + XS) * Y + (OMC * ZZ + C) * Z
-	);
+	return FVector3D((OMC * XX + C) * X + (OMC * XY - ZS) * Y + (OMC * ZX + YS) * Z, (OMC * XY + ZS) * X + (OMC * YY + C) * Y + (OMC * YZ - XS) * Z, (OMC * ZX - YS) * X + (OMC * YZ + XS) * Y + (OMC * ZZ + C) * Z);
 }
+
 
 
 FRotator FVector3D::ToOrientationRotator() const noexcept
@@ -431,7 +415,6 @@ FRotator FVector3D::ToOrientationRotator() const noexcept
 
 	return R;
 }
-
 
 FQuat FVector3D::ToOrientationQuat() const noexcept
 {
@@ -460,15 +443,16 @@ FRotator FVector3D::Rotation() const noexcept
 	return ToOrientationRotator();
 }
 
+
+
 FVector2D FVector3D::UnitCartesianToSpherical() const noexcept
 {
-	if (!IsUnit()) return FVector2D(0, 0);
+	if( !IsUnit() ) return FVector2D(0, 0);
 
 	const float Theta = FMath::Acos(Z / Size());
 	const float Phi = FMath::Atan2(Y, X);
 	return FVector2D(Theta, Phi);
 }
-
 
 
 
@@ -479,12 +463,20 @@ void FVector3D::FindBestAxisVectors(FVector3D& Axis1, FVector3D& Axis2) const no
 	const float NZ = FMath::Abs(Z);
 
 	// Find best basis vectors.
-	if (NZ > NX && NZ > NY)	Axis1 = FVector3D(1, 0, 0);
-	else					Axis1 = FVector3D(0, 0, 1);
+	if( NZ > NX && NZ > NY )
+	{
+		Axis1 = FVector3D(1, 0, 0);
+	}
+	else
+	{
+		Axis1 = FVector3D(0, 0, 1);
+	}
 
 	Axis1 = (Axis1 - *this * (Axis1 | *this)).GetSafeNormal();
 	Axis2 = Axis1 ^ *this;
 }
+
+
 
 float FVector3D::HeadingAngle() const noexcept
 {
@@ -495,7 +487,7 @@ float FVector3D::HeadingAngle() const noexcept
 
 	float Angle = FMath::Acos(PlaneDir.X);
 
-	if (PlaneDir.Y < 0.0f)
+	if( PlaneDir.Y < 0.0f )
 	{
 		Angle *= -1.0f;
 	}

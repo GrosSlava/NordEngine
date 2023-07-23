@@ -1,12 +1,14 @@
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
+#include "GenericPlatform.h"
 #include "Float32.h"
 #include "EngineMath.h"
 
 
 
 
-/*
+/**
 	16 bit float components and conversion
 
 
@@ -21,66 +23,42 @@
 	E=31, M=0			== Infinity
 	E=31, M!=0			== NAN
 */
-class FFloat16
+struct ENGINE_API FFloat16
 {
 public:
 
-	union
-	{
-		struct
-		{
-			uint16 Sign : 1;
-			uint16 Exponent : 5;
-			uint16 Mantissa : 10;
-
-		} Components;
-
-		uint16 Encoded;
-	};
-
-
-
-public:
-
-	/* Default constructor */
 	FORCEINLINE FFloat16() noexcept : Encoded(0) { }
-
-	/* Copy constructor. */
 	FORCEINLINE FFloat16(const FFloat16& FP16Value) noexcept { Encoded = FP16Value.Encoded; }
-
-	/* Conversion constructor. Convert from Fp32 to Fp16. */
 	FORCEINLINE FFloat16(float FP32Value) noexcept { Set(FP32Value); }
 
 
 public:
 
-	/* Assignment operator. Convert from Fp32 to Fp16. */
-	FORCEINLINE FFloat16& operator=(float FP32Value)
+	FORCEINLINE FFloat16& operator=(float FP32Value) noexcept
 	{
 		Set(FP32Value);
 		return *this;
 	}
-
-	/* Assignment operator. Copy Fp16 value. */
-	FORCEINLINE FFloat16& operator=(const FFloat16& FP16Value)
+	FORCEINLINE FFloat16& operator=(const FFloat16& FP16Value) noexcept
 	{
 		Encoded = FP16Value.Encoded;
 		return *this;
 	}
 
-	/* Convert from Fp16 to Fp32. */
-	FORCEINLINE operator float() const { return GetFloat(); }
-
+	FORCEINLINE operator float() const noexcept { return GetFloat(); }
 
 public:
 
-	/*
+	/**
 		Convert from Fp32 to Fp16. 
 	*/
 	void Set(float FP32Value) noexcept;
+	/**
+		Convert from Fp16 to Fp32. 
+	*/
+	float GetFloat() const noexcept;
 
-
-	/*
+	/**
 		Convert from Fp32 to Fp16 without doing any checks if
 		the Fp32 exponent is too large or too small. This is a
 		faster alternative to Set() when you know the values
@@ -101,8 +79,20 @@ public:
 		Components.Mantissa = uint16(FP32.Components.Mantissa >> 13);
 	}
 
-	/*
-		Convert from Fp16 to Fp32. 
-	*/
-	float GetFloat() const noexcept;
+
+
+public:
+
+	union
+	{
+		struct
+		{
+			uint16 Sign : 1;
+			uint16 Exponent : 5;
+			uint16 Mantissa : 10;
+
+		} Components;
+
+		uint16 Encoded;
+	};
 };

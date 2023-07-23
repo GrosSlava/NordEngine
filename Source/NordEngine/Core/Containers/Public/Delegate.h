@@ -1,8 +1,9 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 #include "GenericPlatform.h"
-#include <vector>
+#include "AssertionMacros.h"
+#include "Array.h"
 
 
 
@@ -13,88 +14,116 @@
 */
 
 
+/**
+	Wrapper around user data for storing in delegate.
+*/
+struct FDelegateStructuredData
+{
+public:
+
+	FDelegateStructuredData() = default;
+	~FDelegateStructuredData()
+	{
+		if( Data ) delete Data;
+	}
+
+
+public:
+
+	/**
+		@return current stored data.
+	*/
+	FORCEINLINE void* GetData() const noexcept { return Data; }
+	/**
+		Construct new data.
+	*/
+	template<typename T, typename... Params>
+	FORCEINLINE void SetData(Params... Args)
+	{
+		if( Data ) delete Data;
+		Data = new T(Args...);
+	}
+
+
+
+private:
+
+	/**
+		Stored data.
+	*/
+	void* Data = nullptr;
+};
 
 template<typename... ParamTypes>
 class TBaseDelegateHandler
 {
 public:
 
-	virtual ~TBaseDelegateHandler() { SetStructuredData(nullptr); }
-
+	TBaseDelegateHandler() = default;
+	virtual ~TBaseDelegateHandler() = default;
 
 
 public:
 
-	virtual void Call(ParamTypes... Params) = 0;
 	virtual bool IsValid() const noexcept = 0;
 	virtual void Invalidate() noexcept = 0;
-	virtual bool IsEqual(TBaseDelegateHandler<ParamTypes...>* Other) const = 0;
+	virtual bool IsEqual(TBaseDelegateHandler<ParamTypes...>* Other) const noexcept = 0;
+	virtual void Call(ParamTypes... Params) = 0;
 
+public:
 
+	/**
+		Access user data.
+	*/
+	FORCEINLINE FDelegateStructuredData GetStructuredData() const noexcept { return StructuredData; }
+	/**
+		Set new user data.
+		Old one will be destroyed.
+	*/
+	FORCEINLINE void SetStructuredData(FDelegateStructuredData NewData) noexcept { StructuredData = NewData; }
 
-	FORCEINLINE void* GetStructuredData() const noexcept { return StructuredData; }
-
-	FORCEINLINE void SetStructuredData(void* NewData)
-	{
-		if( StructuredData != nullptr )
-		{
-			delete StructuredData;
-		}
-
-		StructuredData = NewData;
-	}
 
 
 private:
 
-	/*
-		Stored data structure.
+	/**
+		Stored user data.
 	*/
-	void* StructuredData = nullptr;
+	FDelegateStructuredData StructuredData;
 };
-
-
-
-
-
-
 
 template<class TObject, typename... ParamTypes>
 class TDelegateHandler : public TBaseDelegateHandler<ParamTypes...>
 {
 	using MyType = TDelegateHandler<TObject, ParamTypes...>;
-
 	using TMethod = void (TObject::*)(ParamTypes...);
-
 
 public:
 
 	TDelegateHandler() = delete;
-	FORCEINLINE TDelegateHandler(TObject* InObject, TMethod InMethod) : Object(InObject), Method(InMethod) { }
-
+	FORCEINLINE TDelegateHandler(TObject* InObject, TMethod InMethod) : Object(InObject), Method(InMethod) { Invalidate(); }
 
 
 public:
 
 	virtual bool IsValid() const noexcept override { return !WasInvalidated && Object != nullptr; }
-
 	virtual void Invalidate() noexcept override { WasInvalidated = true; }
 
-	virtual void Call(ParamTypes... Params) override
+	virtual bool IsEqual(TBaseDelegateHandler<ParamTypes...>* Other) const noexcept override
 	{
-		ensure(Object != nullptr)
-		(Object->*Method)(Params...);
-	}
-
-	virtual bool IsEqual(TBaseDelegateHandler<ParamTypes...>* Other) const override
-	{
-		MyType* AsDelegateHandler = dynamic_cast<MyType*>(Other);
 		if( Other == nullptr ) return false;
+		MyType* AsDelegateHandler = dynamic_cast<MyType*>(Other);
 
 		return Object == AsDelegateHandler->Object && Method == AsDelegateHandler->Method;
 	}
 
+	virtual void Call(ParamTypes... Params) override
+	{
+		check(Object != nullptr);
+		(Object->*Method)(Params...);
+	}
 
+public:
 
 	FORCEINLINE TObject* GetObject() const noexcept { return Object; }
 
@@ -102,16 +131,15 @@ public:
 
 private:
 
-	/*
+	/**
 		Object, which method we handle.
 	*/
 	TObject* Object = nullptr;
-	/*
+	/**
 		Object's method? which we handle.
 	*/
 	TMethod Method;
-
-	/*
+	/**
 		Marks that this handle is invalid.
 	*/
 	bool WasInvalidated = false;
@@ -119,7 +147,8 @@ private:
 
 
 
-/*
+
+/**
 	Multicast delegate.
 	Support multiple subscribers.
 */
@@ -128,47 +157,44 @@ class TDelegate
 {
 public:
 
-	FORCEINLINE TDelegate() { }
-
+	TDelegate() = default;
 	~TDelegate()
 	{
 		for( auto LHandler : Handlers )
 		{
-			delete LHandler;
+			if( LHandler ) delete LHandler;
 		}
+		Handlers.Reset();
 	}
-
 
 
 public:
 
-	/*
+	/**
 		Add new event handler. Not check for unique.
 	*/
 	FORCEINLINE void AddEventHandler(TBaseDelegateHandler<ParamTypes...>* EventHandler)
 	{
-		ensure(EventHandler != nullptr)
-
-		Handlers.push_back(EventHandler);
+		check(EventHandler != nullptr)
+		Handlers.Add(EventHandler);
 	}
-	/*
+	/**
 		Add new event handler. Not check for unique.
 	*/
 	template<class TObject>
 	FORCEINLINE void AddEventHandler(TObject* Object, void (TObject::*Method)(ParamTypes...))
 	{
-		ensure(Object != nullptr)
-
-		Handlers.push_back(new TDelegateHandler<TObject, ParamTypes...>(Object, Method));
+		check(Object != nullptr)
+		Handlers.Add(new TDelegateHandler<TObject, ParamTypes...>(Object, Method));
 	}
 
-	/*
+	/**
 		Remove event handler if it exists.
 	*/
 	template<class TObject>
 	void RemoveEventHandler(TObject* Object, void (TObject::*Method)(ParamTypes...))
 	{
-		ensure(Object != nullptr)
+		check(Object != nullptr)
 
 		TDelegateHandler<TObject, ParamTypes...> TmpHandler(Object, Method);
 
@@ -186,9 +212,7 @@ public:
 		}
 		else
 		{
-			std::remove_if
-			(
-				Handlers.begin(), Handlers.end(),
+			Handlers.RemoveAllSwap(
 				[&](TBaseDelegateHandler<ParamTypes...>* LHandler)
 				{
 					if( !LHandler->IsValid() )
@@ -197,14 +221,13 @@ public:
 						return true;
 					}
 					return false;
-				}
-			);
+				});
 		}
 	}
-	/*
+	/**
 		Remove all event handlers.
 	*/
-	FORCEINLINE void Clear() 
+	FORCEINLINE void Clear()
 	{
 		if( IsBroadcasting )
 		{
@@ -221,13 +244,11 @@ public:
 			{
 				delete LHandler;
 			}
-
-			Handlers.clear();
+			Handlers.Clear();
 		}
 	}
 
-
-	/*
+	/**
 		Call all subscribed object's methods.
 	*/
 	FORCEINLINE void Broadcast(ParamTypes... Params)
@@ -244,7 +265,7 @@ public:
 
 		EndBroadcasting();
 	}
-	/*
+	/**
 		Call all subscribed object's methods.
 
 		@param Condition - lambda wich takes Handler and return bool.
@@ -268,7 +289,7 @@ public:
 
 private:
 
-	FORCEINLINE void StartBroadcasting()
+	FORCEINLINE void StartBroadcasting() noexcept
 	{
 		IsBroadcasting = true;
 		++BrodcastCallsNum;
@@ -283,9 +304,7 @@ private:
 		{
 			NeedToClearInvalidHandlers = false;
 
-			std::remove_if
-			(
-				Handlers.begin(), Handlers.end(),
+			Handlers.RemoveAllSwap(
 				[&](const TBaseDelegateHandler<ParamTypes...>* LHandler)
 				{
 					if( !LHandler->IsValid() )
@@ -294,40 +313,36 @@ private:
 						return true;
 					}
 					return false;
-				}
-			);
+				});
 		}
-
 
 		IsBroadcasting = false;
 	}
-	
 
 
 
 private:
 
-	/*
+	/**
 		Array of subscribed objects.
 	*/
-	std::vector<TBaseDelegateHandler<ParamTypes...>*> Handlers;
+	TArray<TBaseDelegateHandler<ParamTypes...>*> Handlers;
 
-	/* 
+	/**
 		True while Broadcasting.
 	*/
 	bool IsBroadcasting = false;
-	/*
+	/**
 		Marks that we will clear all invalid handlers at first available moment.
 	*/
 	bool NeedToClearInvalidHandlers = false;
-	/* 
+	/**
 		Count of broadcasts calls at one moment.
 	*/
 	uint32 BrodcastCallsNum = 0;
 };
 
-
-/*
+/**
 	Multicast delegate only for objects with specific type.
 	Support multiple subscribers.
 */
@@ -336,48 +351,47 @@ class TObjectDelegate
 {
 public:
 
-	FORCEINLINE TObjectDelegate() { }
-	~TObjectDelegate() { }
-
+	TObjectDelegate() = default;
+	~TObjectDelegate() = default;
 
 
 public:
 
-	/*
+	/**
 		Add new event handler. Not check for unique.
 	*/
-	FORCEINLINE void AddEventHandler(TObject* Object, void (TObject::* Method)(ParamTypes...)) 	{ Delegate.AddEventHandler(Object, Method);	}
-	/*
+	FORCEINLINE void AddEventHandler(TObject* Object, void (TObject::*Method)(ParamTypes...)) { Delegate.AddEventHandler(Object, Method); }
+
+	/**
 		Remove event handler if it exists.
 	*/
 	FORCEINLINE void RemoveEventHandler(TObject* Object, void (TObject::*Method)(ParamTypes...)) { Delegate.RemoveEventHandler(Object, Method); }
-	/*
+	/**
 		Remove all event handlers.
 	*/
 	FORCEINLINE void Clear() { Delegate.Clear(); }
 
-	/*
+	/**
 		Call all subscribed object's methods.
 	*/
 	FORCEINLINE void Broadcast(ParamTypes... Params) { Delegate.Broadcast(Params...); }
-	/*
+	/**
 		Call all subscribed object's methods.
 
 		@param Condition - lambda wich takes Handler and return bool.
 		e.g [&](TBaseDelegateHandler<ParamTypes...>* LDelegate){ return true; }
 	*/
 	template<typename Predicate>
-	FORCEINLINE void Broadcast(ParamTypes... Params, Predicate Condition) 
+	FORCEINLINE void Broadcast(ParamTypes... Params, Predicate Condition)
 	{
 		Delegate.Broadcast<Predicate>(Params..., Condition);
 	}
 
 
 
-
 private:
 
-	/*
+	/**
 		Wrapping delegate.
 	*/
 	TDelegate<ParamTypes...> Delegate;
@@ -385,8 +399,7 @@ private:
 
 
 
-
-/*
+/**
 	Single delegate.
 	Support one subscriber.
 */
@@ -395,8 +408,7 @@ class TSingleDelegate
 {
 public:
 
-	FORCEINLINE TSingleDelegate() { }
-
+	TSingleDelegate() = default;
 	~TSingleDelegate()
 	{
 		if( Handler != nullptr )
@@ -407,35 +419,34 @@ public:
 	}
 
 
-
 public:
 
-	/*
+	/**
 		Set event handler if it is empty.
 	*/
-	FORCEINLINE void AddEventHandler(TBaseDelegateHandler<ParamTypes...>* EventHandler)
+	FORCEINLINE void AddEventHandler(TBaseDelegateHandler<ParamTypes...>* EventHandler) noexcept
 	{
-		ensure(EventHandler != nullptr)
+		check(EventHandler != nullptr)
 		if( Handler != nullptr ) return;
 
 		Handler = EventHandler;
 	}
-	/*
+	/**
 		Set event handler if it is empty.
 	*/
 	template<class TObject>
-	FORCEINLINE void AddEventHandler(TObject* Object, void (TObject::*Method)(ParamTypes...))
+	FORCEINLINE void AddEventHandler(TObject* Object, void (TObject::*Method)(ParamTypes...)) noexcept
 	{
-		ensure(Object != nullptr)
+		check(Object != nullptr)
 		if( Handler != nullptr ) return;
 
 		Handler = new TDelegateHandler<TObject, ParamTypes...>(Object, Method);
 	}
 
-	/*
+	/**
 		Clear event handler.
 	*/
-	FORCEINLINE void RemoveEventHandler()
+	FORCEINLINE void RemoveEventHandler() noexcept
 	{
 		if( Handler == nullptr ) return;
 
@@ -451,16 +462,12 @@ public:
 			Handler = nullptr;
 		}
 	}
-	/*
+	/**
 		Clear event handler.
 	*/
-	FORCEINLINE void Clear() 
-	{ 
-		RemoveEventHandler();
-	}
+	FORCEINLINE void Clear() noexcept { RemoveEventHandler(); }
 
-
-	/*
+	/**
 		Call subscribed object method.
 	*/
 	FORCEINLINE void Broadcast(ParamTypes... Params)
@@ -476,7 +483,7 @@ public:
 
 		EndBroadcasting();
 	}
-	/*
+	/**
 		Call subscribed object method.
 
 		@param Condition - lambda wich takes Handler and return bool.
@@ -499,13 +506,13 @@ public:
 
 private:
 
-	FORCEINLINE void StartBroadcasting()
+	FORCEINLINE void StartBroadcasting() noexcept
 	{
 		IsBroadcasting = true;
 		++BrodcastCallsNum;
 	}
 
-	void EndBroadcasting()
+	void EndBroadcasting() noexcept
 	{
 		--BrodcastCallsNum;
 		if( BrodcastCallsNum != 0 ) return;
@@ -525,30 +532,28 @@ private:
 
 
 
-
 private:
 
-	/*
+	/**
 		Current subscriber.
 	*/
 	TBaseDelegateHandler<ParamTypes...>* Handler;
 
-	/* 
+	/**
 		True while Broadcasting.
 	*/
 	bool IsBroadcasting = false;
-	/* 
+	/**
 		Marks that we will clear all invalid handlers at first available moment. 
 	*/
 	bool NeedToClearInvalidHandlers = false;
-	/* 
+	/**
 		Count of broadcasts calls at one moment.
 	*/
 	uint32 BrodcastCallsNum = 0;
 };
 
-
-/*
+/**
 	Single delegate of specific obkect.
 	Support one subscriber.
 */
@@ -557,31 +562,32 @@ class TObjectSingleDelegate
 {
 public:
 
-	FORCEINLINE TObjectSingleDelegate() { }
-	~TObjectSingleDelegate() { }
-
+	TObjectSingleDelegate() = default;
+	~TObjectSingleDelegate() = default;
 
 
 public:
 
-	/*
+	/**
 		Set event handler if it is empty.
 	*/
-	FORCEINLINE void AddEventHandler(TObject* Object, void (TObject::*Method)(ParamTypes...)) { Delegate.AddEventHandler(Object, Method); }
-	/*
-		Clear event handler.
-	*/
-	FORCEINLINE void RemoveEventHandler(TObject* Object, void (TObject::*Method)(ParamTypes...)) { Delegate.RemoveEventHandler(Object, Method); }
-	/*
-		Clear event handler.
-	*/
-	FORCEINLINE void Clear() { Delegate.Clear(); }
+	FORCEINLINE void AddEventHandler(TObject* Object, void (TObject::*Method)(ParamTypes...)) noexcept { Delegate.AddEventHandler(Object, Method); }
 
-	/*
+	/**
+		Clear event handler.
+	*/
+	FORCEINLINE void RemoveEventHandler(TObject* Object, void (TObject::*Method)(ParamTypes...)) noexcept { Delegate.RemoveEventHandler(Object, Method); }
+
+	/**
+		Clear event handler.
+	*/
+	FORCEINLINE void Clear() noexcept { Delegate.Clear(); }
+
+	/**
 		Call subscribed object method.
 	*/
 	FORCEINLINE void Broadcast(ParamTypes... Params) { Delegate.Broadcast(Params...); }
-	/*
+	/**
 		Call subscribed object method.
 
 		@param Condition - lambda wich takes Handler and return bool.
@@ -595,10 +601,9 @@ public:
 
 
 
-
 private:
 
-	/*
+	/**
 		Wrapping delegate.
 	*/
 	TSingleDelegate<ParamTypes...> Delegate;

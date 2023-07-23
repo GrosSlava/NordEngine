@@ -25,7 +25,7 @@ FORCEINLINE T StaticCast(ArgType&& Arg) noexcept
 
 /**
 	Reverses the order of the bits of a value.
-	This is an TEnableIf'd template to ensure that no undesirable conversions occur.  Overloads for other types can be added in the same way.
+	This is an TEnableIf'd template to ensure that no undesirable conversions occur. Overloads for other types can be added in the same way.
  
 	@param Bits - The value to bit-swap.
 	@return The bit-swapped value.

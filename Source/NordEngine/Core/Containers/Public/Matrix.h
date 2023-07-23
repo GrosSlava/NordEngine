@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GenericPlatform.h"
 #include "Vector3D.h"
 #include "Vector4D.h"
 #include "Plane.h"
@@ -17,7 +18,7 @@
 * opposed to Res = Mat1 * Mat2.
 * Matrix elements are accessed with M[RowIndex][ColumnIndex].
 */
-struct FMatrix
+struct ENGINE_API FMatrix
 {
 
 public:

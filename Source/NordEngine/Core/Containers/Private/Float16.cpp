@@ -1,4 +1,4 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #include "Float16.h"
 
 
@@ -34,8 +34,7 @@ void FFloat16::Set(float FP32Value) noexcept
 		}
 	}
 	// Check for INF or NaN, or too high value
-	else
-	if( FP32.Components.Exponent >= 143 ) // Too large exponent? (31+127-15)
+	else if( FP32.Components.Exponent >= 143 ) // Too large exponent? (31+127-15)
 	{
 		// Set to 65504.0 (max value)
 		Components.Exponent = 30;
@@ -71,8 +70,7 @@ float FFloat16::GetFloat() const noexcept
 			Result.Components.Mantissa = Mantissa << (MantissaShift + 23 - 10);
 		}
 	}
-	else 
-	if( Components.Exponent == 31 ) // 2^5 - 1
+	else if( Components.Exponent == 31 ) // 2^5 - 1
 	{
 		// Infinity or NaN. Set to 65504.0
 		Result.Components.Exponent = 142;

@@ -1,9 +1,11 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #include "Rotator.h"
 #include "Quat.h"
 #include "Vector3D.h"
 
 #include "RotationMatrix.h"
+
+
 
 
 
@@ -15,9 +17,6 @@ FRotator::FRotator(const FQuat& Quat)
 {
 	*this = Quat.Rotator();
 }
-
-
-
 
 
 
@@ -76,15 +75,12 @@ FVector3D FRotator::RotateVector(const FVector3D& V) const noexcept
 
 FVector3D FRotator::UnrotateVector(const FVector3D& V) const noexcept
 {
-	return FRotationMatrix(*this).GetTransposed().TransformVector( V );
+	return FRotationMatrix(*this).GetTransposed().TransformVector(V);
 }
 
 
 
-
-
-
-FRotator FRotator::MakeFromEuler(const FVector3D& Euler)
+FRotator FRotator::MakeFromEuler(const FVector3D& Euler) noexcept
 {
 	return FRotator(Euler.Y, Euler.Z, Euler.X);
 }

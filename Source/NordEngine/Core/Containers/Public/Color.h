@@ -1,10 +1,14 @@
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
+#include "GenericPlatform.h"
 #include "EngineMath.h"
-#include "TArray.h"
+#include "Array.h"
 
 
-class FFloat16Color;
+
+
+struct FFloat16Color;
 
 struct FColor;
 struct FVector3D;
@@ -13,8 +17,8 @@ struct FVector4D;
 
 
 /**
- * Enum for the different kinds of gamma spaces we expect to need to convert from/to.
- */
+	Enum for the different kinds of gamma spaces we expect to need to convert from/to.
+*/
 enum class EGammaSpace : uint8
 {
 	/** No gamma correction is applied to this space, the incoming colors are assumed to already be in linear space. */
@@ -26,49 +30,30 @@ enum class EGammaSpace : uint8
 };
 
 
-
-
-
 /**
-* A linear, 32-bit/component floating point RGBA color.
+	A linear, 32-bit/component floating point RGBA color.
 */
-struct FLinearColor
+struct ENGINE_API FLinearColor
 {
-
 public:
 
-	FORCEINLINE FLinearColor() { }
-
-	FORCEINLINE FLinearColor(float InR, float InG, float InB, float InA = 1.0f) noexcept:
-		R(InR), G(InG), B(InB), A(InA)
-	{
-
-	}
+	FLinearColor() = default;
+	FORCEINLINE FLinearColor(float InR, float InG, float InB, float InA = 1.0f) noexcept : R(InR), G(InG), B(InB), A(InA) { }
 
 	/**
-	 * Converts an FColor which is assumed to be in sRGB space, into linear color space.
-	 * @param Color The sRGB color that needs to be converted into linear space.
-	 */
-	FLinearColor(const FColor& Color) noexcept;
+		Converts an FColor which is assumed to be in sRGB space, into linear color space.
 
-	FLinearColor(const FVector3D& Vector) noexcept;
-
+		@param Color - The sRGB color that needs to be converted into linear space.
+	*/
+	explicit FLinearColor(const FColor& Color) noexcept;
+	explicit FLinearColor(const FVector3D& Vector) noexcept;
 	explicit FLinearColor(const FVector4D& Vector) noexcept;
-
 	explicit FLinearColor(const FFloat16Color& C) noexcept;
 
 
 public:
 
-	FORCEINLINE FLinearColor operator+(const FLinearColor& ColorB) const noexcept
-	{
-		return FLinearColor(
-			this->R + ColorB.R,
-			this->G + ColorB.G,
-			this->B + ColorB.B,
-			this->A + ColorB.A
-		);
-	}
+	FORCEINLINE FLinearColor operator+(const FLinearColor& ColorB) const noexcept { return FLinearColor(this->R + ColorB.R, this->G + ColorB.G, this->B + ColorB.B, this->A + ColorB.A); }
 	FORCEINLINE FLinearColor& operator+=(const FLinearColor& ColorB) noexcept
 	{
 		R += ColorB.R;
@@ -78,15 +63,7 @@ public:
 		return *this;
 	}
 
-	FORCEINLINE FLinearColor operator-(const FLinearColor& ColorB) const noexcept
-	{
-		return FLinearColor(
-			this->R - ColorB.R,
-			this->G - ColorB.G,
-			this->B - ColorB.B,
-			this->A - ColorB.A
-		);
-	}
+	FORCEINLINE FLinearColor operator-(const FLinearColor& ColorB) const noexcept { return FLinearColor(this->R - ColorB.R, this->G - ColorB.G, this->B - ColorB.B, this->A - ColorB.A); }
 	FORCEINLINE FLinearColor& operator-=(const FLinearColor& ColorB) noexcept
 	{
 		R -= ColorB.R;
@@ -96,15 +73,7 @@ public:
 		return *this;
 	}
 
-	FORCEINLINE FLinearColor operator*(const FLinearColor& ColorB) const noexcept
-	{
-		return FLinearColor(
-			this->R * ColorB.R,
-			this->G * ColorB.G,
-			this->B * ColorB.B,
-			this->A * ColorB.A
-		);
-	}
+	FORCEINLINE FLinearColor operator*(const FLinearColor& ColorB) const noexcept { return FLinearColor(this->R * ColorB.R, this->G * ColorB.G, this->B * ColorB.B, this->A * ColorB.A); }
 	FORCEINLINE FLinearColor& operator*=(const FLinearColor& ColorB) noexcept
 	{
 		R *= ColorB.R;
@@ -114,16 +83,7 @@ public:
 		return *this;
 	}
 
-	FORCEINLINE FLinearColor operator*(float Scalar) const noexcept
-	{
-		return FLinearColor(
-			this->R * Scalar,
-			this->G * Scalar,
-			this->B * Scalar,
-			this->A * Scalar
-		);
-	}
-
+	FORCEINLINE FLinearColor operator*(float Scalar) const noexcept { return FLinearColor(this->R * Scalar, this->G * Scalar, this->B * Scalar, this->A * Scalar); }
 	FORCEINLINE FLinearColor& operator*=(float Scalar) noexcept
 	{
 		R *= Scalar;
@@ -133,16 +93,8 @@ public:
 		return *this;
 	}
 
-	FORCEINLINE FLinearColor operator/(const FLinearColor& ColorB) const noexcept
-	{
-		return FLinearColor(
-			this->R / ColorB.R,
-			this->G / ColorB.G,
-			this->B / ColorB.B,
-			this->A / ColorB.A
-		);
-	}
-	FORCEINLINE FLinearColor& operator/=(const FLinearColor& ColorB) noexcept
+	FORCEINLINE FLinearColor operator/(const FLinearColor& ColorB) const { return FLinearColor(this->R / ColorB.R, this->G / ColorB.G, this->B / ColorB.B, this->A / ColorB.A); }
+	FORCEINLINE FLinearColor& operator/=(const FLinearColor& ColorB)
 	{
 		R /= ColorB.R;
 		G /= ColorB.G;
@@ -151,19 +103,14 @@ public:
 		return *this;
 	}
 
-	FORCEINLINE FLinearColor operator/(float Scalar) const noexcept
+	FORCEINLINE FLinearColor operator/(float Scalar) const
 	{
-		const float	InvScalar = 1.0f / Scalar;
-		return FLinearColor(
-			this->R * InvScalar,
-			this->G * InvScalar,
-			this->B * InvScalar,
-			this->A * InvScalar
-		);
+		const float InvScalar = 1.0f / Scalar;
+		return FLinearColor(this->R * InvScalar, this->G * InvScalar, this->B * InvScalar, this->A * InvScalar);
 	}
-	FORCEINLINE FLinearColor& operator/=(float Scalar) noexcept
+	FORCEINLINE FLinearColor& operator/=(float Scalar)
 	{
-		const float	InvScalar = 1.0f / Scalar;
+		const float InvScalar = 1.0f / Scalar;
 		R *= InvScalar;
 		G *= InvScalar;
 		B *= InvScalar;
@@ -171,24 +118,16 @@ public:
 		return *this;
 	}
 
+public:
+
+	FORCEINLINE bool operator==(const FLinearColor& ColorB) const noexcept { return this->R == ColorB.R && this->G == ColorB.G && this->B == ColorB.B && this->A == ColorB.A; }
+	FORCEINLINE bool operator!=(const FLinearColor& Other) const noexcept { return this->R != Other.R || this->G != Other.G || this->B != Other.B || this->A != Other.A; }
 
 public:
 
-	/** Comparison operators */
-	FORCEINLINE bool operator==(const FLinearColor& ColorB) const
-	{
-		return this->R == ColorB.R && this->G == ColorB.G && this->B == ColorB.B && this->A == ColorB.A;
-	}
-	FORCEINLINE bool operator!=(const FLinearColor& Other) const
-	{
-		return this->R != Other.R || this->G != Other.G || this->B != Other.B || this->A != Other.A;
-	}
-
-
-
-public:
-
-	// clamped in 0..1 range
+	/**
+		@return clamped in 0..1 range.
+	*/
 	FORCEINLINE FLinearColor GetClamped(float InMin = 0.0f, float InMax = 1.0f) const noexcept
 	{
 		FLinearColor Ret;
@@ -201,12 +140,17 @@ public:
 		return Ret;
 	}
 
-	// Error-tolerant comparison.
+	/**
+		Error - tolerant comparison.
+	*/
 	FORCEINLINE bool Equals(const FLinearColor& ColorB, float Tolerance = KINDA_SMALL_NUMBER) const noexcept
 	{
 		return FMath::Abs(this->R - ColorB.R) < Tolerance && FMath::Abs(this->G - ColorB.G) < Tolerance && FMath::Abs(this->B - ColorB.B) < Tolerance && FMath::Abs(this->A - ColorB.A) < Tolerance;
 	}
 
+	/**
+		@return new copy of color with given opacity.
+	*/
 	FORCEINLINE FLinearColor CopyWithNewOpacity(float NewOpacicty) const noexcept
 	{
 		FLinearColor NewCopy = *this;
@@ -215,10 +159,10 @@ public:
 	}
 
 	/**
-	 * Returns a desaturated color, with 0 meaning no desaturation and 1 == full desaturation
-	 *
-	 * @param	Desaturation	Desaturation factor in range [0..1]
-	 * @return	Desaturated color
+		Returns a desaturated color, with 0 meaning no desaturation and 1 == full desaturation.
+	 
+		@param Desaturation	- Desaturation factor in range [0..1].
+		@return	Desaturated color.
 	 */
 	FORCEINLINE FLinearColor Desaturate(float Desaturation) const noexcept
 	{
@@ -226,145 +170,131 @@ public:
 		return FMath::Lerp(*this, FLinearColor(Lum, Lum, Lum, 0), Desaturation);
 	}
 
-	/** Computes the perceptually weighted luminance value of a color. */
-	FORCEINLINE float ComputeLuminance() const noexcept
-	{
-		return R * 0.3f + G * 0.59f + B * 0.11f;
-	}
+	/** 
+		Computes the perceptually weighted luminance value of a color. 
+	*/
+	FORCEINLINE float ComputeLuminance() const noexcept { return R * 0.3f + G * 0.59f + B * 0.11f; }
+	FORCEINLINE float GetLuminance() const noexcept { return R * 0.3f + G * 0.59f + B * 0.11f; }
 
 	/**
-	 * Returns the maximum value in this color structure
-	 *
-	 * @return The maximum color channel value
-	 */
-	FORCEINLINE float GetMax() const noexcept
-	{
-		return FMath::Max(FMath::Max(FMath::Max(R, G), B), A);
-	}
-
-	/** useful to detect if a light contribution needs to be rendered */
-	FORCEINLINE bool IsAlmostBlack() const noexcept
-	{
-		return FMath::Square(R) < DELTA && FMath::Square(G) < DELTA && FMath::Square(B) < DELTA;
-	}
-
+		@return The maximum color channel value.
+	*/
+	FORCEINLINE float GetMax() const noexcept { return FMath::Max(FMath::Max(FMath::Max(R, G), B), A); }
 	/**
-	 * Returns the minimum value in this color structure
-	 *
-	 * @return The minimum color channel value
-	 */
-	FORCEINLINE float GetMin() const noexcept
-	{
-		return FMath::Min(FMath::Min(FMath::Min(R, G), B), A);
-	}
+		@return The minimum color channel value.
+	*/
+	FORCEINLINE float GetMin() const noexcept { return FMath::Min(FMath::Min(FMath::Min(R, G), B), A); }
 
-	FORCEINLINE float GetLuminance() const noexcept
-	{
-		return R * 0.3f + G * 0.59f + B * 0.11f;
-	}
+	/** 
+		Useful to detect if a light contribution needs to be rendered.
+	*/
+	FORCEINLINE bool IsAlmostBlack() const noexcept { return FMath::Square(R) < DELTA && FMath::Square(G) < DELTA && FMath::Square(B) < DELTA; }
 
-	
+public:
 
-	
-
-
-
+	/** 
+		Converts a linear space RGB color to FColor.
+	*/
 	FColor ToRGBE() const noexcept;
-
-	/** Converts a linear space RGB color to an HSV color */
+	/**
+		Converts a linear space RGB color to an HSV color.
+	*/
 	FLinearColor LinearRGBToHSV() const noexcept;
-
-	/** Converts an HSV color to a linear space RGB color */
+	/** 
+		Converts an HSV color to a linear space RGB color.
+	*/
 	FLinearColor HSVToLinearRGB() const noexcept;
-
-
-	/** Quantizes the linear color and returns the result as a FColor.  This bypasses the SRGB conversion. */
+	/** 
+		Quantizes the linear color and returns the result as a FColor.
+		This bypasses the SRGB conversion. 
+	*/
 	FColor Quantize() const noexcept;
-
-	/** Quantizes the linear color with rounding and returns the result as a FColor.  This bypasses the SRGB conversion. */
+	/** 
+		Quantizes the linear color with rounding and returns the result as a FColor.
+		This bypasses the SRGB conversion.
+	*/
 	FColor QuantizeRound() const noexcept;
-
-	/** Quantizes the linear color and returns the result as a FColor with optional sRGB conversion and quality as goal. */
+	/** 
+		Quantizes the linear color and returns the result as a FColor with optional sRGB conversion and quality as goal.
+	*/
 	FColor ToFColor(const bool bSRGB) const noexcept;
-
 
 public:
 
 	/**
-	 * Converts byte hue-saturation-brightness to floating point red-green-blue.
-	 */
-	static FORCEINLINE FLinearColor MakeFromHSV8(uint8 H, uint8 S, uint8 V)
+		Converts byte hue-saturation-brightness to floating point red-green-blue.
+	*/
+	static FORCEINLINE FLinearColor MakeFromHSV8(uint8 H, uint8 S, uint8 V) noexcept
 	{
 		// want a given H value of 255 to map to just below 360 degrees
 		const FLinearColor HSVColor((float)H * (360.0f / 256.0f), (float)S / 255.0f, (float)V / 255.0f);
 		return HSVColor.HSVToLinearRGB();
 	}
+	/**
+		Converts temperature in Kelvins of a black body radiator to RGB chromaticity.
+	*/
+	static FLinearColor MakeFromColorTemperature(float Temp) noexcept;
+	/**
+		Converts an FColor coming from an observed sRGB output, into a linear color.
 
+		@param Color - The sRGB color that needs to be converted into linear space.
+	*/
+	static FLinearColor FromSRGBColor(const FColor& Color) noexcept;
+	/**
+		Converts an FColor coming from an observed Pow(1/2.2) output, into a linear color.
+
+		@param Color - The Pow(1/2.2) color that needs to be converted into linear space.
+	*/
+	static FLinearColor FromPow22Color(const FColor& Color) noexcept;
+	/**
+		Makes a random but quite nice color.
+	*/
+	static FLinearColor MakeRandomColor() noexcept;
 
 	/**
-	 * Euclidean distance between two points.
-	 */
-	static FORCEINLINE float Dist(const FLinearColor& V1, const FLinearColor& V2)
+		Euclidean distance between two points.
+	*/
+	static FORCEINLINE float Dist(const FLinearColor& V1, const FLinearColor& V2) noexcept
 	{
 		return FMath::Sqrt(FMath::Square(V2.R - V1.R) + FMath::Square(V2.G - V1.G) + FMath::Square(V2.B - V1.B) + FMath::Square(V2.A - V1.A));
 	}
 
-
-
-
 	/**
-	* Converts temperature in Kelvins of a black body radiator to RGB chromaticity.
+		Generates a list of sample points on a Bezier curve defined by 2 points.
+	 
+		@param ControlPoints - Array of 4 Linear Colors (vert1, controlpoint1, controlpoint2, vert2).
+		@param NumPoints - Number of samples.
+		@param OutPoints - Receives the output samples.
+		@return Path length.
 	*/
-	static FLinearColor MakeFromColorTemperature(float Temp);
+	static float EvaluateBezier(const FLinearColor* ControlPoints, int32 NumPoints, TArray<FLinearColor>& OutPoints) noexcept;
 
 	/**
-	 * Generates a list of sample points on a Bezier curve defined by 2 points.
-	 *
-	 * @param	ControlPoints	Array of 4 Linear Colors (vert1, controlpoint1, controlpoint2, vert2).
-	 * @param	NumPoints		Number of samples.
-	 * @param	OutPoints		Receives the output samples.
-	 * @return					Path length.
-	 */
-	static float EvaluateBezier(const FLinearColor* ControlPoints, int32 NumPoints, TArray<FLinearColor>& OutPoints);
-
-	/**
-	 * Linearly interpolates between two colors by the specified progress amount.  The interpolation is performed in HSV color space
-	 * taking the shortest path to the new color's hue.  This can give better results than FMath::Lerp(), but is much more expensive.
-	 * The incoming colors are in RGB space, and the output color will be RGB.  The alpha value will also be interpolated.
-	 *
-	 * @param	From		The color and alpha to interpolate from as linear RGBA
-	 * @param	To			The color and alpha to interpolate to as linear RGBA
-	 * @param	Progress	Scalar interpolation amount (usually between 0.0 and 1.0 inclusive)
-	 * @return	The interpolated color in linear RGB space along with the interpolated alpha value
-	 */
-	static FLinearColor LerpUsingHSV(const FLinearColor& From, const FLinearColor& To, const float Progress);
-
-	/**
-	 * Converts an FColor coming from an observed sRGB output, into a linear color.
-	 * @param Color The sRGB color that needs to be converted into linear space.
-	 */
-	static FLinearColor FromSRGBColor(const FColor& Color);
-
-	/**
-	 * Converts an FColor coming from an observed Pow(1/2.2) output, into a linear color.
-	 * @param Color The Pow(1/2.2) color that needs to be converted into linear space.
-	 */
-	static FLinearColor FromPow22Color(const FColor& Color);
-
-	/**
-	* Makes a random but quite nice color.
+		Linearly interpolates between two colors by the specified progress amount. The interpolation is performed in HSV color space
+		taking the shortest path to the new color's hue. This can give better results than FMath::Lerp(), but is much more expensive.
+		The incoming colors are in RGB space, and the output color will be RGB. The alpha value will also be interpolated.
+	 
+		@param From - The color and alpha to interpolate from as linear RGBA.
+		@param To - The color and alpha to interpolate to as linear RGBA.
+		@param Progress - Scalar interpolation amount (usually between 0.0 and 1.0 inclusive).
+		@return The interpolated color in linear RGB space along with the interpolated alpha value.
 	*/
-	static FLinearColor MakeRandomColor();
+	static FLinearColor LerpUsingHSV(const FLinearColor& From, const FLinearColor& To, const float Progress) noexcept;
+
+
 
 public:
 
-	/** Static lookup table used for FColor -> FLinearColor conversion. Pow(2.2) */
-	static float Pow22OneOver255Table[256];
+	/** 
+		Static lookup table used for FColor -> FLinearColor conversion. Pow(2.2) 
+	*/
+	static const float Pow22OneOver255Table[256];
+	/** 
+		Static lookup table used for FColor -> FLinearColor conversion. sRGB 
+	*/
+	static const float sRGBToLinearTable[256];
 
-	/** Static lookup table used for FColor -> FLinearColor conversion. sRGB */
-	static float sRGBToLinearTable[256];
-
-	// Common colors.	
+	// Common colors.
 	static const FLinearColor White;
 	static const FLinearColor Gray;
 	static const FLinearColor Black;
@@ -374,14 +304,12 @@ public:
 	static const FLinearColor Blue;
 	static const FLinearColor Yellow;
 
-
 public:
 
 	float R = 0.0f;
 	float G = 0.0f;
 	float B = 0.0f;
 	float A = 0.0f;
-
 };
 
 
@@ -392,30 +320,13 @@ FORCEINLINE FLinearColor operator*(float Scalar, const FLinearColor& Color)
 
 
 
-
-
-
 struct FColor
 {
-
 public:
 
-	uint32& DWColor(void) { return *((uint32*)this); }
-	const uint32& DWColor(void) const { return *((uint32*)this); }
-
-	FORCEINLINE FColor() {}
-	
-	FORCEINLINE FColor(uint8 InR, uint8 InG, uint8 InB, uint8 InA = 255) noexcept : 
-		A(InA), R(InR), G(InG), B(InB)
-	{
-
-	}
-
-	FORCEINLINE explicit FColor(uint32 InColor) noexcept
-	{
-		DWColor() = InColor;
-	}
-
+	FColor() = default;
+	FORCEINLINE FColor(uint8 InR, uint8 InG, uint8 InB, uint8 InA = 255) noexcept : A(InA), R(InR), G(InG), B(InB) { }
+	FORCEINLINE explicit FColor(uint32 InColor) noexcept { DWColor() = InColor; }
 	explicit FColor(const FLinearColor& LinearColor) = delete;
 
 
@@ -431,24 +342,18 @@ public:
 
 public:
 
-	FORCEINLINE bool operator==(const FColor& C) const
-	{
-		return DWColor() == C.DWColor();
-	}
-
-	FORCEINLINE bool operator!=(const FColor& C) const
-	{
-		return DWColor() != C.DWColor();
-	}
-
-
+	FORCEINLINE bool operator==(const FColor& C) const noexcept { return DWColor() == C.DWColor(); }
+	FORCEINLINE bool operator!=(const FColor& C) const noexcept { return DWColor() != C.DWColor(); }
 
 
 public:
 
+	uint32& DWColor() noexcept { return *((uint32*)this); }
+	const uint32& DWColor() const noexcept { return *((uint32*)this); }
+
 	FORCEINLINE FLinearColor FromRGBE() const noexcept
 	{
-		if (A == 0)
+		if( A == 0 )
 		{
 			return FLinearColor::Black;
 		}
@@ -460,81 +365,55 @@ public:
 	}
 
 	/**
-	 *	@return a new FColor based of this color with the new alpha value.
-	 *	Usage: const FColor& MyColor = FColorList::Green.WithAlpha(128);
-	 */
-	FORCEINLINE FColor WithAlpha(uint8 Alpha) const noexcept
-	{
-		return FColor(R, G, B, Alpha);
-	}
-
-	/**
-	 * Reinterprets the color as a linear color.
-	 *
-	 * @return The linear color representation.
-	 */
-	FORCEINLINE FLinearColor ReinterpretAsLinear() const noexcept
-	{
-		return FLinearColor(R / 255.f, G / 255.f, B / 255.f, A / 255.f);
-	}
-
-	/**
-	 * Gets the color in a packed uint32 format packed in the order ARGB.
-	 */
-	FORCEINLINE uint32 ToPackedARGB() const noexcept
-	{
-		return (A << 24) | (R << 16) | (G << 8) | (B << 0);
-	}
-
-	/**
-	 * Gets the color in a packed uint32 format packed in the order ABGR.
-	 */
-	FORCEINLINE uint32 ToPackedABGR() const noexcept
-	{
-		return (A << 24) | (B << 16) | (G << 8) | (R << 0);
-	}
-
-	/**
-	 * Gets the color in a packed uint32 format packed in the order RGBA.
-	 */
-	FORCEINLINE uint32 ToPackedRGBA() const noexcept
-	{
-		return (R << 24) | (G << 16) | (B << 8) | (A << 0);
-	}
-
-	/**
-	 * Gets the color in a packed uint32 format packed in the order BGRA.
-	 */
-	FORCEINLINE uint32 ToPackedBGRA() const noexcept
-	{
-		return (B << 24) | (G << 16) | (R << 8) | (A << 0);
-	}
-
-
-public:
-
-	/**
-	 * Makes a random but quite nice color.
-	 */
-	static FColor MakeRandomColor();
-
-	/**
-	 * Makes a color red->green with the passed in scalar (e.g. 0 is red, 1 is green)
-	 */
-	static FColor MakeRedToGreenColorFromScalar(float Scalar);
-
-	/**
-	* Converts temperature in Kelvins of a black body radiator to RGB chromaticity.
-	*/
-	static FColor MakeFromColorTemperature(float Temp);
-
+		Usage: const FColor& MyColor = FColorList::Green.WithAlpha(128);
 	
+		@return a new FColor based of this color with the new alpha value.
+	*/
+	FORCEINLINE FColor WithAlpha(uint8 Alpha) const noexcept { return FColor(R, G, B, Alpha); }
+
+	/**
+		Reinterprets the color as a linear color.
+	 
+		@return The linear color representation.
+	*/
+	FORCEINLINE FLinearColor ReinterpretAsLinear() const noexcept { return FLinearColor(R / 255.f, G / 255.f, B / 255.f, A / 255.f); }
+	/**
+		Gets the color in a packed uint32 format packed in the order ARGB.
+	*/
+	FORCEINLINE uint32 ToPackedARGB() const noexcept { return (A << 24) | (R << 16) | (G << 8) | (B << 0); }
+	/**
+		Gets the color in a packed uint32 format packed in the order ABGR.
+	*/
+	FORCEINLINE uint32 ToPackedABGR() const noexcept { return (A << 24) | (B << 16) | (G << 8) | (R << 0); }
+	/**
+		Gets the color in a packed uint32 format packed in the order RGBA.
+	*/
+	FORCEINLINE uint32 ToPackedRGBA() const noexcept { return (R << 24) | (G << 16) | (B << 8) | (A << 0); }
+	/**
+		Gets the color in a packed uint32 format packed in the order BGRA.
+	*/
+	FORCEINLINE uint32 ToPackedBGRA() const noexcept { return (B << 24) | (G << 16) | (R << 8) | (A << 0); }
+
+public:
+
+	/**
+		Makes a random but quite nice color.
+	*/
+	static FColor MakeRandomColor() noexcept;
+	/**
+		Makes a color red->green with the passed in scalar (e.g. 0 is red, 1 is green)
+	*/
+	static FColor MakeRedToGreenColorFromScalar(float Scalar) noexcept;
+	/**
+		Converts temperature in Kelvins of a black body radiator to RGB chromaticity.
+	*/
+	static FColor MakeFromColorTemperature(float Temp) noexcept;
 
 
 
 public:
 
-	/** Some pre-inited colors, useful for debug code */
+	// Some pre-inited colors, useful for debug code.
 	static const FColor White;
 	static const FColor Red;
 	static const FColor Green;
@@ -635,17 +514,20 @@ public:
 	static const FColor Wheat;
 	static const FColor YellowGreen;
 
-
 public:
 
-	union { struct { uint8 A, R, G, B; }; uint32 AlignmentDummy; };
-
+	union
+	{
+		struct
+		{
+			uint8 A, R, G, B;
+		};
+		uint32 AlignmentDummy = 0;
+	};
 };
 
 
-
-FORCEINLINE uint32 GetTypeHash(const FColor& Color)
+FORCEINLINE uint32 GetTypeHash(const FColor& Color) noexcept
 {
 	return Color.DWColor();
 }
-

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GenericPlatform.h"
 #include "EngineMath.h"
 #include "SSE/MathSSE.h"
 
@@ -21,7 +22,7 @@ struct FMatrix;
  * Example: LocalToWorld = (LocalToWorld * DeltaRotation) will change rotation in local space by DeltaRotation.
  * Example: LocalToWorld = (DeltaRotation * LocalToWorld) will change rotation in world space by DeltaRotation.
  */
-MS_ALIGN(16) struct FQuat
+MS_ALIGN(16) struct ENGINE_API FQuat
 {
 
 public:

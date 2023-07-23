@@ -4,6 +4,7 @@
 
 #include "GenericPlatform.h"
 #include "TypeTraits/IsEnum.h"
+#include "InitializerList.h"
 #include <initializer_list>
 
 
@@ -19,6 +20,11 @@ struct TIsInitializerList
 };
 template<typename T>
 struct TIsInitializerList<std::initializer_list<T>>
+{
+	static constexpr bool Value = true;
+};
+template<typename T>
+struct TIsInitializerList<TInitializerList<T>>
 {
 	static constexpr bool Value = true;
 };

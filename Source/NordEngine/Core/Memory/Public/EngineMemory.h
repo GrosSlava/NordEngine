@@ -13,11 +13,11 @@
 */
 struct ENGINE_API FMemory
 {
-	static FORCEINLINE void* MemMove(void* Dest, const void* Src, SIZE_T Count) { return memmove(Dest, Src, Count); }
-	static FORCEINLINE int32 MemCmp(const void* Buf1, const void* Buf2, SIZE_T Count) { return memcmp(Buf1, Buf2, Count); }
-	static FORCEINLINE void* MemSet(void* Dest, uint8 Char, SIZE_T Count) { return memset(Dest, Char, Count); }
-	static FORCEINLINE void* MemZero(void* Dest, SIZE_T Count) { return memset(Dest, 0, Count); }
-	static FORCEINLINE void* MemCpy(void* Dest, const void* Src, SIZE_T Count) { return memcpy(Dest, Src, Count); }
+	static FORCEINLINE void* MemMove(void* Dest, const void* Src, SIZE_T Size) { return memmove(Dest, Src, Size); }
+	static FORCEINLINE int32 MemCmp(const void* Buf1, const void* Buf2, SIZE_T Size) { return memcmp(Buf1, Buf2, Size); }
+	static FORCEINLINE void* MemSet(void* Dest, uint8 Char, SIZE_T Size) { return memset(Dest, Char, Size); }
+	static FORCEINLINE void* MemZero(void* Dest, SIZE_T Size) { return memset(Dest, 0, Size); }
+	static FORCEINLINE void* MemCpy(void* Dest, const void* Src, SIZE_T Size) { return memcpy(Dest, Src, Size); }
 
 	static FORCEINLINE void* Malloc(SIZE_T Size) { return malloc(Size); }
 	static FORCEINLINE void* Realloc(void* Ptr, SIZE_T NewSize) { return realloc(Ptr, NewSize); }
@@ -43,5 +43,20 @@ struct ENGINE_API FMemory
 		{
 			*d++ = *s++;
 		}
+	}
+
+	static FORCEINLINE void* MemCpyFromEnd(void* Dest, const void* Src, SIZE_T Size)
+	{
+		if( Size == 0 ) return Dest;
+
+		const uint8* SrcP = static_cast<const uint8*>(Src) + Size - 1;
+		uint8* DestP = static_cast<uint8*>(Dest) + Size - 1;
+
+		while( Size-- )
+		{
+			*DestP-- = *SrcP--;
+		}
+
+		return Dest;
 	}
 };

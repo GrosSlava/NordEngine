@@ -1,119 +1,121 @@
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 #include "GenericPlatform.h"
 #include "GenericPlatformString.h"
+#include "EngineMemory.h"
 
 
-class FStringBuffer
+
+
+struct ENGINE_API FStringBuffer
 {
+public:
+
+	FStringBuffer() = default;
+	FStringBuffer(const FStringBuffer& Other) = delete;
+	FORCEINLINE FStringBuffer(FStringBuffer&& Other) noexcept : str(Other.str), StringLength(Other.StringLength), BufferSize(Other.BufferSize) { Other.Clear(); }
+	FORCEINLINE ~FStringBuffer() { Reset(); }
+
 
 public:
 
-	FORCEINLINE ~FStringBuffer() noexcept
-	{
-		Reset();
-	}
-
-
-
-public:
-
-	FORCEINLINE TCHAR& operator[](uint32 Index)
-	{
-		return str[Index];
-	}
-
-	FORCEINLINE TCHAR operator[](uint32 Index) const
-	{
-		return str[Index];
-	}
-
+	FORCEINLINE TCHAR& operator[](uint32 Index) { return str[Index]; }
+	FORCEINLINE TCHAR operator[](uint32 Index) const { return str[Index]; }
 
 public:
 
 	FORCEINLINE TCHAR* begin() const noexcept { return str; }
-	FORCEINLINE TCHAR* end() const noexcept { return &str[StringLength]; }
-
-
-
+	FORCEINLINE TCHAR* end() const { return &str[StringLength]; }
 
 public:
 
-	FORCEINLINE TCHAR* GetAtByPointer(uint32 Index) const noexcept
-	{
-		return &str[Index];
-	}
+	/**
+		@return char at given position in the buffer by pointer.
+	*/
+	FORCEINLINE TCHAR* GetAtByPointer(uint32 Index) const { return &str[Index]; }
 
-
+	/**
+		Resize string by new length and null terminate it.
+	*/
 	void Resize(uint32 NewStringLength)
 	{
-		if (StringLength == NewStringLength) return;
-
+		if( StringLength == NewStringLength ) return;
 
 		StringLength = NewStringLength;
-		if (StringLength > BufferSize)
+		if( StringLength > BufferSize )
 		{
 			BufferSize = StringLength * 2;
 
-			TCHAR* LBuff = new TCHAR[StringLength + 1];
-
-			if (str != nullptr)
+			if( str != nullptr )
 			{
-				FMicrosoftPlatformString::Strcpy(LBuff, str);
-
-				delete[] str;
+				str = static_cast<TCHAR*>(FMemory::Realloc(str, BufferSize + 1));
 			}
-
-			str = LBuff;
+			else
+			{
+				str = static_cast<TCHAR*>(FMemory::Malloc(BufferSize + 1));
+			}
 		}
 
 		str[StringLength] = '\0';
 	}
-
+	/**
+		Manual set by buffer.
+	*/
 	FORCEINLINE void SetBuffer(TCHAR* NewBuffer)
 	{
-		StringLength = BufferSize = FMicrosoftPlatformString::Strlen(NewBuffer);
+		StringLength = BufferSize = FPlatformString::Strlen(NewBuffer);
 
-		if (str != nullptr)
+		if( str != nullptr )
 		{
-			delete[] str;
+			FMemory::Free(str);
 		}
 
 		str = NewBuffer;
 	}
 
-
-	/*
-		NOTE: It will delete stored string.
+	/**
+		It will delete stored string.
 	*/
 	FORCEINLINE void Reset()
 	{
-		if (str != nullptr) delete[] str;
+		if( str != nullptr )
+		{
+			FMemory::Free(str);
+		}
 
 		Clear();
 	}
-	/*
-		NOTE: It will not delete stored string.
+	/**
+		It will not delete stored string.
 	*/
 	FORCEINLINE void Clear()
 	{
 		str = nullptr;
-		StringLength = -1;
-		BufferSize = -1;
+		StringLength = 0;
+		BufferSize = 0;
 	}
 
-
+public:
 
 	FORCEINLINE TCHAR* GetBuffer() const noexcept { return str; }
-	FORCEINLINE uint32 GetLength() const noexcept {	return StringLength; }
+	FORCEINLINE uint32 GetLength() const noexcept { return StringLength; }
 	FORCEINLINE uint32 GetBufferSize() const noexcept { return BufferSize; }
 
 
 
 private:
 
+	/**
+		String buffer.
+	*/
 	TCHAR* str = nullptr;
-	int32 StringLength = -1;
-	int32 BufferSize = -1;
-
+	/**
+		Current string length.
+	*/
+	int32 StringLength = 0;
+	/**
+		String buffer capacity.
+	*/
+	int32 BufferSize = 0;
 };

@@ -1,3 +1,4 @@
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 #include "GenericPlatform.h"
@@ -5,11 +6,20 @@
 
 
 
-/*
+/**
 	32 bit float components.
 */
-class FFloat32
+struct ENGINE_API FFloat32
 {
+public:
+
+	/**
+		@param InValue - Value of the float.
+	*/
+	FORCEINLINE FFloat32(float InValue = 0.0f) noexcept : FloatValue(InValue) { }
+
+
+
 public:
 
 	union
@@ -21,16 +31,6 @@ public:
 			uint32 Mantissa : 23;
 		} Components;
 
-		float FloatValue;
+		float FloatValue = 0.0f;
 	};
-
-
-public:
-
-	/*
-		Constructor
-	 
-		@param InValue - value of the float.
-	*/
-	FORCEINLINE FFloat32(float InValue = 0.0f) noexcept : FloatValue(InValue) { }
 };

@@ -1,4 +1,4 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #include "Vector2D.h"
 
 
@@ -31,7 +31,7 @@ FVector2D FVector2D::GetSafeNormal(float Tolerance) const
 		return FVector2D(X * Scale, Y * Scale);
 	}
 
-	return FVector2D(0.f, 0.f);
+	return FVector2D(0.0f, 0.0f);
 }
 
 void FVector2D::Normalize(float Tolerance)
@@ -55,7 +55,7 @@ void FVector2D::ToDirectionAndLength(FVector2D& OutDir, float& OutLength) const
 
 	if( OutLength > SMALL_NUMBER )
 	{
-		float OneOverLength = 1.0f / OutLength;
+		const float OneOverLength = 1.0f / OutLength;
 		OutDir = FVector2D(X * OneOverLength, Y * OneOverLength);
 	}
 	else
