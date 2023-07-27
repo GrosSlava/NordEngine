@@ -1,8 +1,11 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #include "Quat.h"
 #include "Rotator.h"
 #include "Vector3D.h"
 #include "Matrix.h"
+
+
+
 
 
 const FQuat FQuat::Identity(0.0f, 0.0f, 0.0f, 1.0f);
@@ -14,23 +17,23 @@ FQuat::FQuat(const FMatrix& M)
 {
 	// If Matrix is NULL, return Identity quaternion. If any of them is 0, you won't be able to construct rotation
 	// if you have two plane at least, we can reconstruct the frame using cross product, but that's a bit expensive op to do here
-	// for now, if you convert to matrix from 0 scale and convert back, you'll lose rotation. Don't do that. 
-	if (M.GetScaledAxis(EAxis::X).IsNearlyZero() || M.GetScaledAxis(EAxis::Y).IsNearlyZero() || M.GetScaledAxis(EAxis::Z).IsNearlyZero())
+	// for now, if you convert to matrix from 0 scale and convert back, you'll lose rotation. Don't do that.
+	if( M.GetScaledAxis(EAxis::X).IsNearlyZero() || M.GetScaledAxis(EAxis::Y).IsNearlyZero() || M.GetScaledAxis(EAxis::Z).IsNearlyZero() )
 	{
 		*this = FQuat::Identity;
 		return;
 	}
 
 	//const MeReal *const t = (MeReal *) tm;
-	float	s;
+	float s;
 
 	// Check diagonal (trace)
 	const float tr = M.M[0][0] + M.M[1][1] + M.M[2][2];
 
-	if (tr > 0.0f)
+	if( tr > 0.0f )
 	{
-		float InvS = FMath::InvSqrt(tr + 1.f);
-		this->W = 0.5f * (1.f / InvS);
+		float InvS = FMath::InvSqrt(tr + 1.0f);
+		this->W = 0.5f * (1.0f / InvS);
 		s = 0.5f * InvS;
 
 		this->X = (M.M[1][2] - M.M[2][1]) * s;
@@ -42,13 +45,11 @@ FQuat::FQuat(const FMatrix& M)
 		// diagonal is negative
 		int32 i = 0;
 
-		if (M.M[1][1] > M.M[0][0])
-			i = 1;
+		if( M.M[1][1] > M.M[0][0] ) i = 1;
 
-		if (M.M[2][2] > M.M[i][i])
-			i = 2;
+		if( M.M[2][2] > M.M[i][i] ) i = 2;
 
-		static const int32 nxt[3] = { 1, 2, 0 };
+		static const int32 nxt[3] = {1, 2, 0};
 		const int32 j = nxt[i];
 		const int32 k = nxt[j];
 
@@ -57,7 +58,7 @@ FQuat::FQuat(const FMatrix& M)
 		float InvS = FMath::InvSqrt(s);
 
 		float qt[4];
-		qt[i] = 0.5f * (1.f / InvS);
+		qt[i] = 0.5f * (1.0f / InvS);
 
 		s = 0.5f * InvS;
 
@@ -69,7 +70,6 @@ FQuat::FQuat(const FMatrix& M)
 		this->Y = qt[1];
 		this->Z = qt[2];
 		this->W = qt[3];
-
 	}
 }
 
@@ -94,7 +94,7 @@ FQuat::FQuat(const FVector3D& Axis, float AngleRad) noexcept
 
 
 
-FQuat FQuat::operator*=(const FQuat& Q)
+FQuat FQuat::operator*=(const FQuat& Q) noexcept
 {
 	VectorRegister A = VectorLoadAligned(this);
 	VectorRegister B = VectorLoadAligned(&Q);
@@ -105,17 +105,17 @@ FQuat FQuat::operator*=(const FQuat& Q)
 	return *this;
 }
 
-FVector3D FQuat::operator*(const FVector3D& V) const
+FVector3D FQuat::operator*(const FVector3D& V) const noexcept
 {
 	return RotateVector(V);
 }
 
-FMatrix FQuat::operator*(const FMatrix& M) const
+FMatrix FQuat::operator*(const FMatrix& M) const noexcept
 {
 	FMatrix Result;
 	FQuat VT, VR;
 	FQuat Inv = Inverse();
-	for (int32 I = 0; I < 4; ++I)
+	for( int32 I = 0; I < 4; ++I )
 	{
 		FQuat VQ(M.M[I][0], M.M[I][1], M.M[I][2], M.M[I][3]);
 		VectorQuaternionMultiply(&VT, this, &VQ);
@@ -133,65 +133,6 @@ FMatrix FQuat::operator*(const FMatrix& M) const
 
 
 
-
-FQuat FQuat::Log() const noexcept
-{
-	FQuat Result;
-	Result.W = 0.f;
-
-	if (FMath::Abs(W) < 1.f)
-	{
-		const float Angle = FMath::Acos(W);
-		const float SinAngle = FMath::Sin(Angle);
-
-		if (FMath::Abs(SinAngle) >= SMALL_NUMBER)
-		{
-			const float Scale = Angle / SinAngle;
-			Result.X = Scale * X;
-			Result.Y = Scale * Y;
-			Result.Z = Scale * Z;
-
-			return Result;
-		}
-	}
-
-	Result.X = X;
-	Result.Y = Y;
-	Result.Z = Z;
-
-	return Result;
-}
-
-FQuat FQuat::Exp() const noexcept
-{
-	const float Angle = FMath::Sqrt(X * X + Y * Y + Z * Z);
-	const float SinAngle = FMath::Sin(Angle);
-
-	FQuat Result;
-	Result.W = FMath::Cos(Angle);
-
-	if (FMath::Abs(SinAngle) >= SMALL_NUMBER)
-	{
-		const float Scale = SinAngle / Angle;
-		Result.X = Scale * X;
-		Result.Y = Scale * Y;
-		Result.Z = Scale * Z;
-	}
-	else
-	{
-		Result.X = X;
-		Result.Y = Y;
-		Result.Z = Z;
-	}
-
-	return Result;
-}
-
-FVector3D FQuat::Euler() const noexcept
-{
-	return Rotator().Euler();
-}
-
 void FQuat::ToAxisAndAngle(FVector3D& Axis, float& Angle) const noexcept
 {
 	Angle = GetAngle();
@@ -207,7 +148,7 @@ void FQuat::ToSwingTwist(const FVector3D& InTwistAxis, FQuat& OutSwing, FQuat& O
 	OutTwist = FQuat(Projection.X, Projection.Y, Projection.Z, W);
 
 	// Singularity close to 180deg
-	if (OutTwist.SizeSquared() == 0.0f)
+	if( OutTwist.SizeSquared() == 0.0f )
 	{
 		OutTwist = FQuat::Identity;
 	}
@@ -244,27 +185,38 @@ FVector3D FQuat::RotateVector(const FVector3D& V) const noexcept
 FVector3D FQuat::UnrotateVector(const FVector3D& V) const noexcept
 {
 	const FVector3D Q(-X, -Y, -Z); // Inverse
-	const FVector3D T = 2.f * FVector3D::CrossProduct(Q, V);
+	const FVector3D T = 2.0f * FVector3D::CrossProduct(Q, V);
 	const FVector3D Result = V + (W * T) + FVector3D::CrossProduct(Q, T);
 	return Result;
 }
 
+FVector3D FQuat::GetRotationAxis() const noexcept
+{
+	const float SquareSum = X * X + Y * Y + Z * Z;
+	if( SquareSum < SMALL_NUMBER )
+	{
+		return FVector3D::XAxisVector;
+	}
+
+	const float Scale = FMath::InvSqrt(SquareSum);
+	return FVector3D(X * Scale, Y * Scale, Z * Scale);
+}
 
 
 
 FVector3D FQuat::GetAxisX() const noexcept
 {
-	return RotateVector(FVector3D(1.f, 0.f, 0.f));
+	return RotateVector(FVector3D(1.0f, 0.0f, 0.0f));
 }
 
 FVector3D FQuat::GetAxisY() const noexcept
 {
-	return RotateVector(FVector3D(0.f, 1.f, 0.f));
+	return RotateVector(FVector3D(0.0f, 1.0f, 0.0f));
 }
 
 FVector3D FQuat::GetAxisZ() const noexcept
 {
-	return RotateVector(FVector3D(0.f, 0.f, 1.f));
+	return RotateVector(FVector3D(0.0f, 0.0f, 1.0f));
 }
 
 FVector3D FQuat::GetForwardVector() const noexcept
@@ -287,31 +239,30 @@ FVector3D FQuat::Vector() const noexcept
 	return GetAxisX();
 }
 
-
 FRotator FQuat::Rotator() const noexcept
 {
 	const float SingularityTest = Z * X - W * Y;
-	const float YawY = 2.f * (W * Z + X * Y);
-	const float YawX = (1.f - 2.f * (FMath::Square(Y) + FMath::Square(Z)));
+	const float YawY = 2.0f * (W * Z + X * Y);
+	const float YawX = (1.0f - 2.0f * (FMath::Square(Y) + FMath::Square(Z)));
 
-	// reference 
+	// reference
 	// http://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 	// http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/
 
 	// this value was found from experience, the above websites recommend different values
-	// but that isn't the case for us, so I went through different testing, and finally found the case 
-	// where both of world lives happily. 
+	// but that isn't the case for us, so I went through different testing, and finally found the case
+	// where both of world lives happily.
 	const float SINGULARITY_THRESHOLD = 0.4999995f;
-	const float RAD_TO_DEG = (180.f) / PI;
+	const float RAD_TO_DEG = (180.0f) / PI;
 	FRotator RotatorFromQuat;
 
-	if (SingularityTest < -SINGULARITY_THRESHOLD)
+	if( SingularityTest < -SINGULARITY_THRESHOLD )
 	{
 		RotatorFromQuat.Pitch = -90.f;
 		RotatorFromQuat.Yaw = FMath::Atan2(YawY, YawX) * RAD_TO_DEG;
 		RotatorFromQuat.Roll = FRotator::NormalizeAxis(-RotatorFromQuat.Yaw - (2.f * FMath::Atan2(X, W) * RAD_TO_DEG));
 	}
-	else if (SingularityTest > SINGULARITY_THRESHOLD)
+	else if( SingularityTest > SINGULARITY_THRESHOLD )
 	{
 		RotatorFromQuat.Pitch = 90.f;
 		RotatorFromQuat.Yaw = FMath::Atan2(YawY, YawX) * RAD_TO_DEG;
@@ -319,28 +270,73 @@ FRotator FQuat::Rotator() const noexcept
 	}
 	else
 	{
-		RotatorFromQuat.Pitch = FMath::FastAsin(2.f * (SingularityTest)) * RAD_TO_DEG;
+		RotatorFromQuat.Pitch = FMath::FastAsin(2.0f * (SingularityTest)) * RAD_TO_DEG;
 		RotatorFromQuat.Yaw = FMath::Atan2(YawY, YawX) * RAD_TO_DEG;
-		RotatorFromQuat.Roll = FMath::Atan2(-2.f * (W * X + Y * Z), (1.f - 2.f * (FMath::Square(X) + FMath::Square(Y)))) * RAD_TO_DEG;
+		RotatorFromQuat.Roll = FMath::Atan2(-2.0f * (W * X + Y * Z), (1.0f - 2.0f * (FMath::Square(X) + FMath::Square(Y)))) * RAD_TO_DEG;
 	}
 
 	return RotatorFromQuat;
 }
 
-FVector3D FQuat::GetRotationAxis() const noexcept
+
+
+FQuat FQuat::Log() const noexcept
 {
-	const float SquareSum = X * X + Y * Y + Z * Z;
-	if (SquareSum < SMALL_NUMBER)
+	FQuat Result;
+	Result.W = 0.0f;
+
+	if( FMath::Abs(W) < 1.0f )
 	{
-		return FVector3D::XAxisVector;
+		const float Angle = FMath::Acos(W);
+		const float SinAngle = FMath::Sin(Angle);
+
+		if( FMath::Abs(SinAngle) >= SMALL_NUMBER )
+		{
+			const float Scale = Angle / SinAngle;
+			Result.X = Scale * X;
+			Result.Y = Scale * Y;
+			Result.Z = Scale * Z;
+
+			return Result;
+		}
 	}
 
-	const float Scale = FMath::InvSqrt(SquareSum);
-	return FVector3D(X * Scale, Y * Scale, Z * Scale);
+	Result.X = X;
+	Result.Y = Y;
+	Result.Z = Z;
+
+	return Result;
 }
 
+FQuat FQuat::Exp() const noexcept
+{
+	const float Angle = FMath::Sqrt(X * X + Y * Y + Z * Z);
+	const float SinAngle = FMath::Sin(Angle);
 
+	FQuat Result;
+	Result.W = FMath::Cos(Angle);
 
+	if( FMath::Abs(SinAngle) >= SMALL_NUMBER )
+	{
+		const float Scale = SinAngle / Angle;
+		Result.X = Scale * X;
+		Result.Y = Scale * Y;
+		Result.Z = Scale * Z;
+	}
+	else
+	{
+		Result.X = X;
+		Result.Y = Y;
+		Result.Z = Z;
+	}
+
+	return Result;
+}
+
+FVector3D FQuat::Euler() const noexcept
+{
+	return Rotator().Euler();
+}
 
 
 
@@ -349,21 +345,17 @@ FVector3D FQuat::GetRotationAxis() const noexcept
 FQuat FQuat::Slerp_NotNormalized(const FQuat& Quat1, const FQuat& Quat2, float Slerp) noexcept
 {
 	// Get cosine of angle between quats.
-	const float RawCosom =
-		Quat1.X * Quat2.X +
-		Quat1.Y * Quat2.Y +
-		Quat1.Z * Quat2.Z +
-		Quat1.W * Quat2.W;
+	const float RawCosom = Quat1.X * Quat2.X + Quat1.Y * Quat2.Y + Quat1.Z * Quat2.Z + Quat1.W * Quat2.W;
 	// Unaligned quats - compensate, results in taking shorter route.
 	const float Cosom = FMath::FloatSelect(RawCosom, RawCosom, -RawCosom);
 
 	float Scale0, Scale1;
 
-	if (Cosom < 0.9999f)
+	if( Cosom < 0.9999f )
 	{
 		const float Omega = FMath::Acos(Cosom);
-		const float InvSin = 1.f / FMath::Sin(Omega);
-		Scale0 = FMath::Sin((1.f - Slerp) * Omega) * InvSin;
+		const float InvSin = 1.0f / FMath::Sin(Omega);
+		Scale0 = FMath::Sin((1.0f - Slerp) * Omega) * InvSin;
 		Scale1 = FMath::Sin(Slerp * Omega) * InvSin;
 	}
 	else
@@ -388,18 +380,16 @@ FQuat FQuat::Slerp_NotNormalized(const FQuat& Quat1, const FQuat& Quat2, float S
 
 FQuat FQuat::SlerpFullPath_NotNormalized(const FQuat& quat1, const FQuat& quat2, float Alpha) noexcept
 {
-	const float CosAngle = FMath::Clamp(quat1 | quat2, -1.f, 1.f);
+	const float CosAngle = FMath::Clamp(quat1 | quat2, -1.0f, 1.0f);
 	const float Angle = FMath::Acos(CosAngle);
 
-	//UE_LOG(LogUnrealMath, Log,  TEXT("CosAngle: %f Angle: %f"), CosAngle, Angle );
-
-	if (FMath::Abs(Angle) < KINDA_SMALL_NUMBER)
+	if( FMath::Abs(Angle) < KINDA_SMALL_NUMBER )
 	{
 		return quat1;
 	}
 
 	const float SinAngle = FMath::Sin(Angle);
-	const float InvSinAngle = 1.f / SinAngle;
+	const float InvSinAngle = 1.0f / SinAngle;
 
 	const float Scale0 = FMath::Sin((1.0f - Alpha) * Angle) * InvSinAngle;
 	const float Scale1 = FMath::Sin(Alpha * Angle) * InvSinAngle;
@@ -415,6 +405,7 @@ FQuat FQuat::MakeFromEuler(const FVector3D& Euler) noexcept
 }
 
 
+
 //
 // Based on:
 // http://lolengine.net/blog/2014/02/24/quaternion-from-two-vectors-final
@@ -425,21 +416,16 @@ FQuat FindBetween_Helper(const FVector3D& A, const FVector3D& B, float NormAB)
 	float W = NormAB + FVector3D::DotProduct(A, B);
 	FQuat Result;
 
-	if (W >= 1e-6f * NormAB)
+	if( W >= 1e-6f * NormAB )
 	{
 		//Axis = FVector::CrossProduct(A, B);
-		Result = FQuat(A.Y * B.Z - A.Z * B.Y,
-			A.Z * B.X - A.X * B.Z,
-			A.X * B.Y - A.Y * B.X,
-			W);
+		Result = FQuat(A.Y * B.Z - A.Z * B.Y, A.Z * B.X - A.X * B.Z, A.X * B.Y - A.Y * B.X, W);
 	}
 	else
 	{
 		// A and B point in opposite directions
-		W = 0.f;
-		Result = FMath::Abs(A.X) > FMath::Abs(A.Y)
-			? FQuat(-A.Z, 0.f, A.X, W)
-			: FQuat(0.f, -A.Z, A.Y, W);
+		W = 0.0f;
+		Result = FMath::Abs(A.X) > FMath::Abs(A.Y) ? FQuat(-A.Z, 0.0f, A.X, W) : FQuat(0.0f, -A.Z, A.Y, W);
 	}
 
 	Result.Normalize();
@@ -448,7 +434,7 @@ FQuat FindBetween_Helper(const FVector3D& A, const FVector3D& B, float NormAB)
 
 FQuat FQuat::FindBetweenNormals(const FVector3D& Normal1, const FVector3D& Normal2) noexcept
 {
-	const float NormAB = 1.f;
+	const float NormAB = 1.0f;
 	return FindBetween_Helper(Normal1, Normal2, NormAB);
 }
 

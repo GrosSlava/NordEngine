@@ -23,7 +23,7 @@ struct ENGINE_API TArray
 public:
 
 	TArray() = default;
-	FORCEINLINE TArray(SIZE_T InitSize) : Size(InitSize), Capacity(InitSize) { Data = static_cast<T*>(FMemory::Malloc(sizeof(T) * InitSize)); }
+	FORCEINLINE TArray(uint32 InitSize) : Size(InitSize), Capacity(InitSize) { Data = static_cast<T*>(FMemory::Malloc(sizeof(T) * InitSize)); }
 	FORCEINLINE TArray(const TArray& Other) : Size(Other.Size), Capacity(Other.Size)
 	{
 		Data = static_cast<T*>(FMemory::Malloc(sizeof(T) * Size));
@@ -77,8 +77,8 @@ public:
 
 public:
 
-	FORCEINLINE T& operator[](SIZE_T Index) { return At(Index); }
-	FORCEINLINE const T& operator[](SIZE_T Index) const { return At(Index); }
+	FORCEINLINE T& operator[](uint32 Index) { return At(Index); }
+	FORCEINLINE const T& operator[](uint32 Index) const { return At(Index); }
 
 public:
 
@@ -92,7 +92,7 @@ public:
 	/**
 		Allocate memory for give count of elements.
 	*/
-	FORCEINLINE void Reserve(SIZE_T NewSize)
+	FORCEINLINE void Reserve(uint32 NewSize)
 	{
 		if( NewSize > Capacity )
 		{
@@ -126,21 +126,17 @@ public:
 	/**
 		Empty array without physical resizing to 0.
 	*/
-	FORCEINLINE void Empty()
+	FORCEINLINE void Clear()
 	{
 		DestructItems(Data, Size);
 		Size = 0;
 	}
 	/**
-		Clear array without physical resizing to 0.
-	*/
-	FORCEINLINE void Clear() { Empty(); }
-	/**
 		Physically risize to 0 size.
 	*/
 	FORCEINLINE void Reset()
 	{
-		Empty();
+		Clear();
 		FMemory::Free(Data);
 		Capacity = 0;
 		Data = nullptr;
@@ -151,7 +147,7 @@ public:
 	/**
 		Access element at index.
 	*/
-	FORCEINLINE T& At(SIZE_T Index)
+	FORCEINLINE T& At(uint32 Index)
 	{
 		check(Index < Size);
 		return Data[Index];
@@ -159,7 +155,7 @@ public:
 	/**
 		Access element at index.
 	*/
-	FORCEINLINE const T& At(SIZE_T Index) const
+	FORCEINLINE const T& At(uint32 Index) const
 	{
 		check(Index < Size);
 		return Data[Index];
@@ -182,15 +178,15 @@ public:
 	/**
 		@return Count of elements in the array.
 	*/
-	FORCEINLINE SIZE_T GetSize() const noexcept { return Size; }
+	FORCEINLINE uint32 GetSize() const noexcept { return Size; }
 	/**
 		@return Count of elements in the array.
 	*/
-	FORCEINLINE SIZE_T Num() const noexcept { return Size; }
+	FORCEINLINE uint32 Num() const noexcept { return Size; }
 	/**
 		@return Capacity of the array.
 	*/
-	FORCEINLINE SIZE_T GetCapacity() const noexcept { return Capacity; }
+	FORCEINLINE uint32 GetCapacity() const noexcept { return Capacity; }
 	/**
 		Check that array is empty.
 	*/
@@ -208,13 +204,6 @@ public:
 
 		Back() = MoveTemp(Elem);
 	}
-	FORCEINLINE void PushBack(T&& Elem) noexcept
-	{
-		++Size;
-		Reserve(Size);
-
-		Back() = Elem;
-	}
 	/**
 		Add Elem to the begin of array.
 	*/
@@ -223,22 +212,13 @@ public:
 		++Size;
 		Reserve(Size);
 
-		FMemory::MemCpyFromEnd(Data + 1, Data, sizeof(T) * (Size - 1));
+		FMemory::MemMove(Data + 1, Data, sizeof(T) * (Size - 1));
 		begin() = MoveTemp(Elem);
-	}
-	FORCEINLINE void PushFront(T&& Elem) noexcept
-	{
-		++Size;
-		Reserve(Size);
-
-		FMemory::MemCpyFromEnd(Data + 1, Data, sizeof(T) * (Size - 1));
-		begin() = Elem;
 	}
 	/**
 		Add Elem to the end of array.
 	*/
 	FORCEINLINE void Add(T Elem) { PushBack(MoveTemp(Elem)); }
-	FORCEINLINE void Add(T&& Elem) noexcept { PushBack(Elem); }
 	/**
 		Add Elem to the end of the array, unless it is already in the array.
 	*/
@@ -246,11 +226,6 @@ public:
 	{
 		if( Contains(Elem) ) return;
 		Add(MoveTemp(Elem));
-	}
-	FORCEINLINE void AddUnique(T&& Elem) noexcept
-	{
-		if( Contains(Elem) ) return;
-		Add(Elem);
 	}
 
 	/**
@@ -277,52 +252,36 @@ public:
 	/**
 		Add Elem at position index and shift rigth other elements.
 	*/
-	FORCEINLINE void Insert(SIZE_T Index, T Elem)
+	FORCEINLINE void Insert(uint32 Index, T Elem)
 	{
 		check(Index < Size);
 		++Size;
 		Reserve(Size);
 
-		FMemory::MemCpyFromEnd(Data + Index + 1, Data + Index, sizeof(T) * (Size - Index - 1));
+		FMemory::MemMove(Data + Index + 1, Data + Index, sizeof(T) * (Size - Index - 1));
 		At(Index) = MoveTemp(Elem);
-	}
-	FORCEINLINE void Insert(SIZE_T Index, T&& Elem) noexcept
-	{
-		check(Index < Size);
-		++Size;
-		Reserve(Size);
-
-		FMemory::MemCpyFromEnd(Data + Index + 1, Data + Index, sizeof(T) * (Size - Index - 1));
-		At(Index) = Elem;
 	}
 
 	/**
 		Add Elem after stored elem at Index.
 		New elem will be at position = Index + 1
 	*/
-	FORCEINLINE void AddAfter(SIZE_T Index, T Elem)
+	FORCEINLINE void AddAfter(uint32 Index, T Elem)
 	{
 		check(Index < Size);
 		++Size;
 		Reserve(Size);
 
-		FMemory::MemCpyFromEnd(Data + Index + 2, Data + Index + 1, sizeof(T) * (Size - Index - 2));
+		FMemory::MemMove(Data + Index + 2, Data + Index + 1, sizeof(T) * (Size - Index - 2));
 		At(Index + 1) = MoveTemp(Elem);
-	}
-	FORCEINLINE void AddAfter(SIZE_T Index, T&& Elem) noexcept
-	{
-		check(Index < Size);
-		++Size;
-		Reserve(Size);
-
-		FMemory::MemCpyFromEnd(Data + Index + 2, Data + Index + 1, sizeof(T) * (Size - Index - 2));
-		At(Index + 1) = Elem;
 	}
 
 	/**
 		Remove element at Index.
+
+		@param Index - The index of the first element to remove.
 	*/
-	FORCEINLINE void RemoveAt(SIZE_T Index)
+	FORCEINLINE void RemoveAt(uint32 Index)
 	{
 		check(Index < Size);
 		--Size;
@@ -331,9 +290,28 @@ public:
 		FMemory::MemCpy(Data + Index, Data + Index + 1, sizeof(T) * (Size - Index));
 	}
 	/**
-		Remove element at index and swapping it with last element.
+		Remove element at Index.
+
+		@param Index - The index of the first element to remove.
+		@param Count - The number of elements to remove.
 	*/
-	FORCEINLINE void RemoveAtSwap(SIZE_T Index)
+	FORCEINLINE void RemoveAt(uint32 Index, uint32 Count)
+	{
+		check(Index < Size);
+		if( Index + Count > Size ) Count = Size - Index;
+		if( Count == 0 ) return;
+
+		Size -= Count;
+		DestructItems(Data + Index, Count);
+
+		FMemory::MemCpy(Data + Index, Data + Index + Count, sizeof(T) * (Size - Index));
+	}
+	/**
+		Remove element at index and swapping it with last element.
+
+		@param Index - The index of the first element to remove.
+	*/
+	FORCEINLINE void RemoveAtSwap(uint32 Index)
 	{
 		check(Index < Size);
 		--Size;
@@ -384,14 +362,14 @@ public:
 	/**
 		@return index of first found Elem by operator==. If not found return -1
 	*/
-	FORCEINLINE SIZE_T Find(const T& Elem) const noexcept
+	FORCEINLINE uint32 Find(const T& Elem) const noexcept
 	{
 		const T* p = begin();
 		while( p != end() )
 		{
 			if( *p == Elem )
 			{
-				return p - begin();
+				return static_cast<uint32>(p - begin());
 			}
 			++p;
 		}
@@ -419,9 +397,9 @@ private:
 	/**
 		Count of elements in the array.
 	*/
-	SIZE_T Size = 0;
+	uint32 Size = 0;
 	/**
 		Allocated memory for elements count.
 	*/
-	SIZE_T Capacity = 0;
+	uint32 Capacity = 0;
 };

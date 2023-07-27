@@ -15,8 +15,28 @@ public:
 	FStringBuffer() = default;
 	FStringBuffer(const FStringBuffer& Other) = delete;
 	FORCEINLINE FStringBuffer(FStringBuffer&& Other) noexcept : str(Other.str), StringLength(Other.StringLength), BufferSize(Other.BufferSize) { Other.Clear(); }
-	FORCEINLINE ~FStringBuffer() { Reset(); }
+	FORCEINLINE explicit FStringBuffer(uint32 Size) noexcept { Resize(Size); }
+	FORCEINLINE ~FStringBuffer() noexcept { Reset(); }
 
+
+public:
+
+	FStringBuffer& operator=(const FStringBuffer& Other) = delete;
+	FORCEINLINE FStringBuffer& operator=(FStringBuffer&& Other) noexcept
+	{
+		if( str != nullptr )
+		{
+			FMemory::Free(str);
+		}
+
+		str = Other.str;
+		StringLength = Other.StringLength;
+		BufferSize = Other.BufferSize;
+
+		Other.Clear();
+
+		return *this;
+	}
 
 public:
 
@@ -25,8 +45,10 @@ public:
 
 public:
 
-	FORCEINLINE TCHAR* begin() const noexcept { return str; }
-	FORCEINLINE TCHAR* end() const { return &str[StringLength]; }
+	FORCEINLINE const TCHAR* begin() const noexcept { return str; }
+	FORCEINLINE TCHAR* begin() noexcept { return str; }
+	FORCEINLINE const TCHAR* end() const noexcept { return str + StringLength; }
+	FORCEINLINE TCHAR* end() noexcept { return str + StringLength; }
 
 public:
 
@@ -38,31 +60,37 @@ public:
 	/**
 		Resize string by new length and null terminate it.
 	*/
-	void Resize(uint32 NewStringLength)
+	FORCEINLINE void Resize(uint32 NewStringLength) noexcept
 	{
 		if( StringLength == NewStringLength ) return;
 
 		StringLength = NewStringLength;
-		if( StringLength > BufferSize )
-		{
-			BufferSize = StringLength * 2;
-
-			if( str != nullptr )
-			{
-				str = static_cast<TCHAR*>(FMemory::Realloc(str, BufferSize + 1));
-			}
-			else
-			{
-				str = static_cast<TCHAR*>(FMemory::Malloc(BufferSize + 1));
-			}
-		}
+		Reserve(StringLength * 2);
 
 		str[StringLength] = '\0';
 	}
 	/**
+		Allocate memory for buffer.
+	*/
+	FORCEINLINE void Reserve(uint32 NewBufferSize) noexcept
+	{
+		if( NewBufferSize <= BufferSize ) return;
+		
+		BufferSize = NewBufferSize;
+
+		if( str != nullptr )
+		{
+			str = static_cast<TCHAR*>(FMemory::Realloc(str, BufferSize + 1));
+		}
+		else
+		{
+			str = static_cast<TCHAR*>(FMemory::Malloc(BufferSize + 1));
+		}
+	}
+	/**
 		Manual set by buffer.
 	*/
-	FORCEINLINE void SetBuffer(TCHAR* NewBuffer)
+	FORCEINLINE void SetBuffer(TCHAR* NewBuffer) noexcept
 	{
 		StringLength = BufferSize = FPlatformString::Strlen(NewBuffer);
 
@@ -73,11 +101,21 @@ public:
 
 		str = NewBuffer;
 	}
+	FORCEINLINE void SetBuffer(TCHAR* NewBuffer, uint32 Size) noexcept
+	{
+		StringLength = BufferSize = Size;
 
+		if( str != nullptr )
+		{
+			FMemory::Free(str);
+		}
+
+		str = NewBuffer;
+	}
 	/**
 		It will delete stored string.
 	*/
-	FORCEINLINE void Reset()
+	FORCEINLINE void Reset() noexcept
 	{
 		if( str != nullptr )
 		{
@@ -89,7 +127,7 @@ public:
 	/**
 		It will not delete stored string.
 	*/
-	FORCEINLINE void Clear()
+	FORCEINLINE void Clear() noexcept
 	{
 		str = nullptr;
 		StringLength = 0;
@@ -98,7 +136,7 @@ public:
 
 public:
 
-	FORCEINLINE TCHAR* GetBuffer() const noexcept { return str; }
+	FORCEINLINE TCHAR* const GetBuffer() const noexcept { return str; }
 	FORCEINLINE uint32 GetLength() const noexcept { return StringLength; }
 	FORCEINLINE uint32 GetBufferSize() const noexcept { return BufferSize; }
 
@@ -113,9 +151,9 @@ private:
 	/**
 		Current string length.
 	*/
-	int32 StringLength = 0;
+	uint32 StringLength = 0;
 	/**
 		String buffer capacity.
 	*/
-	int32 BufferSize = 0;
+	uint32 BufferSize = 0;
 };
