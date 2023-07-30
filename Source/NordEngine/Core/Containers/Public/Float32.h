@@ -34,3 +34,9 @@ public:
 		float FloatValue = 0.0f;
 	};
 };
+
+
+FORCEINLINE uint64 GetTypeHash(FFloat32 Value) noexcept
+{
+	return *(uint32*)&(Value.FloatValue);
+}

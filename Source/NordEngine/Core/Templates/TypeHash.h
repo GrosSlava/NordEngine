@@ -33,80 +33,70 @@ FORCEINLINE uint32 HashCombine(uint32 A, uint32 C) noexcept
 	return C;
 }
 
-/**
-	Hash by pointer.
-*/
-FORCEINLINE uint32 PointerHash(const void* Key, uint32 C = 0) noexcept
-{
-	auto PtrInt = reinterpret_cast<UPTRINT>(Key);
-
-	return HashCombine((uint32)PtrInt, C);
-}
-
 //............Hash functions for common types..........................//
 
-FORCEINLINE uint32 GetTypeHash(const uint8 A) noexcept
+FORCEINLINE uint64 GetTypeHash(const uint8 A) noexcept
 {
 	return A;
 }
 
-FORCEINLINE uint32 GetTypeHash(const int8 A) noexcept
+FORCEINLINE uint64 GetTypeHash(const int8 A) noexcept
 {
 	return A;
 }
 
-FORCEINLINE uint32 GetTypeHash(const uint16 A) noexcept
+FORCEINLINE uint64 GetTypeHash(const uint16 A) noexcept
 {
 	return A;
 }
 
-FORCEINLINE uint32 GetTypeHash(const int16 A) noexcept
+FORCEINLINE uint64 GetTypeHash(const int16 A) noexcept
 {
 	return A;
 }
 
-FORCEINLINE uint32 GetTypeHash(const int32 A) noexcept
+FORCEINLINE uint64 GetTypeHash(const int32 A) noexcept
 {
 	return A;
 }
 
-FORCEINLINE uint32 GetTypeHash(const uint32 A) noexcept
+FORCEINLINE uint64 GetTypeHash(const uint32 A) noexcept
 {
 	return A;
 }
 
-FORCEINLINE uint32 GetTypeHash(const uint64 A) noexcept
+FORCEINLINE uint64 GetTypeHash(const uint64 A) noexcept
 {
-	return (uint32)A + ((uint32)(A >> 32) * 23);
+	return A;
 }
 
 FORCEINLINE uint32 GetTypeHash(const int64 A) noexcept
 {
-	return (uint32)A + ((uint32)(A >> 32) * 23);
+	return A;
 }
 
-FORCEINLINE uint32 GetTypeHash(float Value) noexcept
+FORCEINLINE uint64 GetTypeHash(float Value) noexcept
 {
 	return *(uint32*)&Value;
 }
 
-FORCEINLINE uint32 GetTypeHash(double Value) noexcept
+FORCEINLINE uint64 GetTypeHash(double Value) noexcept
 {
-	return GetTypeHash(*(uint64*)&Value);
+	return *(uint64*)&Value;
 }
 
-FORCEINLINE uint32 GetTypeHash(const void* A) noexcept
+FORCEINLINE uint64 GetTypeHash(const void* Value) noexcept
 {
-	return PointerHash(A);
+	return reinterpret_cast<UPTRINT>(Value);
 }
 
-FORCEINLINE uint32 GetTypeHash(void* A) noexcept
+FORCEINLINE uint64 GetTypeHash(void* Value) noexcept
 {
-	return PointerHash(A);
+	return reinterpret_cast<UPTRINT>(Value);
 }
 
 template<typename EnumType>
-FORCEINLINE typename TEnableIf<TIsEnum<EnumType>::Value, uint32>::Type GetTypeHash(EnumType E) noexcept
+FORCEINLINE typename TEnableIf<TIsEnum<EnumType>::Value, uint64>::Type GetTypeHash(EnumType E) noexcept
 {
 	return GetTypeHash((__underlying_type(EnumType))E);
 }

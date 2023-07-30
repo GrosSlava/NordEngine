@@ -527,7 +527,14 @@ public:
 };
 
 
-FORCEINLINE uint32 GetTypeHash(const FColor& Color) noexcept
+
+FORCEINLINE uint64 GetTypeHash(const FColor& Color) noexcept
 {
 	return Color.DWColor();
+}
+
+FORCEINLINE uint64 GetTypeHash(const FLinearColor& Color) noexcept
+{
+	const double tmp = static_cast<double>(Color.R) + static_cast<double>(Color.G) * 257.0 + static_cast<double>(Color.B) * 557.0 + static_cast<double>(Color.A) * 977.0;
+	return *(uint64*)&(tmp);
 }

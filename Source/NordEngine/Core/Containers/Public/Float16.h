@@ -96,3 +96,9 @@ public:
 		uint16 Encoded;
 	};
 };
+
+
+FORCEINLINE uint64 GetTypeHash(FFloat16 Value) noexcept
+{
+	return Value.Encoded;
+}

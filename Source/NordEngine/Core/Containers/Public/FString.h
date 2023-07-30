@@ -1063,3 +1063,26 @@ private:
 	*/
 	FStringBuffer StringBuffer;
 };
+
+
+
+namespace FString_Private
+{
+/**
+	Table of 65537^x where x in [0, 1023]
+*/
+extern const uint64 StringP[1024];
+}
+
+FORCEINLINE uint64 GetTypeHash(const FString& S) noexcept
+{
+	check(S.Length() <= 1024);
+
+	uint64 Result = 0;
+	for( uint32 i = 0; i < S.Length(); ++i )
+	{
+		Result += static_cast<uint64>(S[i]) * FString_Private::StringP[i];
+	}
+
+	return Result;
+}

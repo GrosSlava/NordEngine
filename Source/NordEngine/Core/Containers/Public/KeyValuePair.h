@@ -2,6 +2,7 @@
 #pragma once
 
 #include "GenericPlatform.h"
+#include "MoveSemantic.h"
 
 
 
@@ -15,8 +16,11 @@ struct TKeyValuePair
 public:
 
 	TKeyValuePair() = default;
-	FORCEINLINE TKeyValuePair(const KeyType& InKey, const ValueType& InValue) : Key(InKey), Value(InValue) { }
-	FORCEINLINE TKeyValuePair(const KeyType& InKey) : Key(InKey) { }
+	FORCEINLINE TKeyValuePair(KeyType InKey, ValueType InValue) noexcept : Key(MoveTemp(InKey)), Value(MoveTemp(InValue)) { }
+	FORCEINLINE TKeyValuePair(KeyType&& InKey, ValueType&& InValue) noexcept : Key(MoveTemp(InKey)), Value(MoveTemp(InValue)) { }
+	FORCEINLINE TKeyValuePair(KeyType InKey) noexcept : Key(MoveTemp(InKey)) { }
+	FORCEINLINE TKeyValuePair(KeyType&& InKey) noexcept : Key(MoveTemp(InKey)) { }
+	~TKeyValuePair() = default;
 
 
 public:

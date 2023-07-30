@@ -53,6 +53,8 @@ public:
 
 		Reserve(Other.Size);
 		CopyAssignItems(Data, Other.Data, Other.Size);
+
+		return *this;
 	}
 	FORCEINLINE TArray& operator=(TArray&& Other) noexcept
 	{
@@ -66,6 +68,8 @@ public:
 		Other.Data = nullptr;
 		Other.Size = 0;
 		Other.Capacity = 0;
+
+		return *this;
 	}
 	FORCEINLINE TArray& operator=(TInitializerList<T> InitList)
 	{
@@ -73,6 +77,8 @@ public:
 
 		Reserve(InitList.Size());
 		CopyAssignItems(Data, InitList.begin(), Other.Size);
+
+		return *this;
 	}
 
 public:
@@ -137,7 +143,10 @@ public:
 	FORCEINLINE void Reset()
 	{
 		Clear();
-		FMemory::Free(Data);
+		if( Data )
+		{
+			FMemory::Free(Data);
+		}
 		Capacity = 0;
 		Data = nullptr;
 	}

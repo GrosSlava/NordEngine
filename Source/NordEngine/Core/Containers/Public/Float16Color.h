@@ -59,3 +59,9 @@ public:
 	FFloat16 B;
 	FFloat16 A;
 };
+
+
+FORCEINLINE uint64 GetTypeHash(const FFloat16Color& Color)
+{
+	return *(uint64*)&Color;
+}
