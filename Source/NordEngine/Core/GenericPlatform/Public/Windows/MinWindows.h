@@ -1,21 +1,19 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
-#include "GenericPlatform.h"
-
 #ifndef WINDOWS_H_WRAPPER
-	#error Do not include PreWindowsAPI directly!
+#error Do not include PreWindowsAPI directly!
 #endif
 
 #if !PLATFORM_WINDOWS
-	#error PLATFORM_WINDOWS not defined!
+#error PLATFORM_WINDOWS not defined!
 #endif
 
 #if defined(_WINDOWS_) && !defined(MINIMAL_WINDOWS_INCLUDE)
-	#pragma message ( " " )
-	#pragma message ( "You have included windows.h before MinWindows.h" )
-	#pragma message ( "All useless stuff from the windows headers won't be excluded !!!" )
-	#pragma message ( " " )
+#pragma message(" ")
+#pragma message("You have included windows.h before MinWindows.h")
+#pragma message("All useless stuff from the windows headers won't be excluded !!!")
+#pragma message(" ")
 #endif
 
 #define MINIMAL_WINDOWS_INCLUDE
@@ -26,9 +24,11 @@
 // WIN32_LEAN_AND_MEAN excludes rarely-used services from windows headers.
 #define WIN32_LEAN_AND_MEAN
 
+// clang-format off
+
 // The below excludes some other unused services from the windows headers -- see windows.h for details.
 #define NOGDICAPMASKS			// CC_*, LC_*, PC_*, CP_*, TC_*, RC_
-//#define NOVIRTUALKEYCODES		// VK_*
+#define NOVIRTUALKEYCODES		// VK_*
 //#define NOWINMESSAGES			// WM_*, EM_*, LB_*, CB_*
 //#define NOWINSTYLES			// WS_*, CS_*, ES_*, LBS_*, SBS_*, CBS_*
 //#define NOSYSMETRICS			// SM_*
@@ -57,7 +57,7 @@
 #define NOSCROLL				// SB_* and scrolling routines
 #define NOSERVICE				// All Service Controller routines, SERVICE_ equates, etc.
 #define NOSOUND					// Sound driver routines
-//#define NOTEXTMETRIC			// typedef TEXTMETRIC and associated routines
+#define NOTEXTMETRIC			// typedef TEXTMETRIC and associated routines
 //#define NOWH					// SetWindowsHook and WH_*
 //#define NOWINOFFSETS			// GWL_*, GCL_*, associated routines
 #define NOCOMM					// COMM driver routines
@@ -76,6 +76,10 @@
 #ifndef STRICT
 	#define STRICT
 #endif
+
+//clang-format on
+
+
 
 // Finally now we can include windows.h
 #include <Windows.h>

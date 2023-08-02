@@ -20,7 +20,7 @@ struct TSetEntry
 };
 
 template<typename K>
-struct TSetBucket
+struct ENGINE_API TSetBucket
 {
 public:
 
@@ -45,7 +45,7 @@ public:
 
 public:
 
-	FORCEINLINE bool Insert(K&& Key, uint64 Hash) noexcept
+	FORCEINLINE bool Insert(K&& Key, uint64 Hash)
 	{
 		TSetEntry<K>* TergetEntry = begin();
 		TSetEntry<K>* EntryEnd = end();
@@ -103,7 +103,7 @@ public:
 
 	FORCEINLINE bool Contains(uint64 Hash) const noexcept { return Find(Hash) != nullptr; }
 
-	FORCEINLINE void Remove(uint64 Hash) noexcept
+	FORCEINLINE void Remove(uint64 Hash)
 	{
 		TSetEntry<K>* Entry = begin();
 		TSetEntry<K>* EntryEnd = end();
@@ -120,7 +120,7 @@ public:
 		FMemory::MemCpy(Entry, Entry + 1, sizeof(TSetEntry<K>) * (end() - Entry));
 	}
 
-	FORCEINLINE void Clear() noexcept
+	FORCEINLINE void Clear()
 	{
 		Size = 0;
 		Capacity = 0;
@@ -131,13 +131,13 @@ public:
 		}
 	}
 
-	FORCEINLINE void ClearWithDestructors() noexcept
+	FORCEINLINE void ClearWithDestructors()
 	{
 		DestructItems(Data, Size);
 		Clear();
 	}
 
-	FORCEINLINE void Reserve(uint32 NewCapacity) noexcept
+	FORCEINLINE void Reserve(uint32 NewCapacity)
 	{
 		if( NewCapacity <= Capacity ) return;
 
@@ -169,7 +169,7 @@ private:
 	@see GetTypeHash.
 */
 template<typename K>
-struct TSet
+struct ENGINE_API TSet
 {
 private:
 
@@ -178,7 +178,7 @@ private:
 public:
 
 	TSet() = default;
-	FORCEINLINE TSet(const TSet& Other) noexcept : Size(Other.Size), FillCount(Other.FillCount)
+	FORCEINLINE TSet(const TSet& Other) : Size(Other.Size), FillCount(Other.FillCount)
 	{
 		Data = static_cast<TSetBucket<K>*>(malloc(sizeof(TSetBucket<K>) * Size));
 
@@ -199,7 +199,7 @@ public:
 		Other.Size = 0;
 		Other.FillCount = 0;
 	}
-	FORCEINLINE TSet(TInitializerList<K> InitList) noexcept
+	FORCEINLINE TSet(TInitializerList<K> InitList)
 	{
 		Resize(InitialSize * (InitList.Size() / InitialSize + 1));
 		for( const K& Key : InitList )
@@ -260,7 +260,7 @@ public:
 
 		@param Key - The key to insert.
 	*/
-	FORCEINLINE void Insert(K Key) noexcept
+	FORCEINLINE void Insert(K Key)
 	{
 		if( IsEmpty() )
 		{
@@ -302,7 +302,7 @@ public:
 		Try to remove Key from the map.
 		If Key not in map then will have no effect. 
 	*/
-	FORCEINLINE void Remove(const K& Key) noexcept
+	FORCEINLINE void Remove(const K& Key)
 	{
 		if( IsEmpty() ) return;
 		const uint64 Hash = GetTypeHash(Key);
@@ -312,7 +312,7 @@ public:
 	/**
 		Empty map without physical resizing to 0.
 	*/
-	FORCEINLINE void Clear() noexcept
+	FORCEINLINE void Clear()
 	{
 		for( uint32 i = 0; i < Size; ++i )
 		{
@@ -322,7 +322,7 @@ public:
 	/**
 		Physically risize to 0 size.
 	*/
-	FORCEINLINE void Reset() noexcept
+	FORCEINLINE void Reset()
 	{
 		Clear();
 		if( Data )
@@ -334,7 +334,7 @@ public:
 
 private:
 
-	FORCEINLINE void InsertHash(uint64 Hash, K&& Key) noexcept
+	FORCEINLINE void InsertHash(uint64 Hash, K&& Key)
 	{
 		const uint64 BucketIndex = GetBucketIndex(Hash);
 
@@ -354,7 +354,7 @@ private:
 
 		return Data[BucketIndex].Contains(Hash);
 	}
-	FORCEINLINE void RemoveHash(uint64 Hash) noexcept
+	FORCEINLINE void RemoveHash(uint64 Hash)
 	{
 		const uint64 BucketIndex = GetBucketIndex(Hash);
 
@@ -372,7 +372,7 @@ private:
 		const uint64 BucketIndex = Hash % Size;
 	}
 
-	void Resize(uint32 NewSize) noexcept
+	void Resize(uint32 NewSize)
 	{
 		if( NewSize <= Size ) return;
 

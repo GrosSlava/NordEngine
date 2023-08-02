@@ -52,24 +52,24 @@
 	//TODO
 #else
 #define PRAGMA_DISABLE_DEPRECATION_WARNINGS \
-			__pragma (warning(push)) \
-			__pragma (warning(disable: 4995)) /* 'function': name was marked as #pragma deprecated */ \
-			__pragma (warning(disable: 4996)) /* The compiler encountered a deprecated declaration. */
+			__pragma(warning(push)) \
+			__pragma(warning(disable: 4995)) /* 'function': name was marked as #pragma deprecated */ \
+			__pragma(warning(disable: 4996)) /* The compiler encountered a deprecated declaration. */
 
 #define PRAGMA_ENABLE_DEPRECATION_WARNINGS \
-			__pragma (warning(pop))
+			__pragma(warning(pop))
 #endif
 
 #if defined(__clang__) || defined(__GNUC__)
 	//TODO
 #else
 #define PRAGMA_DISABLE_SHADOW_VARIABLE_WARNINGS \
-			__pragma (warning(push)) \
-			__pragma (warning(disable: 4456)) /* declaration of 'LocalVariable' hides previous local declaration */ \
-			__pragma (warning(disable: 4457)) /* declaration of 'LocalVariable' hides function parameter */ \
-			__pragma (warning(disable: 4458)) /* declaration of 'LocalVariable' hides class member */ \
-			__pragma (warning(disable: 4459)) /* declaration of 'LocalVariable' hides global declaration */ \
-			__pragma (warning(disable: 6244)) /* local declaration of <variable> hides previous declaration at <line> of <file> */
+			__pragma(warning(push)) \
+			__pragma(warning(disable: 4456)) /* declaration of 'LocalVariable' hides previous local declaration */ \
+			__pragma(warning(disable: 4457)) /* declaration of 'LocalVariable' hides function parameter */ \
+			__pragma(warning(disable: 4458)) /* declaration of 'LocalVariable' hides class member */ \
+			__pragma(warning(disable: 4459)) /* declaration of 'LocalVariable' hides global declaration */ \
+			__pragma(warning(disable: 6244)) /* local declaration of <variable> hides previous declaration at <line> of <file> */
 
 #define PRAGMA_ENABLE_SHADOW_VARIABLE_WARNINGS \
 			__pragma(warning(pop))
@@ -79,8 +79,8 @@
 	//TODO
 #else
 #define PRAGMA_DISABLE_UNSAFE_TYPECAST_WARNINGS \
-			__pragma (warning(push)) \
-			__pragma (warning(disable: 4244)) /* 'argument': conversion from 'type1' to 'type2', possible loss of data */
+			__pragma(warning(push)) \
+			__pragma(warning(disable: 4244)) /* 'argument': conversion from 'type1' to 'type2', possible loss of data */
 
 #define PRAGMA_ENABLE_UNSAFE_TYPECAST_WARNINGS \
 			__pragma(warning(pop))
@@ -225,9 +225,6 @@
 #endif
 #ifndef RESTRICT
 	#define RESTRICT			/* no alias hint */
-#endif
-#ifndef ABSTRACT
-	#define ABSTRACT
 #endif
 
 #ifndef LINE_TERMINATOR

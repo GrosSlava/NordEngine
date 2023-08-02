@@ -2,6 +2,7 @@
 #pragma once
 
 #include "GenericPlatform.h"
+
 #include <cassert>
 
 
@@ -41,39 +42,36 @@
 
 #if DO_CHECK
 
-#define checkCode(Code) \
-	do                  \
-	{                   \
-		Code;           \
-	} while( false );
+struct FCheckCodePrivate
+{
+	static void ShowStackTrace(const TCHAR* S);
+};
 
 /** 
 	Halts execution if Expression is false. 
 */
-#define CHECK_IMPL(expr)                          \
-	{                                             \
-		if( UNLIKELY(!(expr)) )                   \
-		{                                         \
-			/* TODO DEBUG LOGG and stack trace */ \
-			PLATFORM_BREAK();                     \
-		}                                         \
+#define CHECK_IMPL(expr)                                              \
+	{                                                                 \
+		if( UNLIKELY(!(expr)) )                                       \
+		{                                                             \
+			FCheckCodePrivate::ShowStackTrace(TEXT("Error handled")); \
+			PLATFORM_BREAK();                                         \
+		}                                                             \
 	}
-#define verify(expr) CHECK_IMPL(expr)
 #define check(expr) CHECK_IMPL(expr)
 
 /** 
 	Halts execution if Expression is false.
 */
-#define CHECK_F_IMPL(expr, format, ...)           \
-	{                                             \
-		if( UNLIKELY(!(expr)) )                   \
-		{                                         \
-			/* TODO DEBUG LOGG and stack trace */ \
-			PLATFORM_BREAK();                     \
-		}                                         \
+#define CHECK_F_IMPL(expr, msg)                     \
+	{                                               \
+		if( UNLIKELY(!(expr)) )                     \
+		{                                           \
+			FCheckCodePrivate::ShowStackTrace(msg); \
+			PLATFORM_BREAK();                       \
+		}                                           \
 	}
-#define verifyf(expr, format, ...) CHECK_F_IMPL(expr, format, ##__VA_ARGS__)
-#define checkf(expr, format, ...) CHECK_F_IMPL(expr, format, ##__VA_ARGS__)
+#define checkf(expr, msg) CHECK_F_IMPL(expr, msg)
 
 struct FRecursionScopeMarker
 {
@@ -114,14 +112,11 @@ private:
 
 #else //DO_CHECK
 
-#define checkCode(...)
 #define check(expr)
-#define checkf(expr, format, ...)
+#define checkf(expr, msg)
 #define checkNoEntry()
 #define checkNoReentry()
 #define checkNoRecursion()
-#define verify(expr)
-#define verifyf(expr, format, ...)
 #define unimplemented()
 
 #endif //DO_CHECK

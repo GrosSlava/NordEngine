@@ -1,7 +1,11 @@
+// Copyright Nord Engine. All Rights Reserved.
+#include "GenericPlatform.h"
+#if PLATFORM_WINDOWS
 
 #include "Windows/MinimalWindowsApi.h"
 #include "Windows/WindowsHWrapper.h"
 #include "CommonMacros.h"
+
 
 
 
@@ -11,7 +15,7 @@ static_assert(WINDOWS_MAX_PATH == MAX_PATH, "Value of WINDOWSAPI_MAX_PATH is not
 static_assert(WINDOWS_PF_COMPARE_EXCHANGE128 == PF_COMPARE_EXCHANGE128, "Value of WINDOWS_PF_COMPARE_EXCHANGE128 is not correct");
 
 // Check that AllocTlsSlot() returns INDEX_NONE on failure
-static_assert(static_cast<uint32>(INDEX_NONE) == TLS_OUT_OF_INDEXES, "TLS_OUT_OF_INDEXES is different from INDEX_NONE, change FWindowsPlatformTLS::AllocTlsSlot() implementation.");
+static_assert(static_cast<uint32>(INDEX_NONE) == TLS_OUT_OF_INDEXES, "TLS_OUT_OF_INDEXES is different from INDEX_NONE.");
 
 // Check the size and alignment of the OVERLAPPED mirror
 static_assert(sizeof(Windows::OVERLAPPED) == sizeof(OVERLAPPED), "Size of Windows::OVERLAPPED must match definition in Windows.h");
@@ -24,3 +28,5 @@ static_assert(__alignof(Windows::CRITICAL_SECTION) == __alignof(CRITICAL_SECTION
 // Check the size and alignment of the LARGE_INTEGER mirror
 static_assert(sizeof(Windows::LARGE_INTEGER) == sizeof(LARGE_INTEGER), "Size of Windows::LARGE_INTEGER must match definition in Windows.h");
 static_assert(__alignof(Windows::LARGE_INTEGER) == __alignof(LARGE_INTEGER), "Alignment of Windows::LARGE_INTEGER must match definition in Windows.h");
+
+#endif // PLATFORM_WINDOWS

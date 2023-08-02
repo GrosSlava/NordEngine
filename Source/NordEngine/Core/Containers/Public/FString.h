@@ -42,13 +42,15 @@ enum class ESearchDir : uint8
 };
 
 
-
+/**
+	Engine version of std::string.
+*/
 struct ENGINE_API FString
 {
 public:
 
 	FORCEINLINE explicit FString(uint32 UnitializedSize = 0) noexcept { SetNumUninitialized(UnitializedSize); }
-	FORCEINLINE explicit FString(const TCHAR NewString[]) noexcept
+	FORCEINLINE FString(const TCHAR NewString[]) noexcept
 	{
 		StringBuffer.Resize(FPlatformString::Strlen(NewString));
 		FPlatformString::Strcpy(StringBuffer.GetBuffer(), StringBuffer.GetBufferSize(), NewString);
@@ -141,7 +143,6 @@ public:
 		uint32 lhsOldLength = lhs.Length();
 		lhs.StringBuffer.Resize(lhs.Length() + rhs.Length());
 
-		FPlatformString::Strcpy(lhs.StringBuffer.GetBuffer(), lhsOldLength, lhs.GetStr());
 		FPlatformString::Strcpy(lhs.StringBuffer.GetAtByPointer(lhsOldLength), rhs.Length(), rhs.GetStr());
 
 		return FString(MoveTemp(lhs));
@@ -869,6 +870,13 @@ public:
 		LeftInline((int32)FMath::Min(static_cast<int64>(Count) + static_cast<int64>(Start), static_cast<int64>(MAX_int32)));
 		RightChopInline(Start);
 	}
+	/** 
+		Alias for Mid.
+		@return the substring from Start position for Count characters.
+	*/
+	FORCEINLINE FString SubStr(uint32 Offset, uint32 Count = MAX_int32) const& noexcept { return Mid(Offset, Count); }
+	FORCEINLINE FString SubStr(uint32 Offset, uint32 Count = MAX_int32) && noexcept { return Mid(Offset, Count); }
+	FORCEINLINE void SubStrInline(uint32 Offset, uint32 Count = MAX_int32) noexcept { MidInline(Offset, Count); }
 
 	/**
 		Searches the string for a substring, and returns index into this string
@@ -917,9 +925,10 @@ public:
 	}
 
 	/** 
-		appends the integer Num to this string.
+		Appends the integer Num to this string.
 	*/
-	void AppendInt(int32 Num) noexcept;
+	void AppendInt(int64 Num) noexcept;
+	void AppendHexInt(uint64 Num) noexcept;
 
 	/** 
 		@return true if the string only contains numeric characters.
@@ -927,6 +936,45 @@ public:
 	bool IsNumeric() const noexcept;
 
 public:
+
+	/** 
+		Converts an ANSI string to a string.
+	*/
+	static FORCEINLINE FString FromAnsi(const ANSICHAR* S) noexcept
+	{
+		FString Ret(FPlatformString::Strlen(S));
+
+		TCHAR* p = Ret.begin();
+		TCHAR* pEnd = Ret.end();
+
+		while( p != pEnd )
+		{
+			*p = *S;
+			++p;
+			++S;
+		}
+
+		return Ret;
+	}
+	/** 
+		Converts an WIDE string to a string.
+	*/
+	static FORCEINLINE FString FromWide(const WIDECHAR* S) noexcept
+	{
+		FString Ret(FPlatformString::Strlen(S));
+
+		TCHAR* p = Ret.begin();
+		TCHAR* pEnd = Ret.end();
+
+		while( p != pEnd )
+		{
+			*p = *S;
+			++p;
+			++S;
+		}
+
+		return Ret;
+	}
 
 	/**
 		Takes the number passed in and formats the string in comma format(12345 becomes "12,345").
@@ -1072,7 +1120,7 @@ namespace FString_Private
 	Table of 65537^x where x in [0, 1023]
 */
 extern const uint64 StringP[1024];
-}
+} // namespace FString_Private
 
 FORCEINLINE uint64 GetTypeHash(const FString& S) noexcept
 {

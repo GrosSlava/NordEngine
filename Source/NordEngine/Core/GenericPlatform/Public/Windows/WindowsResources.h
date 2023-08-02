@@ -1,14 +1,16 @@
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 #include "GenericPlatform.h"
 
 #if !PLATFORM_WINDOWS
-	#error PLATFORM_WINDOWS not defined!
+#error PLATFORM_WINDOWS not defined!
 #endif
 
 
 
 
+// clang-format off
 #define IDD_YESNO2ALL                   101
 #define IDD_YESNO2ALLCANCEL             102
 #define IDD_YESNOYESTOALL               103
@@ -19,4 +21,4 @@
 #define IDC_NO_B                        1003
 #define IDC_MESSAGE                     1004
 #define IDC_CANCEL                      1009
-#define ID_HASHFILE                     1010
+// clang-format on

@@ -1,26 +1,25 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 #include "GenericPlatform.h"
-#include "EngineMemory.h"
 
-#include <intrin.h>
-#include <excpt.h>
-
-
+#if !PLATFORM_WINDOWS
+#error PLATFORM_WINDOWS not defined!
+#endif
 
 
-/*
+
+
+/**
 	Class that caches __cpuid queried data.
 */
-class FCPUIDQueriedData
+class ENGINE_API FCPUIDQueriedData
 {
 public:
 
-	FCPUIDQueriedData() : 
-		bHasCPUIDInstruction(CheckForCPUIDInstruction()), Vendor()
+	FCPUIDQueriedData() : HasCPUIDInstruction(CheckForCPUIDInstruction()), Vendor()
 	{
-		if (bHasCPUIDInstruction)
+		if( HasCPUIDInstruction )
 		{
 			GetCPUVendor(Vendor);
 			GetCPUBrand(Brand);
@@ -35,197 +34,107 @@ public:
 
 public:
 
-	/*
+	/**
 		Checks if this CPU supports __cpuid instruction.
 	 
-		@returns True if this CPU supports __cpuid instruction. False otherwise.
+		@return True if this CPU supports __cpuid instruction. False otherwise.
 	*/
-	static bool HasCPUIDInstruction()
-	{
-		return CPUIDStaticCache.bHasCPUIDInstruction;
-	}
-
-	/*
+	static FORCEINLINE bool GetHasCPUIDInstruction() noexcept { return CPUIDStaticCache.HasCPUIDInstruction; }
+	/**
 		Gets pre-cached CPU vendor name.
 	 
-		@returns CPU vendor name.
+		@return CPU vendor name.
 	*/
-	static const ANSICHAR(&GetVendor())[12 + 1]
-	{
-		return CPUIDStaticCache.Vendor;
-	}
-
-	/*
+	static FORCEINLINE const ANSICHAR (&GetVendor() noexcept)[12 + 1] { return CPUIDStaticCache.Vendor; }
+	/**
 		Gets pre-cached CPU brand string.
 	
-		@returns CPU brand string.
+		@return CPU brand string.
 	*/
-	static const ANSICHAR(&GetBrand())[0x40]
-	{
-		return CPUIDStaticCache.Brand;
-	}
-
-	/*
+	static FORCEINLINE const ANSICHAR (&GetBrand() noexcept)[0x40] { return CPUIDStaticCache.Brand; }
+	/**
 		Gets __cpuid CPU info.
 	
-		@returns CPU info unsigned int queried using __cpuid.
+		@return CPU info unsigned int queried using __cpuid.
 	*/
-	static uint32 GetCPUInfo()
-	{
-		return CPUIDStaticCache.CPUInfo;
-	}
-
-	/*
+	static FORCEINLINE uint32 GetCPUInfo() noexcept { return CPUIDStaticCache.CPUInfo; }
+	/**
 		Gets __cpuid CPU info.
 	
-		@returns CPU info unsigned int queried using __cpuid.
+		@return CPU info unsigned int queried using __cpuid.
 	*/
-	static uint32 GetCPUInfo2()
-	{
-		return CPUIDStaticCache.CPUInfo2;
-	}
-
-	/*
+	static FORCEINLINE uint32 GetCPUInfo2() noexcept { return CPUIDStaticCache.CPUInfo2; }
+	/**
 		Gets cache line size.
 	
-		@returns Cache line size.
+		@return Cache line size.
 	*/
-	static int32 GetCacheLineSize()
-	{
-		return CPUIDStaticCache.CacheLineSize;
-	}
-
+	static FORCEINLINE int32 GetCacheLineSize() noexcept { return CPUIDStaticCache.CacheLineSize; }
 
 private:
 
-	/*
+	/**
 		Checks if __cpuid instruction is present on current machine.
 	 
-		@returns True if this CPU supports __cpuid instruction. False otherwise.
+		@return True if this CPU supports __cpuid instruction. False otherwise.
 	*/
-	static bool CheckForCPUIDInstruction()
-	{
-		__try
-		{
-			int Args[4];
-			__cpuid(Args, 0);
-		}
-		__except (EXCEPTION_EXECUTE_HANDLER)
-		{
-			return false;
-		}
-		return true;
-	}
+	static bool CheckForCPUIDInstruction();
 
-	/*
+	/**
 		Queries Vendor name using __cpuid instruction.
 	 
-		@returns CPU vendor name.
+		@return CPU vendor name.
 	*/
-	static void GetCPUVendor(ANSICHAR(&OutBuffer)[12 + 1])
-	{
-		union
-		{
-			char Buffer[12 + 1];
-			struct
-			{
-				int dw0;
-				int dw1;
-				int dw2;
-			} Dw;
-		} VendorResult;
-
-		int Args[4];
-		__cpuid(Args, 0);
-
-		VendorResult.Dw.dw0 = Args[1];
-		VendorResult.Dw.dw1 = Args[3];
-		VendorResult.Dw.dw2 = Args[2];
-		VendorResult.Buffer[12] = 0;
-
-		FMemory::Memcpy(OutBuffer, VendorResult.Buffer);
-	}
-
-	/*
+	static void GetCPUVendor(ANSICHAR (&OutBuffer)[12 + 1]);
+	/**
 		Queries brand string using __cpuid instruction.
 	 
-		@returns CPU brand string.
+		@return CPU brand string.
 	*/
-	static void GetCPUBrand(ANSICHAR(&OutBrandString)[0x40])
-	{
-		// @see for more information http://msdn.microsoft.com/en-us/library/vstudio/hskdteyh(v=vs.100).aspx
-		ANSICHAR BrandString[0x40] = { 0 };
-		int32 CPUInfo[4] = { -1 };
-		const size_t CPUInfoSize = sizeof(CPUInfo);
-
-		__cpuid(CPUInfo, 0x80000000);
-		const uint32 MaxExtIDs = CPUInfo[0];
-
-		if (MaxExtIDs >= 0x80000004)
-		{
-			const uint32 FirstBrandString = 0x80000002;
-			const uint32 NumBrandStrings = 3;
-			for (uint32 Index = 0; Index < NumBrandStrings; Index++)
-			{
-				__cpuid(CPUInfo, FirstBrandString + Index);
-				FMemory::Memcpy(BrandString + CPUInfoSize * Index, CPUInfo, CPUInfoSize);
-			}
-		}
-
-		FMemory::Memcpy(OutBrandString, BrandString);
-	}
-
-	/*
+	static void GetCPUBrand(ANSICHAR (&OutBrandString)[0x40]);
+	/**
 		Queries CPU info using __cpuid instruction.
 	 
-		@returns CPU info unsigned int queried using __cpuid.
+		@return CPU info unsigned int queried using __cpuid.
 	*/
-	static void QueryCPUInfo(int Args[4])
-	{
-		__cpuid(Args, 1);
-	}
-
-	/*
+	static void QueryCPUInfo(int Args[4]);
+	/**
 		Queries cache line size using __cpuid instruction.
 	 
-		@returns Cache line size.
+		@return Cache line size.
 	*/
-	static int32 QueryCacheLineSize()
-	{
-		int32 Result = 1;
+	static int32 QueryCacheLineSize();
 
-		int Args[4];
-		__cpuid(Args, 0x80000006);
-
-		Result = Args[2] & 0xFF;
-
-		return Result;
-	}
 
 
 private:
 
-	/* Static field with pre-cached __cpuid data. */
+	/**
+		Static field with pre-cached __cpuid data. 
+	*/
 	static FCPUIDQueriedData CPUIDStaticCache;
 
-	/* If machine has CPUID instruction. */
-	bool bHasCPUIDInstruction;
+private:
 
-	/* Vendor of the CPU. */
+	/** 
+		If machine has CPUID instruction.
+	*/
+	bool HasCPUIDInstruction = false;
+	/** 
+		Vendor of the CPU. 
+	*/
 	ANSICHAR Vendor[12 + 1];
-
-	/* CPU brand. */
+	/**
+		CPU brand. 
+	*/
 	ANSICHAR Brand[0x40];
-
-	/* CPU info from __cpuid. */
+	/**
+		CPU info from __cpuid.
+	*/
 	uint32 CPUInfo = 0;
 	uint32 CPUInfo2 = 0;
-
-	/* CPU cache line size. */
+	/**
+		CPU cache line size.
+	*/
 	int32 CacheLineSize = 64;
 };
-
-
-/* Static initialization of data to pre-cache __cpuid queries. */
-FCPUIDQueriedData FCPUIDQueriedData::CPUIDStaticCache;
-

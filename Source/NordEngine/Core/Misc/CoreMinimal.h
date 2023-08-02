@@ -44,14 +44,3 @@
 
 // Files include
 #include "Path.h"
-
-
-
-// Platform native library
-// clang-format off
-#if PLATFORM_WINDOWS
-	#include "Windows/WindowsHWrapper.h"
-#else
-	#error "Undefined platform!"
-#endif
-// clang-format on

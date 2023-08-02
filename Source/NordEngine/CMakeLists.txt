@@ -24,7 +24,7 @@ target_include_directories(NordEngineCore
 	PUBLIC "${PROJECT_SOURCE_DIR}/Core/Containers/Public"
 	PUBLIC "${PROJECT_SOURCE_DIR}/Core/Files/Public"
 	PUBLIC "${PROJECT_SOURCE_DIR}/Core/GenericPlatform/Public"
-	PUBLIC "${PROJECT_SOURCE_DIR}/Core/Macros"
+	PUBLIC "${PROJECT_SOURCE_DIR}/Core/Macros/Public"
 	PUBLIC "${PROJECT_SOURCE_DIR}/Core/Math/Public"
 	PUBLIC "${PROJECT_SOURCE_DIR}/Core/Memory/Public"
 	PUBLIC "${PROJECT_SOURCE_DIR}/Core/Misc"

@@ -236,6 +236,16 @@ public:
 		if( Contains(Elem) ) return;
 		Add(MoveTemp(Elem));
 	}
+	/**
+		Append other array to current.
+	*/
+	FORCEINLINE void Append(const TArray<T>& Other) 
+	{
+		check(&Other != this);
+
+		Reserve(GetSize() + Other.GetSize());
+		CopyAssignItems(end(), Other.begin(), Other.GetSize());
+	}
 
 	/**
 		Remove last elem.

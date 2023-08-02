@@ -1,26 +1,30 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
-#include "GenericPlatform.h"
-
 #ifndef WINDOWS_H_WRAPPER
-	#error Do not include PreWindowsAPI directly!
+#error Do not include PreWindowsAPI directly!
 #endif
 
 #if !PLATFORM_WINDOWS
-	#error PLATFORM_WINDOWS not defined!
+#error PLATFORM_WINDOWS not defined!
 #endif
+
 
 
 
 // Re-enable warnings
 THIRD_PARTY_INCLUDES_END
 
+// Restore the struct packing setting
+PRAGMA_POP_PLATFORM_DEFAULT_PACKING
+
 // Hide Windows-only types
 #undef INT
 #undef UINT
 #undef DWORD
 #undef FLOAT
+#undef TRUE
+#undef FALSE
 
 // Undo any Windows defines.
 #undef uint8
@@ -44,7 +48,6 @@ THIRD_PARTY_INCLUDES_END
 #undef UpdateResource
 #undef FindWindow
 #undef GetObject
-#undef GetEnvironmentVariable
 #undef CreateFont
 #undef CreateDesktop
 #undef GetMessage
@@ -79,15 +82,6 @@ THIRD_PARTY_INCLUDES_END
 #undef InterlockedOr
 #undef InterlockedXor
 
-
 // Restore any previously defined macros
-#pragma pop_macro("MAX_uint8")
-#pragma pop_macro("MAX_uint16")
-#pragma pop_macro("MAX_uint32")
-#pragma pop_macro("MAX_int32")
+#undef TEXT
 #pragma pop_macro("TEXT")
-#pragma pop_macro("TRUE")
-#pragma pop_macro("FALSE")
-
-// Restore the struct packing setting
-PRAGMA_POP_PLATFORM_DEFAULT_PACKING

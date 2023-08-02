@@ -1,10 +1,10 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 #include "GenericPlatform.h"
 
 #if !PLATFORM_WINDOWS
-	#error PLATFORM_WINDOWS not defined!
+#error PLATFORM_WINDOWS not defined!
 #endif
 
 #include "GenericPlatformString.h"
@@ -13,14 +13,11 @@
 
 
 
-/*	
+/**
 	Windows string implementation.
-*/ 
+*/
 struct ENGINE_API FWindowsPlatformString : public FStandardPlatformString
 {
-	
 };
 
-
-typedef FWindowsPlatformString FPlatformString;
-
+using FPlatformString = FWindowsPlatformString;

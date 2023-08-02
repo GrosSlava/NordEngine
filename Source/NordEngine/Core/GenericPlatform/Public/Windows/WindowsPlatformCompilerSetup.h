@@ -1,23 +1,25 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
 #include "GenericPlatform.h"
 
 #if !PLATFORM_WINDOWS
-	#error PLATFORM_WINDOWS not defined
+#error PLATFORM_WINDOWS not defined
 #endif
 
 
 
 
-/*
+// clang-format off
+
+/**
 	Future-proofing the min version check so we keep bumping it whenever we upgrade.
 */
-#if defined(_MSC_VER) && _MSC_VER > 1933 
-	#pragma message("Detected compiler newer than Visual Studio 2019, please update min version checking in WindowsPlatformCompilerSetup.h")
+#if defined(_MSC_VER) && _MSC_VER > 1935 
+	#pragma message("Detected compiler newer than Visual Studio 2022, please update min version checking in WindowsPlatformCompilerSetup.h")
 #endif
 
-/*
+/**
 	We require at least Visual Studio 2019.
 */
 static_assert(_MSC_VER >= 1920, "Visual Studio 2019 or later is required to compile on Windows");
@@ -34,11 +36,11 @@ static_assert(_MSC_VER >= 1920, "Visual Studio 2019 or later is required to comp
 #pragma warning (error:           4502 4503      4505 4506      4508 4509      4511 4512 4513 4514 4515 4516 4517 4518 4519      4521 4522 4523           4526                4530 4531 4532 4533 4534 4535 4536 4537 4538      4540 4541 4542 4543 4544 4545 4546                4550 4551 4552 4553 4554      4556 4557 4558 4559      4561 4562      4564 4565 4566      4568 4569 4570      4572 4573      4575 4576      4578      4580 4581 4582 4583 4584 4585 4586 4587 4588 4589      4591      4593 4594 4595 4596 4597 4598     )
 #pragma warning (error: 4600      4602 4603 4604      4606           4609 4610 4611 4612 4613      4615 4616      4618      4620 4621 4622 4623 4624 4625 4626 4627 4628 4629 4630 4631 4632 4633 4634 4635 4636 4637 4638 4639 4640 4641 4642      4644 4645 4646      4648 4649 4650      4652 4653 4654 4655 4656 4657 4658 4659      4661 4662                     4667      4669 4670 4671 4672 4673 4674      4676 4677 4678 4679 4680 4681 4682 4683 4684 4685 4686 4687 4688 4689 4690 4691      4693 4694 4695 4696      4698     )
 #pragma warning (error: 4700      4702 4703           4706           4709 4710 4711           4714 4715 4716 4717 4718 4719 4720 4721 4722 4723 4724 4725 4726 4727 4728 4729      4731 4732 4733 4734                     4739 4740 4741 4742 4743 4744 4745 4746 4747      4749 4750 4751 4752 4753 4754 4755 4756 4757                4761           4764                               4771 4772           4775 4776 4777 4778                                    4786      4788 4789           4792 4793 4794                4798 4799)
-#pragma warning (error: 4800 4801      4803 4804 4805 4806 4807 4808 4809 4810 4811 4812 4813      4815 4816 4817                4821 4822 4823                4827      4829                     /*4834*/ 4835                4839 4840 4841 4842 4843 4844 4845 4846 4847 4848 4849                                                                                      4867      4869           4872                                    4880 4881 4882 4883                                                                                )
+#pragma warning (error: 4800 4801      4803 4804 4805 4806 4807 4808 4809 4810 4811 4812 4813      4815 4816 4817                4821 4822 4823                4827      4829                     4834 4835                4839 4840 4841 4842 4843 4844 4845 4846 4847 4848 4849                                                                                       4867      4869           4872                                    4880 4881 4882 4883                                                                               )
 #pragma warning (error: 4900                     4905 4906                4910      4912 4913           4916 4917 4918      4920 4921                4925 4926 4927 4928 4929 4930 4931 4932      4934 4935 4936 4937 4938 4939                     4944 4945 4946 4947 4948 4949 4950 4951 4952 4953 4954 4955 4956 4957 4958 4959 4960 4961      4963 4964 4965 4966                4970 4971 4972 4973 4974                               4981                4985                4989 4990 4991 4992           4995      4997 4998 4999)
 #pragma warning (error:                                                                                                                                                                                               5038                                                                                                                                                                                                                                                                                                                 )
 
-/*
+/**
 	Skipped warnings, which are not disabled below. Most are disabled by default. Might be useful to look through, re-enable some and fix the code.
 	NOTE: We don't use #pragma warning (default: ####) on these warnings because default enables warnings that default to disabled.
 
@@ -130,7 +132,6 @@ static_assert(_MSC_VER >= 1920, "Visual Studio 2019 or later is required to comp
 /*
 	Disabled warnings.
 */
-
 #pragma warning(disable: 4091) // 'keyword' : ignored on left of 'type' when no variable is declared								https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4091
 
 // Unwanted VC++ level 4 warnings to disable.
@@ -197,7 +198,7 @@ static_assert(_MSC_VER >= 1920, "Visual Studio 2019 or later is required to comp
 
 
 
-/*
+/**
 	All of the /Wall warnings that we are able to enable
 	NOTE: This is currently just overriding the error versions above, removing these will cause them to be errors!
 */
@@ -211,7 +212,7 @@ static_assert(_MSC_VER >= 1920, "Visual Studio 2019 or later is required to comp
 #pragma warning(default: 4287) // 'operator' : unsigned/negative constant mismatch													https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4264
 #pragma warning(default: 4289) // nonstandard extension used : 'var' : loop control variable declared in the for-loop is used outside the for-loop scope	https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4289
 
-//#pragma warning(disable : 4339) // 'type' : use of undefined type detected in CLR meta-data - use of this type may lead to a runtime exception
+#pragma warning(disable : 4339) // 'type' : use of undefined type detected in CLR meta-data - use of this type may lead to a runtime exception
 #pragma warning(disable: 4345) // behavior change: an object of POD type constructed with an initializer of the form () will be default-initialized
 
 #pragma warning(disable: 4514) // unreferenced inline/local function has been removed
@@ -238,7 +239,7 @@ static_assert(_MSC_VER >= 1920, "Visual Studio 2019 or later is required to comp
 #pragma warning(default: 5038) // data member 'A::y' will be initialized after data member 'A::x'									https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c5038
 #pragma warning(disable: 4984) // 'if constexpr' is a C++17 language extension
 
-// #pragma warning(default: 4996) // Deprecation: controlled via command line
+#pragma warning(default: 4996) // Deprecation: controlled via command line
 
 // interesting ones to turn on and off at times
 //#pragma warning(disable : 4266) // '' : no override available for virtual member function from base ''; function is hidden
@@ -249,3 +250,4 @@ static_assert(_MSC_VER >= 1920, "Visual Studio 2019 or later is required to comp
 
 
 
+// clang-format on

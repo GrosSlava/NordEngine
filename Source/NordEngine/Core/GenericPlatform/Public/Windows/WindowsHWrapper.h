@@ -1,11 +1,10 @@
-
+// Copyright Nord Engine. All Rights Reserved.
 #pragma once
 
-#include "GenericPlatform.h"
-
 #if !PLATFORM_WINDOWS
-	#error PLATFORM_WINDOWS not defined!
+#error PLATFORM_WINDOWS not defined!
 #endif
+
 
 
 

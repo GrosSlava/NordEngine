@@ -185,12 +185,12 @@ int32 FString::Find(const TCHAR* SubStr, ESearchCase SearchCase, ESearchDir Sear
 	}
 }
 
-void FString::AppendInt(int32 Num) noexcept
+void FString::AppendInt(int64 Num) noexcept
 {
 	const TCHAR* DigitToChar = TEXT("9876543210123456789");
 	constexpr int32 ZeroDigitIndex = 9;
 	bool bIsNumberNegative = Num < 0;
-	const int32 TempBufferSize = 16; // 16 is big enough
+	const int32 TempBufferSize = 24; // 24 is big enough
 	TCHAR TempNum[TempBufferSize];
 	int32 TempAt = TempBufferSize; // fill the temp string from the top down.
 
@@ -209,7 +209,28 @@ void FString::AppendInt(int32 Num) noexcept
 	const TCHAR* CharPtr = TempNum + TempAt;
 	const int32 NumChars = TempBufferSize - TempAt;
 
-	*this += FString(CharPtr);
+	*this += FString(CharPtr, NumChars);
+}
+
+void FString::AppendHexInt(uint64 Num) noexcept
+{
+	const TCHAR* DigitToChar = TEXT("FEDCBA9876543210123456789ABCDEF");
+	constexpr int32 ZeroDigitIndex = 15;
+	const int32 TempBufferSize = 24; // 24 is big enough
+	TCHAR TempNum[TempBufferSize];
+	int32 TempAt = TempBufferSize; // fill the temp string from the top down.
+
+	// Convert to string assuming base ten.
+	do
+	{
+		TempNum[--TempAt] = DigitToChar[ZeroDigitIndex + (Num % 16)];
+		Num /= 16;
+	} while( Num );
+
+	const TCHAR* CharPtr = TempNum + TempAt;
+	const int32 NumChars = TempBufferSize - TempAt;
+
+	*this += FString(CharPtr, NumChars);
 }
 
 bool FString::IsNumeric() const noexcept
