@@ -69,3 +69,11 @@ install(TARGETS
 			NordEngineCore 
 			NordEngineLib 
 		DESTINATION NordEngine)
+
+
+
+# Tests
+enable_testing()
+add_subdirectory(Source/Tests)
+add_custom_target(AllTests DEPENDS CoreTestsMain) # EngineTestsMain
+set_target_properties(AllTests CoreTestsMain EngineTestsMain PROPERTIES FOLDER Tests)

@@ -166,6 +166,111 @@ private:
 
 
 /**
+	Map Key-Value iterator.
+*/
+template<typename K, typename V>
+struct TMapIterator
+{
+public:
+
+	FORCEINLINE TMapIterator(TMapBucket<K, V>* InFirstBucket, TMapBucket<K, V>* InLastBucket, TMapBucket<K, V>* InBucket, TMapEntry<K, V>* InEntry) noexcept :
+		FirstBucket(InFirstBucket), LastBucket(InLastBucket), CurrentBucket(InBucket), CurrentEntry(InEntry)
+	{
+	}
+
+
+public:
+
+	FORCEINLINE TKeyValuePair<K, V>& operator*() noexcept { return CurrentEntry->KeyValue; }
+	FORCEINLINE const TKeyValuePair<K, V>& operator*() const noexcept { return CurrentEntry->KeyValue; }
+
+	FORCEINLINE TMapIterator& operator++() noexcept
+	{
+		if( CurrentBucket->IsEmpty() )
+		{
+			while( CurrentBucket->IsEmpty() && CurrentBucket < LastBucket )
+			{
+				++CurrentBucket;
+			}
+			CurrentEntry = CurrentBucket->begin();
+		}
+		else
+		{
+			++CurrentEntry;
+			if( CurrentEntry >= CurrentBucket->end() )
+			{
+				++CurrentBucket;
+				while( CurrentBucket->IsEmpty() && CurrentBucket < LastBucket )
+				{
+					++CurrentBucket;
+				}
+				CurrentEntry = CurrentBucket->begin();
+			}
+		}
+
+		return *this;
+	}
+	FORCEINLINE TMapIterator operator++(int) noexcept
+	{
+		TMapIterator Tmp = *this;
+		++(*this);
+		return Tmp;
+	}
+	FORCEINLINE TMapIterator& operator--() noexcept
+	{
+		if( CurrentBucket->IsEmpty() )
+		{
+			while( CurrentBucket->IsEmpty() && CurrentBucket > FirstBucket )
+			{
+				--CurrentBucket;
+			}
+			CurrentEntry = CurrentBucket->end() - 1;
+		}
+		else
+		{
+			--CurrentEntry;
+			if( CurrentEntry < CurrentBucket->begin() )
+			{
+				--CurrentBucket;
+				while( CurrentBucket->IsEmpty() && CurrentBucket > FirstBucket )
+				{
+					--CurrentBucket;
+				}
+				CurrentEntry = CurrentBucket->end() - 1;
+			}
+		}
+
+		return *this;
+	}
+	FORCEINLINE TMapIterator operator--(int) noexcept
+	{
+		TMapIterator Tmp = *this;
+		--(*this);
+		return Tmp;
+	}
+
+public:
+
+	FORCEINLINE friend bool operator==(const TMapIterator& A, const TMapIterator& B) noexcept { return A.CurrentBucket == B.CurrentBucket && A.CurrentEntry == B.CurrentEntry; }
+	FORCEINLINE friend bool operator!=(const TMapIterator& A, const TMapIterator& B) noexcept { return A.CurrentBucket != B.CurrentBucket || A.CurrentEntry != B.CurrentEntry; }
+
+	FORCEINLINE friend bool operator<(const TMapIterator& A, const TMapIterator& B) noexcept { return A.CurrentBucket == B.CurrentBucket ? A.CurrentEntry < B.CurrentEntry : A.CurrentBucket < B.CurrentBucket; }
+	FORCEINLINE friend bool operator<=(const TMapIterator& A, const TMapIterator& B) noexcept { return A.CurrentBucket == B.CurrentBucket ? A.CurrentEntry <= B.CurrentEntry : A.CurrentBucket <= B.CurrentBucket; }
+
+	FORCEINLINE friend bool operator>(const TMapIterator& A, const TMapIterator& B) noexcept { return A.CurrentBucket == B.CurrentBucket ? A.CurrentEntry > B.CurrentEntry : A.CurrentBucket > B.CurrentBucket; }
+	FORCEINLINE friend bool operator>=(const TMapIterator& A, const TMapIterator& B) noexcept { return A.CurrentBucket == B.CurrentBucket ? A.CurrentEntry >= B.CurrentEntry : A.CurrentBucket >= B.CurrentBucket; }
+
+
+
+private:
+
+	TMapBucket<K, V>* FirstBucket = nullptr;
+	TMapBucket<K, V>* LastBucket = nullptr;
+	TMapBucket<K, V>* CurrentBucket = nullptr;
+	TMapEntry<K, V>* CurrentEntry = nullptr;
+};
+
+/**
 	Engine version of std::unordered_map.
 	It can be faster because it does not use exceptions and can be optimized for specific operations.
 
@@ -183,7 +288,7 @@ public:
 	TMap() = default;
 	FORCEINLINE TMap(const TMap& Other) : Size(Other.Size), FillCount(Other.FillCount)
 	{
-		Data = static_cast<TMapBucket<K, V>*>(malloc(sizeof(TMapBucket<K, V>) * Size));
+		Data = static_cast<TMapBucket<K, V>*>(FMemory::Malloc(sizeof(TMapBucket<K, V>) * Size));
 
 		TMapBucket<K, V>* MyData = Data;
 		TMapBucket<K, V>* MyDataEnd = Data + Size;
@@ -266,6 +371,77 @@ public:
 			{
 				return Entry->KeyValue.Value;
 			}
+		}
+	}
+
+public:
+
+	TMapIterator<K, V> begin() noexcept
+	{
+		if( Data )
+		{
+			TMapBucket<K, V>* LastBucket = Data + Size - 1;
+			TMapIterator<K, V> Iter(Data, LastBucket, Data, Data->begin());
+			if( Data->IsEmpty() )
+			{
+				++Iter;
+			}
+			return Iter;
+		}
+		else
+		{
+			return TMapIterator<K, V>(nullptr, nullptr);
+		}
+	}
+	const TMapIterator<K, V> begin() const noexcept
+	{
+		if( Data )
+		{
+			TMapBucket<K, V>* LastBucket = Data + Size - 1;
+			TMapIterator<K, V> Iter(Data, LastBucket, Data, Data->begin());
+			if( Data->IsEmpty() )
+			{
+				++Iter;
+			}
+			return Iter;
+		}
+		else
+		{
+			return TMapIterator<K, V>(nullptr, nullptr);
+		}
+	}
+	TMapIterator<K, V> end() noexcept
+	{
+		if( Data )
+		{
+			TMapBucket<K, V>* LastBucket = Data + Size - 1;
+			TMapIterator<K, V> Iter(Data, LastBucket, LastBucket, LastBucket->end() - 1);
+			if( LastBucket->IsEmpty() )
+			{
+				--Iter;
+			}
+			return Iter;
+		}
+		else
+		{
+			return TMapIterator<K, V>(nullptr, nullptr);
+		}
+	}
+	const TMapIterator<K, V> end() const noexcept
+	{
+		if( Data )
+		{
+			TMapBucket<K, V>* LastBucket = Data + Size - 1;
+			TMapIterator<K, V> Iter(Data, LastBucket, LastBucket, LastBucket->end() - 1);
+			if( LastBucket->IsEmpty() )
+			{
+				--Iter;
+			}
+			return Iter;
+		}
+		else
+		{
+			return TMapIterator<K, V>(nullptr, nullptr);
 		}
 	}
 
@@ -379,6 +555,25 @@ public:
 		Size = 0;
 	}
 
+public:
+
+	/**
+		Fast iterate over each map entry.
+
+		@param Lambda - lambda , e.g [](const TKeyValuePair<K, V>& LPair) {}
+	*/
+	template<typename LAMBDA>
+	void ForEach(LAMBDA Lambda)
+	{
+		for( uint32 i = 0; i < Size; ++i )
+		{
+			for( TMapEntry<K, V>& Entry : Data[i] )
+			{
+				Lambda(Entry.KeyValue);
+			}
+		}
+	}
+
 private:
 
 	FORCEINLINE void InsertHash(uint64 Hash, K&& Key, V&& Value)
@@ -450,7 +645,7 @@ private:
 				for( TMapEntry<K, V>& Entry : Data[i] )
 				{
 					const uint64 BucketIndex = GetBucketIndex(Entry.Hash);
-					FillCount += NewData[BucketIndex].Insert(MoveTemp(Entry.Key), MoveTemp(Entry.Value), Entry.Hash);
+					FillCount += NewData[BucketIndex].Insert(MoveTemp(Entry.KeyValue.Key), MoveTemp(Entry.KeyValue.Value), Entry.Hash);
 				}
 
 				Data[i].Clear();

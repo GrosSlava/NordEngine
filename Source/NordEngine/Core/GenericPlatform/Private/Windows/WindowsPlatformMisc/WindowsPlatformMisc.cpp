@@ -178,13 +178,13 @@ bool FWindowsPlatformMisc::DeleteStoredValue(const FString& InStoreId, const FSt
 
 		// Query for sub-keys in the open key
 		TCHAR CheckKeyName[256];
-		DWORD CheckKeyNameLength = sizeof(CheckKeyName) / sizeof(CheckKeyName[0]);
+		DWORD CheckKeyNameLength = STATIC_ARR_SIZE(CheckKeyName);
 		HRESULT EnumResult = RegEnumKeyEx(hKey, 0, CheckKeyName, &CheckKeyNameLength, NULL, NULL, NULL, NULL);
 		bool bZeroSubKeys = EnumResult != ERROR_SUCCESS;
 
 		// Query for a remaining value in the open key
 		wchar_t CheckValueName[256];
-		DWORD CheckValueNameLength = sizeof(CheckValueName) / sizeof(CheckValueName[0]);
+		DWORD CheckValueNameLength = STATIC_ARR_SIZE(CheckValueName);
 		EnumResult = RegEnumValue(hKey, 0, CheckValueName, &CheckValueNameLength, NULL, NULL, NULL, NULL);
 		bool bZeroValues = EnumResult != ERROR_SUCCESS;
 
@@ -862,7 +862,7 @@ uint64 FWindowsPlatformMisc::GetFileVersion(const FString& FileName)
 FString FWindowsPlatformMisc::GetPathToEngineExe()
 {
 	WCHAR Path[512];
-	const UINT PathSize = sizeof(Path) / sizeof(Path[0]);
+	const UINT PathSize = STATIC_ARR_SIZE(Path);
 
 	DWORD size = GetModuleFileName(nullptr, Path, PathSize);
 	if( size == 0 || size == PathSize )

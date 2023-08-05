@@ -161,6 +161,110 @@ private:
 	TSetEntry<K>* Data = nullptr;
 };
 
+/**
+	Set iterator.
+*/
+template<typename K>
+struct TSetIterator
+{
+public:
+
+	FORCEINLINE TSetIterator(TSetBucket<K>* InFirstBucket, TSetBucket<K>* InLastBucket, TSetBucket<K>* InBucket, TSetEntry<K>* InEntry) noexcept :
+		FirstBucket(InFirstBucket), LastBucket(InLastBucket), CurrentBucket(InBucket), CurrentEntry(InEntry)
+	{
+	}
+
+
+public:
+
+	FORCEINLINE K& operator*() noexcept { return CurrentEntry->Key; }
+	FORCEINLINE const K& operator*() const noexcept { return CurrentEntry->Key; }
+
+	FORCEINLINE TSetIterator& operator++() noexcept
+	{
+		if( CurrentBucket->IsEmpty() )
+		{
+			while( CurrentBucket->IsEmpty() && CurrentBucket < LastBucket )
+			{
+				++CurrentBucket;
+			}
+			CurrentEntry = CurrentBucket->begin();
+		}
+		else
+		{
+			++CurrentEntry;
+			if( CurrentEntry >= CurrentBucket->end() )
+			{
+				++CurrentBucket;
+				while( CurrentBucket->IsEmpty() && CurrentBucket < LastBucket )
+				{
+					++CurrentBucket;
+				}
+				CurrentEntry = CurrentBucket->begin();
+			}
+		}
+
+		return *this;
+	}
+	FORCEINLINE TSetIterator operator++(int) noexcept
+	{
+		TMapIterator Tmp = *this;
+		++(*this);
+		return Tmp;
+	}
+	FORCEINLINE TSetIterator& operator--() noexcept
+	{
+		if( CurrentBucket->IsEmpty() )
+		{
+			while( CurrentBucket->IsEmpty() && CurrentBucket > FirstBucket )
+			{
+				--CurrentBucket;
+			}
+			CurrentEntry = CurrentBucket->end() - 1;
+		}
+		else
+		{
+			--CurrentEntry;
+			if( CurrentEntry < CurrentBucket->begin() )
+			{
+				--CurrentBucket;
+				while( CurrentBucket->IsEmpty() && CurrentBucket > FirstBucket )
+				{
+					--CurrentBucket;
+				}
+				CurrentEntry = CurrentBucket->end() - 1;
+			}
+		}
+
+		return *this;
+	}
+	FORCEINLINE TSetIterator operator--(int) noexcept
+	{
+		TMapIterator Tmp = *this;
+		--(*this);
+		return Tmp;
+	}
+
+public:
+
+	FORCEINLINE friend bool operator==(const TSetIterator& A, const TSetIterator& B) noexcept { return A.CurrentBucket == B.CurrentBucket && A.CurrentEntry == B.CurrentEntry; }
+	FORCEINLINE friend bool operator!=(const TSetIterator& A, const TSetIterator& B) noexcept { return A.CurrentBucket != B.CurrentBucket || A.CurrentEntry != B.CurrentEntry; }
+
+	FORCEINLINE friend bool operator<(const TSetIterator& A, const TSetIterator& B) noexcept { return A.CurrentBucket == B.CurrentBucket ? A.CurrentEntry < B.CurrentEntry : A.CurrentBucket < B.CurrentBucket; }
+	FORCEINLINE friend bool operator<=(const TSetIterator& A, const TSetIterator& B) noexcept { return A.CurrentBucket == B.CurrentBucket ? A.CurrentEntry <= B.CurrentEntry : A.CurrentBucket <= B.CurrentBucket; }
+
+	FORCEINLINE friend bool operator>(const TSetIterator& A, const TSetIterator& B) noexcept { return A.CurrentBucket == B.CurrentBucket ? A.CurrentEntry > B.CurrentEntry : A.CurrentBucket > B.CurrentBucket; }
+	FORCEINLINE friend bool operator>=(const TSetIterator& A, const TSetIterator& B) noexcept { return A.CurrentBucket == B.CurrentBucket ? A.CurrentEntry >= B.CurrentEntry : A.CurrentBucket >= B.CurrentBucket; }
+
+
+
+private:
+
+	TSetBucket<K>* FirstBucket = nullptr;
+	TSetBucket<K>* LastBucket = nullptr;
+	TSetBucket<K>* CurrentBucket = nullptr;
+	TSetEntry<K>* CurrentEntry = nullptr;
+};
 
 /**
 	Engine version of std::unordered_set.
@@ -180,7 +284,7 @@ public:
 	TSet() = default;
 	FORCEINLINE TSet(const TSet& Other) : Size(Other.Size), FillCount(Other.FillCount)
 	{
-		Data = static_cast<TSetBucket<K>*>(malloc(sizeof(TSetBucket<K>) * Size));
+		Data = static_cast<TSetBucket<K>*>(FMemory::Malloc(sizeof(TSetBucket<K>) * Size));
 
 		TSetBucket<K>* MyData = Data;
 		TSetBucket<K>* MyDataEnd = Data + Size;
@@ -238,6 +342,77 @@ public:
 		}
 
 		return *this;
+	}
+
+public:
+
+	TSetIterator<K> begin() noexcept
+	{
+		if( Data )
+		{
+			TMapBucket<K, V>* LastBucket = Data + Size - 1;
+			TSetIterator<K> Iter(Data, LastBucket, Data, Data->begin());
+			if( Data->IsEmpty() )
+			{
+				++Iter;
+			}
+			return Iter;
+		}
+		else
+		{
+			return TSetIterator<K>(nullptr, nullptr);
+		}
+	}
+	const TSetIterator<K> begin() const noexcept
+	{
+		if( Data )
+		{
+			TMapBucket<K, V>* LastBucket = Data + Size - 1;
+			TSetIterator<K> Iter(Data, LastBucket, Data, Data->begin());
+			if( Data->IsEmpty() )
+			{
+				++Iter;
+			}
+			return Iter;
+		}
+		else
+		{
+			return TSetIterator<K>(nullptr, nullptr);
+		}
+	}
+	TSetIterator<K> end() noexcept
+	{
+		if( Data )
+		{
+			TMapBucket<K, V>* LastBucket = Data + Size - 1;
+			TSetIterator<K> Iter(Data, LastBucket, LastBucket, LastBucket->end() - 1);
+			if( LastBucket->IsEmpty() )
+			{
+				--Iter;
+			}
+			return Iter;
+		}
+		else
+		{
+			return TSetIterator<K>(nullptr, nullptr);
+		}
+	}
+	const TSetIterator<K> end() const noexcept
+	{
+		if( Data )
+		{
+			TMapBucket<K, V>* LastBucket = Data + Size - 1;
+			TSetIterator<K> Iter(Data, LastBucket, LastBucket, LastBucket->end() - 1);
+			if( LastBucket->IsEmpty() )
+			{
+				--Iter;
+			}
+			return Iter;
+		}
+		else
+		{
+			return TSetIterator<K>(nullptr, nullptr);
+		}
 	}
 
 public:
@@ -332,6 +507,25 @@ public:
 		Size = 0;
 	}
 
+public:
+
+	/**
+		Fast iterate over each set entry.
+
+		@param Lambda - lambda , e.g [](const K& Key) {}
+	*/
+	template<typename LAMBDA>
+	void ForEach(LAMBDA Lambda)
+	{
+		for( uint32 i = 0; i < Size; ++i )
+		{
+			for( TSetEntry<K>& Entry : Data[i] )
+			{
+				Lambda(Entry.Key);
+			}
+		}
+	}
+
 private:
 
 	FORCEINLINE void InsertHash(uint64 Hash, K&& Key)
@@ -340,7 +534,7 @@ private:
 
 		FillCount += Data[BucketIndex].Insert(MoveTemp(Key), Hash);
 	}
-	FORCEINLINE V& FindKeyRefHash(uint64 Hash) noexcept
+	FORCEINLINE K& FindKeyRefHash(uint64 Hash) noexcept
 	{
 		const uint64 BucketIndex = GetBucketIndex(Hash);
 

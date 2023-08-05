@@ -23,7 +23,7 @@ struct ENGINE_API TArray
 public:
 
 	TArray() = default;
-	FORCEINLINE TArray(uint32 InitSize) : Size(InitSize), Capacity(InitSize) { Data = static_cast<T*>(FMemory::Malloc(sizeof(T) * InitSize)); }
+	FORCEINLINE explicit TArray(uint32 InitSize) : Size(InitSize), Capacity(InitSize) { Data = static_cast<T*>(FMemory::Malloc(sizeof(T) * InitSize)); }
 	FORCEINLINE TArray(const TArray& Other) : Size(Other.Size), Capacity(Other.Size)
 	{
 		Data = static_cast<T*>(FMemory::Malloc(sizeof(T) * Size));

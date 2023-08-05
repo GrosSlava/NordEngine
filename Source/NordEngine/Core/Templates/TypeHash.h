@@ -70,7 +70,7 @@ FORCEINLINE uint64 GetTypeHash(const uint64 A) noexcept
 	return A;
 }
 
-FORCEINLINE uint32 GetTypeHash(const int64 A) noexcept
+FORCEINLINE uint64 GetTypeHash(const int64 A) noexcept
 {
 	return A;
 }

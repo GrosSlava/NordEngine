@@ -5,6 +5,8 @@
 #include "Windows/WindowsPlatformMisc/WindowsOsVersionHelper.h"
 #include "Windows/WindowsHWrapper.h"
 
+#include "CommonMacros.h"
+
 #pragma comment(lib, "Version.lib")
 
 
@@ -258,7 +260,7 @@ int32 FWindowsOSVersionHelper::GetOSVersions(FString& OutOSVersionLabel, FString
 	OSVersionLabel[0] = 0;
 	OSSubVersionLabel[0] = 0;
 
-	int32 Result = GetOSVersionsHelper(OSVersionLabel, sizeof(OSVersionLabel) / sizeof(OSVersionLabel[0]), OSSubVersionLabel, sizeof(OSSubVersionLabel) / sizeof(OSSubVersionLabel[0]));
+	int32 Result = GetOSVersionsHelper(OSVersionLabel, STATIC_ARR_SIZE(OSVersionLabel), OSSubVersionLabel, STATIC_ARR_SIZE(OSSubVersionLabel));
 
 	OutOSVersionLabel = OSVersionLabel;
 	OutOSSubVersionLabel = OSSubVersionLabel;
@@ -272,7 +274,7 @@ bool FWindowsOSVersionHelper::GetOSVersion(FString& OutOSVersion)
 
 	OSVersionLabel[0] = 0;
 
-	bool Result = GetOSVersionHelper(OSVersionLabel, sizeof(OSVersionLabel) / sizeof(OSVersionLabel[0]));
+	bool Result = GetOSVersionHelper(OSVersionLabel, STATIC_ARR_SIZE(OSVersionLabel));
 
 	OutOSVersion = OSVersionLabel;
 
